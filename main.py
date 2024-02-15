@@ -1,34 +1,42 @@
 #!/usr/bin/env python
-import time
-import sys
+from samplebase import SampleBase
 
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from PIL import Image
 
-if len(sys.argv) < 2:
-    sys.exit("Require an image argument")
-else:
-    image_file = sys.argv[1]
+class PulsingColors(SampleBase):
+    def __init__(self, *args, **kwargs):
+        super(PulsingColors, self).__init__(*args, **kwargs)
 
-image = Image.open(image_file)
+    def run(self):
+        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+        continuum = 0
 
-# Configuration for the matrix
-options = RGBMatrixOptions()
-options.rows = 32
-options.chain_length = 1
-options.parallel = 1
-options.hardware_mapping = 'regular'  # If you have an Adafruit HAT: 'adafruit-hat'
+        while True:
+            self.usleep(5 * 1000)
+            continuum += 1
+            continuum %= 3 * 255
 
-matrix = RGBMatrix(options = options)
+            red = 0
+            green = 0
+            blue = 0
 
-# Make image fit our screen.
-image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+            if continuum <= 255:
+                c = continuum
+                blue = 255 - c
+                red = c
+            elif continuum > 255 and continuum <= 511:
+                c = continuum - 256
+                red = 255 - c
+                green = c
+            else:
+                c = continuum - 512
+                green = 255 - c
+                blue = c
 
-matrix.SetImage(image.convert('RGB'))
+            self.offscreen_canvas.Fill(red, green, blue)
+            self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
-try:
-    print("Press CTRL-C to stop.")
-    while True:
-        time.sleep(100)
-except KeyboardInterrupt:
-    sys.exit(0)
+# Main function
+if __name__ == "__main__":
+    pulsing_colors = PulsingColors()
+    if (not pulsing_colors.process()):
+        pulsing_colors.print_help()
