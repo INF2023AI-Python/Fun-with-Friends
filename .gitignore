@@ -1,0 +1,44 @@
+# Ignore Python-related files and directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+env/
+.venv/
+ENV/
+.env/
+
+# Ignore IDE-specific files and directories (PyCharm)
+.idea/
+.vscode/
+
+# Ignore system-specific files and directories
+__MACOSX/
+.DS_Store
+Thumbs.db
+
+# Ignore environment-specific files (e.g., for Docker)
+.env
+
+# Ignore local configuration files
+settings.ini
+
+# Ignore local log files
+*.log
+
+# Ignore package manager directories
+node_modules/
+__npm__/
+
+# Ignore database files
+*.sqlite3
+
+# Ignore pipenv files
+Pipfile
+Pipfile.lock
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
