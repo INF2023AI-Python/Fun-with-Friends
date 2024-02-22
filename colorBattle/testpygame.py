@@ -1,6 +1,9 @@
 import pygame
 import sys
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from pgmatrix import RGBMatrix, RGBMatrixOptions
+
+width, height = 32, 32  # Set according to your RGB matrix dimensions
+screen = pygame.display.set_mode((width, height))
 
 # Configuration for Matrix
 options = RGBMatrixOptions()
@@ -14,11 +17,6 @@ matrix = RGBMatrix(options=options)
 
 # Initialize Pygame
 pygame.init()
-
-# Set up display
-width, height = 32, 32  # LED matrix dimensions
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Color Battle")
 
 # Set up gamepads
 pygame.joystick.init()
@@ -34,11 +32,13 @@ joysticks[1].init()
 
 # Player variables
 player_size = 1
-player1_x, player1_y = 16, 16
+player1_x = width // 4
+player1_y = height // 2
 player1_speed = 5
 player1_color = (255, 0, 0)  # Red
 
-player2_x, player2_y = 16, 16
+player2_x = 3 * width // 4
+player2_y = height // 2
 player2_speed = 5
 player2_color = (0, 0, 255)  # Blue
 
@@ -61,11 +61,11 @@ while running:
         axis_y = joystick.get_axis(1)
 
         if i == 0:  # Player 1 controls (First gamepad)
-            player1_x += int(axis_x * player_speed)
-            player1_y += int(axis_y * player_speed)
+            player1_x += int(axis_x * player1_speed)
+            player1_y += int(axis_y * player1_speed)
         elif i == 1:  # Player 2 controls (Second gamepad)
-            player2_x += int(axis_x * player_speed)
-            player2_y += int(axis_y * player_speed)
+            player2_x += int(axis_x * player2_speed)
+            player2_y += int(axis_y * player2_speed)
 
     # Append current position to trail
     trail1.append((player1_x, player1_y))
@@ -84,12 +84,15 @@ while running:
     pygame.draw.rect(screen, player1_color, (player1_x, player1_y, player_size, player_size))
     pygame.draw.rect(screen, player2_color, (player2_x, player2_y, player_size, player_size))
 
+
+# Convert Pygame surface to RGBMatrix format
+    pygame.surfarray.blit_array(matrix, pygame.surfarray.array3d(screen))
+
     # Refresh display
-    pygame.display.flip()
+    matrix.UpdateScreen()
 
     # Cap the frame rate
     clock.tick(60)
 
 # Quit Pygame
 pygame.quit()
-sys.exit()
