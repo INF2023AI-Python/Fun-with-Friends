@@ -1,5 +1,4 @@
 import pygame
-import sys
 from pgmatrix import RGBMatrix, RGBMatrixOptions
 
 width, height = 32, 32  # Set according to your RGB matrix dimensions
@@ -30,6 +29,10 @@ if not joysticks:
 joysticks[0].init()
 joysticks[1].init()
 
+# Define colors
+white = (255, 255, 255)
+black = (0, 0, 0)
+
 # Player variables
 player_size = 1
 player1_x = width // 4
@@ -55,6 +58,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    # Handle keyboard input
+    keys = pygame.key.get_pressed()
+
     # Update player positions based on gamepad input
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(0)
@@ -66,6 +72,7 @@ while running:
         elif i == 1:  # Player 2 controls (Second gamepad)
             player2_x += int(axis_x * player2_speed)
             player2_y += int(axis_y * player2_speed)
+
 
     # Append current position to trail
     trail1.append((player1_x, player1_y))
@@ -83,6 +90,9 @@ while running:
     # Draw players
     pygame.draw.rect(screen, player1_color, (player1_x, player1_y, player_size, player_size))
     pygame.draw.rect(screen, player2_color, (player2_x, player2_y, player_size, player_size))
+
+    # Refresh display
+    pygame.display.flip()
 
 
 # Convert Pygame surface to RGBMatrix format
