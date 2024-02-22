@@ -36,7 +36,7 @@ while running:
         #left side of the gamepad is hat? 
                 #Down -> Up      - Y Axis
                 #Left -> Right   - X Axis
-                ``
+
         if event.type == pygame.JOYHATMOTION:
             joystick_id = event.joy
             hat_id = event.hat
