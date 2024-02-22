@@ -30,6 +30,20 @@ while running:
             joystick_id = event.joy
             button_id = event.button
             print(f"Gamepad {joystick_id + 1} - Button {button_id} pressed")
+            if event.button == 0:
+                print("0 gepressed")
+
+        #left side of the gamepad is hat? 
+                #Down -> Up      - Y Axis
+                #Left -> Right   - X Axis
+                ``
+        if event.type == pygame.JOYHATMOTION:
+            joystick_id = event.joy
+            hat_id = event.hat
+            hat_value = event.value
+            print(f"Gamepad {joystick_id + 1} - Hat {hat_id} moved to {hat_value}")
+
+
 
     # Cap the frame rate
     clock.tick(60)
