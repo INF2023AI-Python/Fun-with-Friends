@@ -1,5 +1,5 @@
 import pygame
-from pgmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 width, height = 32, 32  # Set according to your RGB matrix dimensions
 screen = pygame.display.set_mode((width, height))
