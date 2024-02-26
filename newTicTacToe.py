@@ -74,4 +74,3 @@ while True:
 
         # Spielstatus überprüfen
         if check_winner():
-      
