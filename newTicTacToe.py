@@ -41,21 +41,29 @@ def check_winner():
 
             # Überprüfen Sie horizontal
             if col + 2 < 3 and len(set(board_state[row][col:col + 3])) == 1:
+                draw_winner_line(row * 10 + 5, col * 10 + 1, row * 10 + 5, (col + 2) * 10 + 9)
                 return True
 
             # Überprüfen Sie vertikal
             if row + 2 < 3 and len(set(board_state[row + i][col] for i in range(3))) == 1:
+                draw_winner_line(row * 10 + 1, col * 10 + 5, (row + 2) * 10 + 9, col * 10 + 5)
                 return True
 
             # Überprüfen Sie diagonal von links oben nach rechts unten
             if row + 2 < 3 and col + 2 < 3 and len(set(board_state[row + i][col + i] for i in range(3))) == 1:
+                draw_winner_line(row * 10 + 1, col * 10 + 1, (row + 2) * 10 + 9, (col + 2) * 10 + 9)
                 return True
 
             # Überprüfen Sie diagonal von links unten nach rechts oben
             if row - 2 >= 0 and col + 2 < 3 and len(set(board_state[row - i][col + i] for i in range(3))) == 1:
+                draw_winner_line((row - 2) * 10 + 9, col * 10 + 1, row * 10 + 1, (col + 2) * 10 + 9)
                 return True
 
     return False
+
+# Funktion zum Zeichnen der Linie für den Gewinner
+def draw_winner_line(start_row, start_col, end_row, end_col):
+    graphics.DrawLine(matrix, start_col, start_row, end_col, end_row, graphics.Color(0, 255, 0))
 
 # Hauptspiel-Schleife
 while True:
