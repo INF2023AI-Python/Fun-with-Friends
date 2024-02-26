@@ -74,3 +74,17 @@ while True:
 
         # Spielstatus überprüfen
         if check_winner():
+            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            print(f"Player {current_player} wins!")
+            break
+        elif ' ' not in [cell for row in board_state for cell in row]:
+            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            print("It's a draw!")
+            break
+
+        # Spieler wechseln
+        current_player = 'X' if current_player == 'O' else 'O'
+    else:
+        print("Invalid move. Try again.")
+    
+    time.sleep(0.5)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
