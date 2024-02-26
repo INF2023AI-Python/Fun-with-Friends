@@ -17,19 +17,20 @@ current_player = 'O'
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board():
     matrix.Clear()
-    for row in range(31):
-        for col in range(31):
+    for row in range(30):
+        for col in range(30):
             # Zeichne das Raster
             if row % 10 == 0 or col % 10 == 0:
-                matrix.SetPixel(col, row, 100, 100, 100)
+                matrix.SetPixel(col + 1, row + 1, 100, 100, 100)
 
     # Zeichne die Spielsymbole
     for row in range(3):
         for col in range(3):
             if board_state[row][col] == 'O':
-                graphics.DrawText(matrix, graphics.Font(), col * 10 + 2, row * 10 + 2, graphics.Color(0, 0, 255), "O")
+                graphics.DrawCircle(matrix, col * 10 + 5, row * 10 + 5, 4, graphics.Color(0, 0, 255))
             elif board_state[row][col] == 'X':
-                graphics.DrawText(matrix, graphics.Font(), col * 10 + 2, row * 10 + 2, graphics.Color(255, 0, 0), "X")
+                graphics.DrawLine(matrix, col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9, graphics.Color(255, 0, 0))
+                graphics.DrawLine(matrix, col * 10 + 1, row * 10 + 9, col * 10 + 9, row * 10 + 1, graphics.Color(255, 0, 0))
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner():
