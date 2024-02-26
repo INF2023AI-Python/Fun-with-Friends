@@ -11,28 +11,25 @@ options.hardware_mapping = "adafruit-hat-pwm"
 matrix = RGBMatrix(options=options)
 
 # Tictactoe-Board initialisieren
-board_state = [[' ' for _ in range(3)] for _ in range(3)]
+board_state = [[' ' for _ in range(32)] for _ in range(32)]
 current_player = 'X'
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board():
     matrix.Clear()
-    for row in range(3):
-        for col in range(3):
+    for row in range(32):
+        for col in range(32):
             if board_state[row][col] == 'X':
-                matrix.SetPixel(col * 10, row * 10, 255, 0, 0)
-                matrix.SetPixel(col * 10 + 1, row * 10, 255, 0, 0)
-                matrix.SetPixel(col * 10, row * 10 + 1, 255, 0, 0)
-                matrix.SetPixel(col * 10 + 1, row * 10 + 1, 255, 0, 0)
+                matrix.SetPixel(col, row, 255, 0, 0)
             elif board_state[row][col] == 'O':
-                matrix.SetPixel(col * 10 + 5, row * 10 + 5, 0, 0, 255)
+                matrix.SetPixel(col, row, 0, 0, 255)
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner():
-    for row in range(3):
+    for row in range(32):
         if board_state[row][0] == board_state[row][1] == board_state[row][2] != ' ':
             return True
-    for col in range(3):
+    for col in range(32):
         if board_state[0][col] == board_state[1][col] == board_state[2][col] != ' ':
             return True
     if board_state[0][0] == board_state[1][1] == board_state[2][2] != ' ':
@@ -46,14 +43,14 @@ while True:
     draw_board()
 
     try:
-        row = int(input("Enter row (0, 1, or 2): "))
-        col = int(input("Enter column (0, 1, or 2): "))
+        row = int(input("Enter row (0 to 31): "))
+        col = int(input("Enter column (0 to 31): "))
     except ValueError:
         print("Invalid input. Please enter a number.")
         continue
 
     # Überprüfen, ob das Feld bereits belegt ist
-    if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
+    if 0 <= row <= 31 and 0 <= col <= 31 and board_state[row][col] == ' ':
         # Zug durchführen
         board_state[row][col] = current_player
 
@@ -72,4 +69,4 @@ while True:
     else:
         print("Invalid move. Try again.")
     
-    time.sleep(1)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+    time.sleep(0.5)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
