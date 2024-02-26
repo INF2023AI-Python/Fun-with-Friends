@@ -1,5 +1,5 @@
-import time
 import pygame
+import sys
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Konfiguration der LED-Matrix
@@ -44,33 +44,19 @@ def check_winner():
 
 # Hauptspiel-Schleife
 pygame.init()
+width, height = 300, 300
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Tic Tac Toe")
 
 while True:
-    draw_board()
-
-    # Tastatureingaben abfragen
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
-                row, col = 0, 0
-            elif event.key == pygame.K_2:
-                row, col = 0, 1
-            elif event.key == pygame.K_3:
-                row, col = 0, 2
-            elif event.key == pygame.K_4:
-                row, col = 1, 0
-            elif event.key == pygame.K_5:
-                row, col = 1, 1
-            elif event.key == pygame.K_6:
-                row, col = 1, 2
-            elif event.key == pygame.K_7:
-                row, col = 2, 0
-            elif event.key == pygame.K_8:
-                row, col = 2, 1
-            elif event.key == pygame.K_9:
-                row, col = 2, 2
-            else:
-                continue
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouseX, mouseY = pygame.mouse.get_pos()
+            row = mouseY // (height // 3)
+            col = mouseX // (width // 3)
 
             # Überprüfen, ob das Feld bereits belegt ist
             if board_state[row][col] == ' ':
@@ -82,14 +68,15 @@ while True:
                     draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
                     print(f"Player {current_player} wins!")
                     pygame.quit()
-                    exit()
+                    sys.exit()
                 elif ' ' not in [cell for row in board_state for cell in row]:
                     draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
                     print("It's a draw!")
                     pygame.quit()
-                    exit()
+                    sys.exit()
 
                 # Spieler wechseln
                 current_player = 'O' if current_player == 'X' else 'X'
 
-    pygame.time.Clock().tick(10)  # Begrenzen Sie die Framerate auf 10 FPS
+    draw_board()
+    pygame.display.flip()
