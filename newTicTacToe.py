@@ -1,6 +1,4 @@
 import time
-import board
-import digitalio
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Konfiguration der LED-Matrix
