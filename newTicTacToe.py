@@ -19,6 +19,11 @@ def draw_board():
     matrix.Clear()
     for row in range(32):
         for col in range(32):
+            # Zeichne das Raster
+            if row % 10 == 0 or col % 10 == 0:
+                matrix.SetPixel(col, row, 100, 100, 100)
+
+            # Zeichne die Spielsymbole
             if board_state[row][col] == 'X':
                 matrix.SetPixel(col, row, 255, 0, 0)
             elif board_state[row][col] == 'O':
