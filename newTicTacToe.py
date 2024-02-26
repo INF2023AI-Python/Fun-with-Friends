@@ -32,15 +32,26 @@ def draw_board():
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner():
     for row in range(32):
-        if board_state[row][0] == board_state[row][1] == board_state[row][2] != ' ':
-            return True
-    for col in range(32):
-        if board_state[0][col] == board_state[1][col] == board_state[2][col] != ' ':
-            return True
-    if board_state[0][0] == board_state[1][1] == board_state[2][2] != ' ':
-        return True
-    if board_state[0][2] == board_state[1][1] == board_state[2][0] != ' ':
-        return True
+        for col in range(32):
+            if board_state[row][col] == ' ':
+                continue
+
+            # Überprüfen Sie horizontal
+            if col + 4 <= 32 and len(set(board_state[row][col:col + 4])) == 1:
+                return True
+
+            # Überprüfen Sie vertikal
+            if row + 4 <= 32 and len(set(board_state[row + i][col] for i in range(4))) == 1:
+                return True
+
+            # Überprüfen Sie diagonal von links oben nach rechts unten
+            if row + 4 <= 32 and col + 4 <= 32 and len(set(board_state[row + i][col + i] for i in range(4))) == 1:
+                return True
+
+            # Überprüfen Sie diagonal von links unten nach rechts oben
+            if row - 4 >= 0 and col + 4 <= 32 and len(set(board_state[row - i][col + i] for i in range(4))) == 1:
+                return True
+
     return False
 
 # Hauptspiel-Schleife
