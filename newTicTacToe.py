@@ -1,5 +1,4 @@
-import pygame
-import sys
+import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Konfiguration der LED-Matrix
@@ -43,40 +42,34 @@ def check_winner():
     return False
 
 # Hauptspiel-Schleife
-pygame.init()
-width, height = 300, 300
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Tic Tac Toe")
-
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouseX, mouseY = pygame.mouse.get_pos()
-            row = mouseY // (height // 3)
-            col = mouseX // (width // 3)
-
-            # Überprüfen, ob das Feld bereits belegt ist
-            if board_state[row][col] == ' ':
-                # Zug durchführen
-                board_state[row][col] = current_player
-
-                # Spielstatus überprüfen
-                if check_winner():
-                    draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-                    print(f"Player {current_player} wins!")
-                    pygame.quit()
-                    sys.exit()
-                elif ' ' not in [cell for row in board_state for cell in row]:
-                    draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-                    print("It's a draw!")
-                    pygame.quit()
-                    sys.exit()
-
-                # Spieler wechseln
-                current_player = 'O' if current_player == 'X' else 'X'
-
     draw_board()
-    pygame.display.flip()
+
+    try:
+        row = int(input("Enter row (0, 1, or 2): "))
+        col = int(input("Enter column (0, 1, or 2): "))
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        continue
+
+    # Überprüfen, ob das Feld bereits belegt ist
+    if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
+        # Zug durchführen
+        board_state[row][col] = current_player
+
+        # Spielstatus überprüfen
+        if check_winner():
+            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            print(f"Player {current_player} wins!")
+            break
+        elif ' ' not in [cell for row in board_state for cell in row]:
+            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            print("It's a draw!")
+            break
+
+        # Spieler wechseln
+        current_player = 'O' if current_player == 'X' else 'X'
+    else:
+        print("Invalid move. Try again.")
+    
+    time.sleep(1)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
