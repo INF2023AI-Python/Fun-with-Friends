@@ -1,5 +1,5 @@
 import time
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -23,14 +23,13 @@ def draw_board():
             if row % 10 == 0 or col % 10 == 0:
                 matrix.SetPixel(col, row, 100, 100, 100)
 
-            # Zeichne die Spielsymbole
-            if row % 10 == 5 and col % 10 == 5:
-                board_row = row // 10
-                board_col = col // 10
-                if board_state[board_row][board_col] == 'X':
-                    matrix.SetPixel(col, row, 255, 0, 0)
-                elif board_state[board_row][board_col] == 'O':
-                    matrix.SetPixel(col, row, 0, 0, 255)
+    # Zeichne die Spielsymbole
+    for row in range(3):
+        for col in range(3):
+            if board_state[row][col] == 'X':
+                graphics.DrawText(matrix, graphics.Font(), col * 10 + 1, row * 10 + 1, graphics.Color(255, 0, 0), "X")
+            elif board_state[row][col] == 'O':
+                graphics.DrawText(matrix, graphics.Font(), col * 10 + 1, row * 10 + 1, graphics.Color(0, 0, 255), "O")
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner():
