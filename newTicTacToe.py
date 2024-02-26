@@ -12,7 +12,7 @@ matrix = RGBMatrix(options=options)
 
 # Tictactoe-Board initialisieren
 board_state = [[' ' for _ in range(3)] for _ in range(3)]
-current_player = 'X'
+current_player = 'O'
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board():
@@ -26,10 +26,10 @@ def draw_board():
     # Zeichne die Spielsymbole
     for row in range(3):
         for col in range(3):
-            if board_state[row][col] == 'X':
-                graphics.DrawText(matrix, graphics.Font(), col * 10 + 1, row * 10 + 1, graphics.Color(255, 0, 0), "X")
-            elif board_state[row][col] == 'O':
-                graphics.DrawText(matrix, graphics.Font(), col * 10 + 1, row * 10 + 1, graphics.Color(0, 0, 255), "O")
+            if board_state[row][col] == 'O':
+                graphics.DrawText(matrix, graphics.Font(), col * 10 + 2, row * 10 + 2, graphics.Color(0, 0, 255), "O")
+            elif board_state[row][col] == 'X':
+                graphics.DrawText(matrix, graphics.Font(), col * 10 + 2, row * 10 + 2, graphics.Color(255, 0, 0), "X")
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner():
@@ -74,17 +74,4 @@ while True:
 
         # Spielstatus überprüfen
         if check_winner():
-            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-            print(f"Player {current_player} wins!")
-            break
-        elif ' ' not in [cell for row in board_state for cell in row]:
-            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-            print("It's a draw!")
-            break
-
-        # Spieler wechseln
-        current_player = 'O' if current_player == 'X' else 'X'
-    else:
-        print("Invalid move. Try again.")
-    
-    time.sleep(0.5)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+      
