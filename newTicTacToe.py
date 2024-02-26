@@ -1,4 +1,5 @@
 import time
+import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Konfiguration der LED-Matrix
@@ -42,35 +43,53 @@ def check_winner():
     return False
 
 # Hauptspiel-Schleife
+pygame.init()
+
 while True:
     draw_board()
 
-    # Spielerzug abfragen
-    print(f"Player {current_player}'s turn")
-    
-    try:
-        row = int(input("Enter row (0, 1, or 2): "))
-        col = int(input("Enter column (0, 1, or 2): "))
-    except ValueError:
-        print("Invalid input. Please enter a number.")
-        continue
+    # Tastatureingaben abfragen
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                row, col = 0, 0
+            elif event.key == pygame.K_2:
+                row, col = 0, 1
+            elif event.key == pygame.K_3:
+                row, col = 0, 2
+            elif event.key == pygame.K_4:
+                row, col = 1, 0
+            elif event.key == pygame.K_5:
+                row, col = 1, 1
+            elif event.key == pygame.K_6:
+                row, col = 1, 2
+            elif event.key == pygame.K_7:
+                row, col = 2, 0
+            elif event.key == pygame.K_8:
+                row, col = 2, 1
+            elif event.key == pygame.K_9:
+                row, col = 2, 2
+            else:
+                continue
 
-    # Überprüfen, ob das Feld bereits belegt ist
-    if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
-        # Zug durchführen
-        board_state[row][col] = current_player
+            # Überprüfen, ob das Feld bereits belegt ist
+            if board_state[row][col] == ' ':
+                # Zug durchführen
+                board_state[row][col] = current_player
 
-        # Spielstatus überprüfen
-        if check_winner():
-            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-            print(f"Player {current_player} wins!")
-            break
-        elif ' ' not in [cell for row in board_state for cell in row]:
-            draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-            print("It's a draw!")
-            break
+                # Spielstatus überprüfen
+                if check_winner():
+                    draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+                    print(f"Player {current_player} wins!")
+                    pygame.quit()
+                    exit()
+                elif ' ' not in [cell for row in board_state for cell in row]:
+                    draw_board()  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+                    print("It's a draw!")
+                    pygame.quit()
+                    exit()
 
-        # Spieler wechseln
-        current_player = 'O' if current_player == 'X' else 'X'
-    else:
-        print("Invalid move. Try again.")
+                # Spieler wechseln
+                current_player = 'O' if current_player == 'X' else 'X'
+
+    pygame.time.Clock().tick(10)  # Begrenzen Sie die Framerate auf 10 FPS
