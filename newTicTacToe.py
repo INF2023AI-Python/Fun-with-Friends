@@ -1,5 +1,6 @@
 import time
 import board
+import digitalio
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Konfiguration der LED-Matrix
@@ -49,11 +50,15 @@ while True:
     # Spielerzug abfragen
     print(f"Player {current_player}'s turn")
     
-    row = int(input("Enter row (0, 1, or 2): "))
-    col = int(input("Enter column (0, 1, or 2): "))
+    try:
+        row = int(input("Enter row (0, 1, or 2): "))
+        col = int(input("Enter column (0, 1, or 2): "))
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        continue
 
     # Überprüfen, ob das Feld bereits belegt ist
-    if board_state[row][col] == ' ':
+    if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
         # Zug durchführen
         board_state[row][col] = current_player
 
