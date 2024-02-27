@@ -26,6 +26,8 @@ def draw_board(board_state):
                 graphics.DrawCircle(matrix, col * 10 + 5, row * 10 + 5, 4, graphics.Color(0, 0, 255))
             elif board_state[row][col] == 'X':
                 graphics.DrawLine(matrix, col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9, graphics.Color(255, 0, 0))
+                graphics.DrawLine(matrix, col * 10 + 9, row * 10 + 1, col * 10 + 1, row * 10 + 9, graphics.Color(255, 0, 0))
+
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner(board_state):
