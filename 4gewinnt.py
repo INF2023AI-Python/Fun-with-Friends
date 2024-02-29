@@ -1,6 +1,14 @@
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
+options = RGBMatrixOptions()
+options.rows = 32
+options.chain_length = 1
+options.parallel = 1
+options.hardware_mapping = 'adafruit-hat'
+matrix = RGBMatrix(options = options)
+offset_canvas = matrix.CreateFrameCanvas()
+
 a = 6
 while a < 28:
     b = 8
