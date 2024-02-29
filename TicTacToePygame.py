@@ -1,7 +1,6 @@
 import time
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -14,6 +13,7 @@ matrix = RGBMatrix(options=options)
 
 # Pygame initialisieren
 pygame.init()
+pygame.joystick.init()
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
@@ -64,25 +64,21 @@ def draw_winner_line(start_row, start_col, end_row, end_col):
 
 # Funktion zum Konvertieren von Pygame-Eingaben zu Spielfeldpositionen
 def pygame_to_position(event):
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_KP7:
-            return 0, 0
-        elif event.key == pygame.K_KP8:
-            return 0, 1
-        elif event.key == pygame.K_KP9:
-            return 0, 2
-        elif event.key == pygame.K_KP4:
-            return 1, 0
-        elif event.key == pygame.K_KP5:
-            return 1, 1
-        elif event.key == pygame.K_KP6:
-            return 1, 2
-        elif event.key == pygame.K_KP1:
-            return 2, 0
-        elif event.key == pygame.K_KP2:
-            return 2, 1
-        elif event.key == pygame.K_KP3:
-            return 2, 2
+    if event.type == pygame.JOYBUTTONDOWN:
+        # Buttons auf dem Gamepad
+        button_mapping = {
+            0: (0, 0),  # Beispiel: Button 0 setzt das Symbol in die obere linke Ecke
+            1: (0, 1),
+            2: (0, 2),
+            3: (1, 0),
+            4: (1, 1),
+            5: (1, 2),
+            6: (2, 0),
+            7: (2, 1),
+            8: (2, 2),
+        }
+        if event.button in button_mapping:
+            return button_mapping[event.button]
 
     return None
 
@@ -127,4 +123,5 @@ while True:
         break
 
 # Pygame beenden
+pygame.joystick.quit()
 pygame.quit()
