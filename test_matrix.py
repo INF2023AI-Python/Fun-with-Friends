@@ -45,8 +45,9 @@ clock = pygame.time.Clock()
 
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        if event.type == pygame.JOYBUTTONDOWN:
+                if event.button == 8:
+                    running = False
 
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(0)
