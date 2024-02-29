@@ -59,6 +59,7 @@ while running:
             player2_x += int(axis_x * player2_speed)
             player2_y += int(axis_y * player2_speed)
 
+
     # Wrap player 1 around the screen borders
     if player1_x < 0:
         player1_x = width - player_size
