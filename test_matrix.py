@@ -1,6 +1,7 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
+
 width, height = 32, 32  # Set according to your RGB matrix dimensions
 
 # Configuration for Matrix
@@ -47,7 +48,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Update player positions based on gamepad input
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(0)
         axis_y = joystick.get_axis(1)
