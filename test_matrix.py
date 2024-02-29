@@ -33,13 +33,13 @@ game_area = [[0 for _ in range(width)] for _ in range(height)]
 player_size = 1
 player1_x = width // 4
 player1_y = height // 2
-player1_speed = 10
+player1_speed = 1  # Adjusted the speed for better control
 player1_color = (255, 0, 0)  # Red
 player1_trail_color = (0, 255, 0)  # Green trail for Player 1 (weaker)
 
 player2_x = 3 * width // 4
 player2_y = height // 2
-player2_speed = 10
+player2_speed = 1  # Adjusted the speed for better control
 player2_color = (0, 0, 255)  # Blue
 player2_trail_color = (255, 255, 0)  # Yellow trail for Player 2 (stronger)
 
@@ -55,6 +55,8 @@ while running:
                 running = False
 
     for i, joystick in enumerate(joysticks):
+        pygame.event.pump()  # Pump the event queue to update joystick status
+
         axis_x = joystick.get_axis(0)
         axis_y = joystick.get_axis(1)
         print(f"Joystick {i + 1} - Axis X: {axis_x}, Axis Y: {axis_y}")
