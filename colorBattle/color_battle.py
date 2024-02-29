@@ -4,6 +4,11 @@ import sys
 # Initialize Pygame
 pygame.init()
 
+# Set up gamepads
+pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+
+
 # Set up display
 width, height = 600, 600
 screen = pygame.display.set_mode((width, height))
@@ -42,16 +47,18 @@ while running:
     # Handle keyboard input
     keys = pygame.key.get_pressed()
 
-    # TODO: change the controls for gamepad
-    # Player 1 controls (WASD)
-    if keys[pygame.K_w]:
-        player1_y -= player1_speed
-    if keys[pygame.K_s]:
-        player1_y += player1_speed
-    if keys[pygame.K_a]:
-        player1_x -= player1_speed
-    if keys[pygame.K_d]:
-        player1_x += player1_speed
+    #gamepads axis controll player movement
+    for i, joystick in enumerate(joysticks):
+        axis_x = joystick.get_axis(0)
+        axis_y = joystick.get_axis(1)
+
+        if i == 0:  # Player 1 controls (First gamepad)
+            player1_x += int(axis_x * player1_speed)
+            player1_y += int(axis_y * player1_speed)
+        elif i == 1:  # Player 2 controls (Second gamepad)
+            player2_x += int(axis_x * player2_speed)
+            player2_y += int(axis_y * player2_speed)
+
 
     # Wrap player 1 around the screen borders
     if player1_x < 0:
@@ -62,16 +69,6 @@ while running:
         player1_y = height - player_size
     elif player1_y >= height:
         player1_y = 0
-
-    # Player 2 controls (Arrow keys)
-    if keys[pygame.K_UP]:
-        player2_y -= player2_speed
-    if keys[pygame.K_DOWN]:
-        player2_y += player2_speed
-    if keys[pygame.K_LEFT]:
-        player2_x -= player2_speed
-    if keys[pygame.K_RIGHT]:
-        player2_x += player2_speed
 
     # Wrap player 2 around the screen borders
     if player2_x < 0:
