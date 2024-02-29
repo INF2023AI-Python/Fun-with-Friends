@@ -1,8 +1,8 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
-
-width, height = 32, 32  # Set according to your RGB matrix dimensions
+# Set according to your RGB matrix dimensions
+width, height = 32, 32
 
 # Configuration for Matrix
 options = RGBMatrixOptions()
@@ -21,6 +21,10 @@ pygame.init()
 # Set up gamepads
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+
+# Check detected gamepads
+for joystick in joysticks:
+    print(f"Joystick Name: {joystick.get_name()}, Axes: {joystick.get_numaxes()}, Buttons: {joystick.get_numbuttons()}")
 
 # Initialize game area
 game_area = [[0 for _ in range(width)] for _ in range(height)]
@@ -46,12 +50,14 @@ clock = pygame.time.Clock()
 while running:
     for event in pygame.event.get():
         if event.type == pygame.JOYBUTTONDOWN:
-                if event.button == 8:
-                    running = False
+            if event.button == 8:
+                print("Button 8 pressed")
+                running = False
 
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(0)
         axis_y = joystick.get_axis(1)
+        print(f"Joystick {i + 1} - Axis X: {axis_x}, Axis Y: {axis_y}")
 
         if i == 0:  # Player 1 controls (First gamepad)
             player1_x += int(axis_x * player1_speed)
