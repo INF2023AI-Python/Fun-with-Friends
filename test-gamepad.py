@@ -12,8 +12,9 @@ for joystick in joysticks:
 running = True
 clock = pygame.time.Clock()
 
-# Initialisiere eine Datenstruktur zum Speichern der vorherigen Zustände
-prev_states = {}
+# Speichere die vorherigen Zustände von Achsen und Tasten
+prev_axes_states = [[0.0] * joystick.get_numaxes() for joystick in joysticks]
+prev_buttons_states = [[0] * joystick.get_numbuttons() for joystick in joysticks]
 
 while running:
     for event in pygame.event.get():
@@ -22,21 +23,19 @@ while running:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
 
-    # Überprüfe und aktualisiere die Achsenpositionen und Button-Zustände
+    # Terminalausgabe der Achsenpositionen und Button-Zustände bei Änderungen
     for i, joystick in enumerate(joysticks):
         for axis_id in range(joystick.get_numaxes()):
             axis_position = joystick.get_axis(axis_id)
-            prev_position = prev_states.get((i, axis_id), None)
-            if axis_position != prev_position:
+            if axis_position != prev_axes_states[i][axis_id] and axis_position != 0.0:
                 print(f"Joystick {i}, Axis {axis_id}: {axis_position:.2f}")
-                prev_states[(i, axis_id)] = axis_position
+                prev_axes_states[i][axis_id] = axis_position
 
         for button_id in range(joystick.get_numbuttons()):
             button_state = joystick.get_button(button_id)
-            prev_state = prev_states.get((i, button_id), None)
-            if button_state != prev_state:
+            if button_state != prev_buttons_states[i][button_id] and button_state != 0:
                 print(f"Joystick {i}, Button {button_id}: {button_state}")
-                prev_states[(i, button_id)] = button_state
+                prev_buttons_states[i][button_id] = button_state
 
     clock.tick(60)
 
