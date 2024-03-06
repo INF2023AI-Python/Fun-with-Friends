@@ -1,5 +1,5 @@
 import time
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import sys
 
