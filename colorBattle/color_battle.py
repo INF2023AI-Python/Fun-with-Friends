@@ -1,6 +1,7 @@
 import random
 import pygame
 from time import time
+from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 
 def generate_bonus_points(game_area, bonus_points):
@@ -14,14 +15,14 @@ def generate_bonus_points(game_area, bonus_points):
         game_area[y][x] = 'B'  # Mark bonus points on the game area
 
 
-def draw_bonus_points(screen, game_area, player_size, blink_state, offset_x, offset_y):
+def draw_bonus_points(canvas, game_area, player_size, blink_state, offset_x, offset_y):
     for y in range(len(game_area)):
         for x in range(len(game_area[0])):
             if game_area[y][x] == 'B':
                 if blink_state:
-                    pygame.draw.rect(screen, (255, 255, 255), ((x + offset_x) * player_size, (y + offset_y) * player_size, player_size, player_size))
+                    canvas.SetPixel((x + offset_x) * player_size, (y + offset_y) * player_size, 255, 255, 255)
                 else:
-                    pygame.draw.rect(screen, (0, 0, 0), ((x + offset_x) * player_size, (y + offset_y) * player_size, player_size, player_size))
+                    canvas.SetPixel((x + offset_x) * player_size, (y + offset_y) * player_size, 0, 0, 0)
 
 
 def count_points(game_area):
@@ -162,3 +163,5 @@ if __name__ == "__main__":
 
 
 # TODO: add/draw bonus points, make it with offset canvas, understand the code, make it cleaner
+#
+# TODO: upper pixels should show from the left player1's points, right - player2's points, in the middle remaining time
