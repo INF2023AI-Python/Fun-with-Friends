@@ -41,10 +41,10 @@ pygame.joystick.init()
 #check for available gamepads
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
-# if not joysticks:
-#     print("No gamepads detected. Exiting.")
-#     pygame.quit()
-#     sys.exit()
+if not joysticks:
+    print("No gamepads detected. Exiting.")
+    pygame.quit()
+    sys.exit()
 
 joysticks[0].init()
 joysticks[1].init()
