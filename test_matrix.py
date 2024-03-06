@@ -1,5 +1,7 @@
 import pygame
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+#from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+
 
 # Set according to your RGB matrix dimensions
 width, height = 32, 32
@@ -21,10 +23,6 @@ pygame.init()
 # Set up gamepads
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-
-# Check detected gamepads
-for joystick in joysticks:
-    print(f"Joystick Name: {joystick.get_name()}, Axes: {joystick.get_numaxes()}, Buttons: {joystick.get_numbuttons()}")
 
 # Initialize game area
 game_area = [[0 for _ in range(width)] for _ in range(height)]
