@@ -8,6 +8,10 @@ window_height = 300
 window = pygame.display.set_mode((window_width, window_height))
 font = pygame.font.Font(None, 36)  # Schriftart und Größe
 
+# Initialisiere die Joysticks außerhalb der Schleife
+pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+
 running = True
 clock = pygame.time.Clock()
 
@@ -17,10 +21,6 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
-
-    # Initialisiere die Joysticks innerhalb der Schleife
-    pygame.joystick.init()
-    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
     window.fill((255, 255, 255))  # Hintergrundfarbe des Fensters
 
