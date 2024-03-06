@@ -1,4 +1,4 @@
-# Init
+import pygame
 pygame.init()
 print("pygame initialized")
 pygame.joystick.init()
