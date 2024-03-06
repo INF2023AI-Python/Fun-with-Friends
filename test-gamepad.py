@@ -6,6 +6,8 @@ pygame.init()
 # Initialisiere die Joysticks außerhalb der Schleife
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+for joystick in joysticks:
+    joystick.init()
 
 running = True
 clock = pygame.time.Clock()
