@@ -56,7 +56,7 @@ def draw_xo():
                                    cell_width // 2, 2)
 
 def player_turn():
-    turn_text = font.render('Player: X' if game_over or turn == 'O' else 'Player: O', True, line_color, line_color1)
+    turn_text = font.render('Player: X' if game_over or turn == 'X' else 'Player: O', True, line_color, line_color1)
     window.blit(turn_text, (100, cell_height * 4))
 
 def check_winner():
@@ -84,52 +84,53 @@ while running:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
 
-    # Gamepad-Steuerung
-    for joystick in joysticks:
-        for i in range(joystick.get_numaxes()):
-            axis_value = joystick.get_axis(i)
+    if not game_over:
+        # Gamepad-Steuerung
+        for joystick in joysticks:
+            for i in range(joystick.get_numaxes()):
+                axis_value = joystick.get_axis(i)
 
-            # Pfeiltasten für die Auswahl bewegen
-            if i == 0 and axis_value < -0.5:
-                selected_col = (selected_col - 1) % 3
-            elif i == 0 and axis_value > 0.5:
-                selected_col = (selected_col + 1) % 3
-            elif i == 1 and axis_value < -0.5:
-                selected_row = (selected_row - 1) % 3
-            elif i == 1 and axis_value > 0.5:
-                selected_row = (selected_row + 1) % 3
+                # Pfeiltasten für die Auswahl bewegen
+                if i == 0 and axis_value < -0.5:
+                    selected_col = (selected_col - 1) % 3
+                elif i == 0 and axis_value > 0.5:
+                    selected_col = (selected_col + 1) % 3
+                elif i == 1 and axis_value < -0.5:
+                    selected_row = (selected_row - 1) % 3
+                elif i == 1 and axis_value > 0.5:
+                    selected_row = (selected_row + 1) % 3
 
-        for i in range(joystick.get_numbuttons()):
-            button_state = joystick.get_button(i)
+                
 
-            # Bestätigungstaste (z.B., Button 1)
-            if i == 1 and button_state == 1:
-                if game_board[selected_row][selected_col] == '':
-                    game_board[selected_row][selected_col] = turn
-                    if turn == 'X':
-                        turn = 'O'
-                    else:
-                        turn = 'X'
+            for i in range(joystick.get_numbuttons()):
+                button_state = joystick.get_button(i)
 
-    window.fill((0, 0, 0))  # Hintergrund zurücksetzen
-    draw_grid()
-    player_turn()
-    draw_xo()
+                # Bestätigungstaste (z.B., Button 1)
+                if i == 1 and button_state == 1:
+                    if game_board[selected_row][selected_col] == '':
+                        game_board[selected_row][selected_col] = turn
+                        if turn == 'X':
+                            turn = 'O'
+                        else:
+                            turn = 'X'
+                    # Spielende überprüfen
+                    winner = check_winner()
+                    if winner or all(game_board[i][j] != '' for i in range(3) for j in range(3)):
+                        game_over = True
 
-    winner = check_winner()
-    if winner:
-        game_over = True
-        winner_text = font.render('Winner: ' + winner, True, line_color, line_color1)
-        window.blit(winner_text, (100, cell_height * 4))
-    elif all(game_board[i][j] != '' for i in range(3) for j in range(3)):
-        game_over = True
-        draw_text = font.render('   DRAW   ', True, line_color, line_color1)
-        window.blit(draw_text, (100, cell_height * 4))
+        window.fill((0, 0, 0))  # Hintergrund zurücksetzen
+        draw_grid()
+        player_turn()
+        draw_xo()
 
-    # Markiere die ausgewählte Zelle
-    pygame.draw.rect(window, selected_color, (selected_col * cell_width, selected_row * cell_height, cell_width, cell_height), 2)
+        if game_over:
+            winner_text = font.render('Winner: ' + winner if winner else 'DRAW', True, line_color, line_color1)
+            window.blit(winner_text, (100, cell_height * 4))
 
-    pygame.display.flip()
+        # Markiere die ausgewählte Zelle
+        pygame.draw.rect(window, selected_color, (selected_col * cell_width, selected_row * cell_height, cell_width, cell_height), 2)
+
+        pygame.display.flip()
 
 pygame.quit()
 sys.exit()
