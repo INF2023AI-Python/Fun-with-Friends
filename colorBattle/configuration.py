@@ -1,88 +1,66 @@
-#import time
-#import board #access to the hardware on your board
-#import rgbmatrix #access that hardware as inputs/outputs
-#import digitalio #control the flow of your code in multiple ways, including passing time by 'sleeping'.
-#probably using pygame for handling events, pygame has a built-in pygame.joystick module
-#import evdev #dont need evdev anymore (for the gamepad, when using pygame,
-
-
-import pygame #simplifies the process of handling events, managing graphics, and organizing game logic
-import sys
+import os
+import pygame
+from pygame.locals import *
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
+# This makes it so that gamepad input can be used even if the window is not in focus
+os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
 
-#Configuration for Matrix
+# Configuration for the matrix
 options = RGBMatrixOptions()
 options.rows = 32
-options.cols = 32
 options.chain_length = 1
 options.parallel = 1
-options.hardware_mapping = 'adafruit-hat-pwm'
+options.hardware_mapping = 'adafruit-hat'
+options.drop_privileges = 0
 
-matrix = RGBMatrix(options = options)
+# Matrix & Canvas
+matrix = RGBMatrix(options=options)
+offset_canvas = matrix.CreateFrameCanvas()
 
-# Set up gamepads, this is using endev, need to change it to pygame
-#gamepad1 = evdev.InputDevice('/dev/input/eventX')  # Replace 'X' with the event number for gamepad 1 #ls /dev/input/
-#gamepad2 = evdev.InputDevice('/dev/input/eventY')  # Replace 'Y' with the event number for gamepad 2
-
-#----------------------------------------------------------------------------------------------------
 # Initialize Pygame
 pygame.init()
-
-#set up display
-width, height = 32, 32  # LED matrix dimensions
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Color Battle")
-# Set up Pygame screen
-#? screen = pygame.display.set_mode((options.cols, options.rows))
-
-#initialize joystick
 pygame.joystick.init()
-#check for available gamepads
+
+# Check for available gamepads
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+if not joysticks:
+    print("No gamepads detected. Exiting.")
 
-# if not joysticks:
-#     print("No gamepads detected. Exiting.")
-#     pygame.quit()
-#     sys.exit()
+for joystick in joysticks:
+    joystick.init()
+    print(f"Detected Gamepad: {joystick.get_name()}")
 
-joysticks[0].init()
-joysticks[1].init()
+# Setup screen
+screen_width, screen_height = 32, 32
+screen = pygame.display.set_mode((screen_width * 2, screen_height))
+pygame.display.set_caption("Game Template")
 
-#----------------------------------------------------------------------------------------------------
+# Game variables
+player_pos_x, player_pos_y = 16, 16
 
-#Main game loop
-running = True
+# Additional variables (self-explanatory)
 clock = pygame.time.Clock()
+enable_input = True
 
-
-while running:
+run = True
+while run:
+    # Player Physics
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            run = False
+        elif event.type == pygame.KEYDOWN and event.key == K_SPACE and enable_input:
+            print("Spacebar pressed")
+        elif event.type == pygame.JOYBUTTONDOWN and enable_input:
+            button = event.button
+            print(f"Button {button} pressed")
 
-    # Handle gamepad input
-    for i in range(2):  # Assuming two gamepads
-        joystick = joysticks[i]
+    # Drawing
+    offset_canvas.Clear()
+    offset_canvas.SetPixel(player_pos_x, player_pos_y, 255, 255, 255)
+    offset_canvas = matrix.SwapOnVSync(offset_canvas)
 
-        # Get input from the gamepad
-        axis_x = joystick.get_axis(0)
-        axis_y = joystick.get_axis(1)
-
-
-################################# Game Code ###################################
-
-    # flip() the display to put your work on screen
-    #pygame.display.flip()
-
-    # Convert pygame surface to RGBMatrix format
-    pygame.surfarray.blit_array(matrix, pygame.surfarray.array3d(screen))
-
-    # Refresh display
-    matrix.UpdateScreen()
-
-    #cap the frame rate
+    # Cap the frame rate
     clock.tick(60)
-    
+
 pygame.quit()
-sys.exit()
