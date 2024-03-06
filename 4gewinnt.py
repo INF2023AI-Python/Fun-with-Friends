@@ -16,8 +16,8 @@ while a < 28:
         offset_canvas.SetPixel(a, b, 255, 255, 255)  
         offset_canvas = matrix.SwapOnVSync(offset_canvas)
         b += 3
-    
     a += 1
+    
 c = 6
 while c < 28:
     offset_canvas.SetPixel(25, c, 255, 255, 255)
