@@ -39,7 +39,7 @@ def main():
     text_print = TextPrint()
 
     # This dict can be left as-is, since pygame will generate a
-    # pygame.JOYDEVICEADDED event for every joystick connected
+    # pygame.JOYDEVICE event for every joystick connected
     # at the start of the program.
     joysticks = {}
 
@@ -47,7 +47,7 @@ def main():
     while not done:
         # Event processing step.
         # Possible joystick events: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
-        # JOYBUTTONUP, JOYHATMOTION, JOYDEVICEADDED, JOYDEVICEREMOVED
+        # JOYBUTTONUP, JOYHATMOTION, JOYDEVICE, JOYDEVICEREMOVED
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True  # Flag that we are done so we exit this loop.
@@ -59,7 +59,7 @@ def main():
                 print(f"Joystick {event.instance_id} - Button {event.button} released.")
 
             # Handle hotplugging
-            if event.type == pygame.JOYDEVICEADDED:
+            if event.type == pygame.JOYDEVICE:
                 # This event will be generated when the program starts for every
                 # joystick, filling up the list without needing to create them manually.
                 joy = pygame.joystick.Joystick(event.device_index)
