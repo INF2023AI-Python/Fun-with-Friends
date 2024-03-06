@@ -9,6 +9,7 @@ window_height = 320
 window = pygame.display.set_mode((window_width, window_height))
 
 line_color = (255, 255, 255)  # weiß
+selected_color = (255, 0, 0)  # rot
 line_color1 = (0, 0, 0)
 
 # Text Eigenschaften
@@ -110,6 +111,7 @@ while running:
                     else:
                         turn = 'X'
 
+    window.fill((0, 0, 0))  # Hintergrund zurücksetzen
     draw_grid()
     player_turn()
     draw_xo()
@@ -125,7 +127,7 @@ while running:
         window.blit(draw_text, (100, cell_height * 4))
 
     # Markiere die ausgewählte Zelle
-    pygame.draw.rect(window, line_color, (selected_col * cell_width, selected_row * cell_height, cell_width, cell_height), 2)
+    pygame.draw.rect(window, selected_color, (selected_col * cell_width, selected_row * cell_height, cell_width, cell_height), 2)
 
     pygame.display.flip()
 
