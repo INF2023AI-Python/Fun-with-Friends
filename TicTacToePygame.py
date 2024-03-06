@@ -24,6 +24,7 @@ window_height = 320
 window = pygame.display.set_mode((window_width, window_height))
 
 line_color = (255, 255, 255) #weiß
+line_color1 = (0, 0, 0)
 
 #Text Eigenschaften
 font = pygame.font.Font(None, 36)
@@ -73,7 +74,7 @@ def draw_xo():
                                    cell_width // 2, 2)
 
 def player_turn():
-    text = font.render('Player: ' + turn + ' ', True, 0,0,0, 250,250,250)
+    text = font.render('Player: ' + turn + ' ', True,  line_color, line_color1)
     window.blit(text, (100, cell_height * 4))
 
 #graphics.DrawText(offset_canvas, font, 2, 10, line_color, "Player: ")
@@ -125,11 +126,11 @@ while running:
     winner = check_winner()
     if winner:
         game_over = True
-        text = font.render('Winner: ' + winner, True, 0,0,0, 250,250,250)
+        text = font.render('Winner: ' + winner, True, line_color, line_color1)
         window.blit(text, (100, cell_height * 4))
     elif all(game_board[i][j] != '' for i in range(3) for j in range(3)):
         game_over = True
-        text = font.render('   DRAW   ', True, 0,0,0, 250,250,250)
+        text = font.render('   DRAW   ', True,  line_color, line_color1)
         window.blit(text, (100, cell_height * 4))
 
     pygame.display.flip()
