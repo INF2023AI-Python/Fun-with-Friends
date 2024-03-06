@@ -2,7 +2,6 @@ import pygame
 
 pygame.init()
 
-
 # This is a simple class that will help us print to the screen.
 # It has nothing to do with the joysticks, just outputting the
 # information.
@@ -54,14 +53,10 @@ def main():
                 done = True  # Flag that we are done so we exit this loop.
 
             if event.type == pygame.JOYBUTTONDOWN:
-                print("Joystick button pressed.")
-                if event.button == 0:
-                    joystick = joysticks[event.instance_id]
-                    if joystick.rumble(0, 0.7, 500):
-                        print(f"Rumble effect played on joystick {event.instance_id}")
+                print(f"Joystick {event.instance_id} - Button {event.button} pressed.")
 
             if event.type == pygame.JOYBUTTONUP:
-                print("Joystick button released.")
+                print(f"Joystick {event.instance_id} - Button {event.button} released.")
 
             # Handle hotplugging
             if event.type == pygame.JOYDEVICEADDED:
@@ -69,7 +64,7 @@ def main():
                 # joystick, filling up the list without needing to create them manually.
                 joy = pygame.joystick.Joystick(event.device_index)
                 joysticks[joy.get_instance_id()] = joy
-                print(f"Joystick {joy.get_instance_id()} connencted")
+                print(f"Joystick {joy.get_instance_id()} connected")
 
             if event.type == pygame.JOYDEVICEREMOVED:
                 del joysticks[event.instance_id]
