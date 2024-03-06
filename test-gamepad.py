@@ -2,14 +2,11 @@ import pygame
 import sys
 
 pygame.init()
-pygame.joystick.init()
 
 window_width = 400
 window_height = 300
 window = pygame.display.set_mode((window_width, window_height))
 font = pygame.font.Font(None, 36)  # Schriftart und Größe
-
-joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
 running = True
 clock = pygame.time.Clock()
@@ -21,14 +18,13 @@ while running:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
 
-        if event.type == pygame.JOYBUTTONDOWN:
-            button_id = event.button
-            joystick_id = event.joy
-            print(f"Button Pressed - Joystick: {joystick_id}, Button ID: {button_id}")
+    # Initialisiere die Joysticks innerhalb der Schleife
+    pygame.joystick.init()
+    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
     window.fill((255, 255, 255))  # Hintergrundfarbe des Fensters
 
-    # Anzeige der Achsenpositionen im Fenster
+    # Anzeige der Achsenpositionen und Button-Zustände im Fenster
     for i, joystick in enumerate(joysticks):
         for axis_id in range(joystick.get_numaxes()):
             axis_position = joystick.get_axis(axis_id)
