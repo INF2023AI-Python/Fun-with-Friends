@@ -18,6 +18,9 @@ options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat'
 matrix = RGBMatrix(options=options)
 
+# Liste zum Verfolgen, welche Spalten bereits angezeigt wurden
+displayed_columns = [False] * COLS
+
 # Funktion zum Löschen des Bildschirms der LED-Matrix
 def clear_screen():
     matrix.Clear()
@@ -33,7 +36,8 @@ def display_board():
                 color = (0, 0, 255)  # Spieler 2: Blau
             for i in range(CHIP_SIZE):
                 for j in range(CHIP_SIZE):
-                    matrix.SetPixel(col * CHIP_SIZE + j, row * CHIP_SIZE + i, *color)
+                    matrix.SetPixel((COLS - col - 1) * CHIP_SIZE + j, (ROWS - row - 1) * CHIP_SIZE + i, *color)
+                displayed_columns[col] = True
 
 # Funktion zur Überprüfung, ob ein Spieler gewonnen hat
 def check_win(player):
