@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
