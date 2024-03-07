@@ -1,127 +1,136 @@
-import time
 import pygame
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+import sys
 
-# Konfiguration der LED-Matrix
-options = RGBMatrixOptions()
-options.rows = 32
-options.chain_length = 1
-options.parallel = 1
-options.hardware_mapping = "adafruit-hat-pwm"
-
-matrix = RGBMatrix(options=options)
-
-# Pygame initialisieren
 pygame.init()
+
+# screen Eigenschaften
+window_width = 320
+window_height = 320
+window = pygame.display.set_mode((window_width, window_height))
+
+line_color = (255, 255, 255)  # weiß
+selected_color = (255, 0, 0)  # rot
+line_color1 = (0, 0, 0)
+
+# Text Eigenschaften
+font = pygame.font.Font(None, 36)
+game_over = False
+
+# Gridlinen Größe
+cell_width = window_width // 6
+cell_height = window_height // 6
+
+game_board = [['', '', ''],
+              ['', '', ''],
+              ['', '', '']]
+
+# Variable für die ausgewählte Position
+selected_row, selected_col = 0, 0
+
+# Initialisiere die Joysticks außerhalb der Schleife
 pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+for joystick in joysticks:
+    joystick.init()
 
-# Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
-def draw_board(board_state):
-    matrix.Clear()
-    for row in range(32):
-        for col in range(32):
-            # Zeichne das Raster
-            if row % 11 == 0 or col % 11 == 0:
-                matrix.SetPixel(col, row, 100, 100, 100)
+def draw_grid():
+    # Vertikale Linien
+    for i in range(1, 3):
+        pygame.draw.line(window, line_color, (i * cell_width, 0), (i * cell_width, window_height // 2), 5)
 
-    # Zeichne die Spielsymbole
+    # Horizontale Linien
+    for i in range(1, 3):
+        pygame.draw.line(window, line_color, (0, i * cell_height), (window_width // 2, i * cell_height), 5)
+
+def draw_xo():
     for row in range(3):
         for col in range(3):
-            if board_state[row][col] == 'O':
-                graphics.DrawCircle(matrix, col * 11 + 5, row * 11 + 5, 4, graphics.Color(0, 0, 255))
-            elif board_state[row][col] == 'X':
-                graphics.DrawLine(matrix, col * 11 + 1, row * 11 + 1, col * 11 + 9, row * 11 + 9, graphics.Color(255, 0, 0))
-                graphics.DrawLine(matrix, col * 11 + 9, row * 11 + 1, col * 11 + 1, row * 11 + 9, graphics.Color(255, 0, 0))
+            if game_board[row][col] == 'X':
+                pygame.draw.line(window, line_color, (col * cell_width, row * cell_height),
+                                 ((col + 1) * cell_width, (row + 1) * cell_height), 2)
+                pygame.draw.line(window, line_color, ((col + 1) * cell_width, row * cell_height),
+                                 (col * cell_width, (row + 1) * cell_height), 2)
+            elif game_board[row][col] == 'O':
+                pygame.draw.circle(window, line_color,
+                                   (col * cell_width + cell_width // 2, row * cell_height + cell_height // 2),
+                                   cell_width // 2, 2)
 
-# Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
-def check_winner(board_state):
-    for row in range(3):
-        for col in range(3):
-            if board_state[row][col] == ' ':
-                continue
+def player_turn():
+    turn_text = font.render('Player: X' if game_over or turn == 'X' else 'Player: O', True, line_color, line_color1)
+    window.blit(turn_text, (100, cell_height * 4))
 
-            # Überprüfen Sie horizontal
-            if col + 2 < 3 and len(set(board_state[row][col:col + 3])) == 1:
-                return True
+def check_winner():
+    for i in range(3):
+        if game_board[i][0] == game_board[i][1] == game_board[i][2] != '':
+            return game_board[i][0]
+        if game_board[0][i] == game_board[1][i] == game_board[2][i] != '':
+            return game_board[0][i]
 
-            # Überprüfen Sie vertikal
-            if row + 2 < 3 and len(set(board_state[row + i][col] for i in range(3))) == 1:
-                return True
-
-            # Überprüfen Sie diagonal von links oben nach rechts unten
-            if row + 2 < 3 and col + 2 < 3 and len(set(board_state[row + i][col + i] for i in range(3))) == 1:
-                return True
-
-            # Überprüfen Sie diagonal von links unten nach rechts oben
-            if row - 2 >= 0 and col + 2 < 3 and len(set(board_state[row - i][col + i] for i in range(3))) == 1:
-                return True
-
-    return False
-
-# Funktion zum Zeichnen der Linie für den Gewinner
-def draw_winner_line(start_row, start_col, end_row, end_col):
-    graphics.DrawLine(matrix, start_col, start_row, end_col, end_row, graphics.Color(0, 255, 0))
-
-# Funktion zum Konvertieren von Pygame-Eingaben zu Spielfeldpositionen
-def pygame_to_position(event):
-    if event.type == pygame.JOYBUTTONDOWN:
-        # Buttons auf dem Gamepad
-        button_mapping = {
-            0: (0, 0),  # Beispiel: Button 0 setzt das Symbol in die obere linke Ecke
-            1: (0, 1),
-            2: (0, 2),
-            3: (1, 0),
-            4: (1, 1),
-            5: (1, 2),
-            6: (2, 0),
-            7: (2, 1),
-            8: (2, 2),
-        }
-        if event.button in button_mapping:
-            return button_mapping[event.button]
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] != '':
+        return game_board[0][0]
+    if game_board[0][2] == game_board[1][1] == game_board[2][0] != '':
+        return game_board[0][2]
 
     return None
 
-# Hauptspiel-Schleife
-while True:
-    # Tictactoe-Board initialisieren
-    board_state = [[' ' for _ in range(3)] for _ in range(3)]
-    current_player = 'O'
+# Hauptprogrammschleife
+turn = 'X'
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-    while True:
-        draw_board(board_state)
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False
 
-        for event in pygame.event.get():
-            position = pygame_to_position(event)
-            if position is not None:
-                row, col = position
+    if not game_over:
+        # Gamepad-Steuerung
+        for joystick in joysticks:
+            for i in range(joystick.get_numaxes()):
+                axis_value = joystick.get_axis(i)
 
-                # Überprüfen, ob das Feld bereits belegt ist
-                if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
-                    # Zug durchführen
-                    board_state[row][col] = current_player
+                # Pfeiltasten für die Auswahl bewegen
+                if i == 0 and axis_value < -0.5:
+                    selected_col = (selected_col - 1) % 3
+                elif i == 0 and axis_value > 0.5:
+                    selected_col = (selected_col + 1) % 3
+                elif i == 1 and axis_value < -0.5:
+                    selected_row = (selected_row - 1) % 3
+                elif i == 1 and axis_value > 0.5:
+                    selected_row = (selected_row + 1) % 3
 
-                    # Spielstatus überprüfen
-                    if check_winner(board_state):
-                        draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-                        print(f"Player {current_player} wins!")
-                        break
-                    elif ' ' not in [cell for row in board_state for cell in row]:
-                        draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-                        print("It's a draw!")
-                        break
+                
 
-                    # Spieler wechseln
-                    current_player = 'X' if current_player == 'O' else 'O'
-                else:
-                    print("Invalid move. Try again.")
+            for i in range(joystick.get_numbuttons()):
+                button_state = joystick.get_button(i)
 
-        time.sleep(0.1)  # Fügt eine kurze Verzögerung hinzu, um die Abfragefrequenz zu steuern
+                # Bestätigungstaste (z.B., Button 1)
+                if i == 1 and button_state == 1:
+                    if game_board[selected_row][selected_col] == '':
+                        game_board[selected_row][selected_col] = turn
+                        if turn == 'X':
+                            turn = 'O'
+                        else:
+                            turn = 'X'
+                    # Spielende überprüfen
+                    winner = check_winner()
+                    if winner or all(game_board[i][j] != '' for i in range(3) for j in range(3)):
+                        game_over = True
 
-    play_again = input("Do you want to play again? (yes/no): ").lower()
-    if play_again != 'yes':
-        break
+        window.fill((0, 0, 0))  # Hintergrund zurücksetzen
+        draw_grid()
+        player_turn()
+        draw_xo()
 
-# Pygame beenden
-pygame.joystick.quit()
+        if game_over:
+            winner_text = font.render('Winner: ' + winner if winner else 'DRAW', True, line_color, line_color1)
+            window.blit(winner_text, (100, cell_height * 4))
+
+        # Markiere die ausgewählte Zelle
+        pygame.draw.rect(window, selected_color, (selected_col * cell_width, selected_row * cell_height, cell_width, cell_height), 2)
+
+        pygame.display.flip()
+
 pygame.quit()
+sys.exit()

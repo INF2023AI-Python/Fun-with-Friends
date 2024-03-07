@@ -1,88 +1,43 @@
-#!/usr/bin/env python
+import pygame
+import sys
 
-import os, sys, pygame
-from pygame import locals
+pygame.init()
 
-# Define the colors we will use in RGB format
-black = [0, 0, 0]
-white = [255, 255, 255]
-red = [255, 0, 0]
+# Initialisiere die Joysticks außerhalb der Schleife
+pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+for joystick in joysticks:
+    joystick.init()
 
-# Set the resolution for the 32x32 RGB matrix
-matrix_resolution = [32, 32]
+running = True
+clock = pygame.time.Clock()
 
-# Adjust the screen size accordingly
-size = [matrix_resolution[0] * 20, matrix_resolution[1] * 10]
-screen = pygame.display.set_mode(size)
+# Speichere die vorherigen Zustände von Achsen und Tasten
+prev_axes_states = [[0.0] * joystick.get_numaxes() for joystick in joysticks]
+prev_buttons_states = [[0] * joystick.get_numbuttons() for joystick in joysticks]
 
-# Fill the screen with white
-screen.fill(white)
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False
 
-# Put something in the application Bar
-pygame.display.set_caption("Testing gamepad")
+    # Terminalausgabe der Achsenpositionen und Button-Zustände bei Änderungen
+    for i, joystick in enumerate(joysticks):
+        for axis_id in range(joystick.get_numaxes()):
+            axis_position = joystick.get_axis(axis_id)
+            if axis_position != prev_axes_states[i][axis_id] and axis_position != 0.0:
+                print(f"Joystick {i}, Axis {axis_id}: {axis_position:.2f}")
+                prev_axes_states[i][axis_id] = axis_position
 
-pygame.draw.rect(screen, black, (1, 1, matrix_resolution[0] * 2 - 2, matrix_resolution[1] * 2 - 2), 0)
+        for button_id in range(joystick.get_numbuttons()):
+            button_state = joystick.get_button(button_id)
+            if button_state != prev_buttons_states[i][button_id] and button_state != 0:
+                print(f"Joystick {i}, Button {button_id}: {button_state}")
+                prev_buttons_states[i][button_id] = button_state
 
-pygame.display.flip()
+    clock.tick(60)
 
-pygame.joystick.init()  # main joystick device system
-
-# Initialize the font
-try:
-    textfont = pygame.font.SysFont("moonspace", 12)  # Change the font size to a reasonable value
-except pygame.error:
-    print('Font not initialized. Make sure the specified font is available.')
-
-done = True
-
-try:
-    j = pygame.joystick.Joystick(0)  # create a joystick instance
-    j.init()  # init instance
-    print('Enabled joystick: ' + j.get_name())
-    joyName = j.get_name()
-except pygame.error:
-    print('No joystick found.')
-
-pygame.draw.rect(screen, black, (1, 1, matrix_resolution[0] * 2 - 2, matrix_resolution[1] * 2 - 2), 0)
-pygame.draw.rect(screen, white, (matrix_resolution[0], matrix_resolution[1], 4, 4), 0)
-joyText = textfont.render("Gamepad : " + joyName, 1, red)
-screen.blit(joyText, (matrix_resolution[0] * 6, matrix_resolution[1] * 2))
-
-pygame.display.flip()
-
-while done:
-    for e in pygame.event.get():  # iterate over event stack
-        if e.type == pygame.QUIT:
-            done = False
-
-        if e.type == locals.JOYAXISMOTION:  # Read Analog Joystick Axis
-            x1, y1 = j.get_axis(0), j.get_axis(1)  # Left Stick
-
-            print(x1)
-            print(y1)
-            x1Text = textfont.render("x : " + str(x1), 1, red)
-            y1Text = textfont.render("y : " + str(y1), 1, red)
-            pygame.draw.rect(screen, black, (1, 1, matrix_resolution[0] * 2 - 2, matrix_resolution[1] * 2 - 2), 0)
-            pygame.draw.rect(screen, white, (matrix_resolution[0] + int(x1 * 16), matrix_resolution[1] + int(y1 * 16), 4, 4), 0)
-            pygame.draw.rect(screen, white,
-                             (matrix_resolution[0] * 2, matrix_resolution[1] * 3, matrix_resolution[0] * 2,
-                              matrix_resolution[1] * 2), 0)
-            screen.blit(x1Text, (matrix_resolution[0] * 6, matrix_resolution[1] * 3))
-            screen.blit(y1Text, (matrix_resolution[0] * 6, matrix_resolution[1] * 4))
-            pygame.display.flip()
-
-        if e.type == locals.JOYBUTTONDOWN:  # Read the buttons
-            print("button down" + str(e.button))
-            for i in range(0, 10):
-                if e.button == i:
-                    pygame.draw.rect(screen, red, (matrix_resolution[0] * 2 + i * 2, matrix_resolution[1] * 2, 2, 2), 0)
-                    buttonText = textfont.render(str(i), 1, white)
-                    screen.blit(buttonText, (matrix_resolution[0] * 2 + i * 2 + 1, matrix_resolution[1] * 2))
-                    pygame.display.flip()
-
-        if e.type == locals.JOYBUTTONUP:  # Read the buttons
-            print("button up" + str(e.button))
-            for i in range(0, 10):
-                if e.button == i:
-                    pygame.draw.rect(screen, white, (matrix_resolution[0] * 2 + i * 2, matrix_resolution[1] * 2, 2, 2), 0)
-                    pygame.display.flip()
+pygame.quit()
+sys.exit()

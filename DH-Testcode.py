@@ -1,6 +1,6 @@
+#!/usr/bin/env python3
 import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import sys
 
@@ -81,8 +81,24 @@ while True:
             pygame.quit()
             sys.exit()
 
-        # Button 1 drücken
-        if event.type == pygame.JOYBUTTONDOWN and event.button == 1:
+        # Button 0 drücken (nach oben bewegen)
+        if event.type == pygame.JOYBUTTONDOWN and event.button == 0:
+            square_y = max(square_y - 10, 0)
+
+        # Button 1 drücken (nach rechts bewegen)
+        elif event.type == pygame.JOYBUTTONDOWN and event.button == 1:
+            square_x = min(square_x + 10, 20)
+
+        # Button 2 drücken (nach unten bewegen)
+        elif event.type == pygame.JOYBUTTONDOWN and event.button == 2:
+            square_y = min(square_y + 10, 20)
+
+        # Button 3 drücken (nach links bewegen)
+        elif event.type == pygame.JOYBUTTONDOWN and event.button == 3:
+            square_x = max(square_x - 10, 0)
+
+        # Button 5 drücken (Bestätigung)
+        elif event.type == pygame.JOYBUTTONDOWN and event.button == 5:
             row, col = square_y // 10, square_x // 10
 
             # Überprüfen, ob das Feld bereits belegt ist
@@ -103,29 +119,11 @@ while True:
                 # Spieler wechseln
                 current_player = 'X' if current_player == 'O' else 'O'
 
-    # Joystick-Steuerung für das Quadrat
-    for i in range(joystick.get_numaxes()):
-        axis_value = joystick.get_axis(i)
-
-        # Bewegung nach links/rechts
-        if i == 0 and axis_value < -0.5:
-            square_x = max(square_x - 10, 0)
-        elif i == 0 and axis_value > 0.5:
-            square_x = min(square_x + 10, 20)
-
-        # Bewegung nach oben/unten
-        elif i == 1 and axis_value < -0.5:
-            square_y = max(square_y - 10, 0)
-        elif i == 1 and axis_value > 0.5:
-            square_y = min(square_y + 10, 20)
-
-    square_size = min(10, 20 - max(square_x, square_y))  # Größe des Quadrats begrenzen
-
     # Tictactoe-Board und Quadrat zeichnen
     draw_board(board_state)
-    graphics.DrawLine(matrix, square_x, square_y, square_x + square_size, square_y, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x, square_y, square_x, square_y + square_size, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x + square_size, square_y, square_x + square_size, square_y + square_size, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x, square_y + square_size, square_x + square_size, square_y + square_size, graphics.Color(255, 0, 0))
+    graphics.DrawLine(matrix, square_x, square_y, square_x + 10, square_y, graphics.Color(255, 0, 0))
+    graphics.DrawLine(matrix, square_x, square_y, square_x, square_y + 10, graphics.Color(255, 0, 0))
+    graphics.DrawLine(matrix, square_x + 10, square_y, square_x + 10, square_y + 10, graphics.Color(255, 0, 0))
+    graphics.DrawLine(matrix, square_x, square_y + 10, square_x + 10, square_y + 10, graphics.Color(255, 0, 0))
 
     time.sleep(1)  # Fügt eine kurze Verzögerung hinzu, um die Bewegung sichtbar zu machen
