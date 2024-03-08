@@ -13,6 +13,22 @@ options.hardware_mapping = "adafruit-hat-pwm"
 
 matrix = RGBMatrix(options=options)
 
+pygame.init()
+
+pygame.joystick.init()
+
+if pygame.joystick.get_count() == 0:
+    print("No joystick detected. Please connect a joystick and try again.")
+    sys.exit()
+else:
+    for i in range(pygame.joystick.get_count()):
+        joystick = pygame.joystick.Joystick(i)
+        joystick.init()
+        print(f"Joystick {i + 1} detected. ID: {joystick.get_id()}")
+
+joystick = pygame.joystick.Joystick(0)
+joystick.init()
+
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
     matrix.Clear()
@@ -56,74 +72,44 @@ def check_winner(board_state):
 
     return False
 
-pygame.init()
-
-pygame.joystick.init()
-
-if pygame.joystick.get_count() == 0:
-    print("No joystick detected. Please connect a joystick and try again.")
-    sys.exit()
-
-joystick = pygame.joystick.Joystick(0)
-joystick.init()
-
-# Initialisiere die Position des Quadrats
-square_x, square_y = 0, 0
-
-# Tictactoe-Board initialisieren
-board_state = [[' ' for _ in range(3)] for _ in range(3)]
-current_player = 'O'
-
 # Hauptspiel-Schleife
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    # Tictactoe-Board initialisieren
+    board_state = [[' ' for _ in range(3)] for _ in range(3)]
+    current_player = 'O'
 
-        # Button 0 drücken (nach oben bewegen)
-        if event.type == pygame.JOYBUTTONDOWN and event.button == 0:
-            square_y = max(square_y - 10, 0)
+    while True:
+        draw_board(board_state)
 
-        # Button 1 drücken (nach rechts bewegen)
-        elif event.type == pygame.JOYBUTTONDOWN and event.button == 1:
-            square_x = min(square_x + 10, 20)
+        try:
+            row = int(input("Enter row (0 to 2): "))
+            col = int(input("Enter column (0 to 2): "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
 
-        # Button 2 drücken (nach unten bewegen)
-        elif event.type == pygame.JOYBUTTONDOWN and event.button == 2:
-            square_y = min(square_y + 10, 20)
+        # Überprüfen, ob das Feld bereits belegt ist
+        if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
+            # Zug durchführen
+            board_state[row][col] = current_player
 
-        # Button 3 drücken (nach links bewegen)
-        elif event.type == pygame.JOYBUTTONDOWN and event.button == 3:
-            square_x = max(square_x - 10, 0)
+            # Spielstatus überprüfen
+            if check_winner(board_state):
+                draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+                print(f"Player {current_player} wins!")
+                break
+            elif ' ' not in [cell for row in board_state for cell in row]:
+                draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+                print("It's a draw!")
+                break
 
-        # Button 5 drücken (Bestätigung)
-        elif event.type == pygame.JOYBUTTONDOWN and event.button == 5:
-            row, col = square_y // 10, square_x // 10
+            # Spieler wechseln
+            current_player = 'X' if current_player == 'O' else 'O'
+        else:
+            print("Invalid move. Try again.")
+        
+        time.sleep(0.5)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
 
-            # Überprüfen, ob das Feld bereits belegt ist
-            if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
-                # Zug durchführen
-                board_state[row][col] = 'X' if current_player == 'X' else 'O'
-
-                # Spielstatus überprüfen
-                if check_winner(board_state):
-                    draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-                    print(f"Player {current_player} wins!")
-                    time.sleep(1)
-                elif ' ' not in [cell for row in board_state for cell in row]:
-                    draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-                    print("It's a draw!")
-                    time.sleep(1)
-
-                # Spieler wechseln
-                current_player = 'X' if current_player == 'O' else 'O'
-
-    # Tictactoe-Board und Quadrat zeichnen
-    draw_board(board_state)
-    graphics.DrawLine(matrix, square_x, square_y, square_x + 10, square_y, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x, square_y, square_x, square_y + 10, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x + 10, square_y, square_x + 10, square_y + 10, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x, square_y + 10, square_x + 10, square_y + 10, graphics.Color(255, 0, 0))
-
-    time.sleep(0.5)  # Fügt eine kurze Verzögerung hinzu, um die Bewegung sichtbar zu machen
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    if play_again != 'yes':
+        break
