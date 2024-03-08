@@ -3,11 +3,19 @@ import sys
 
 pygame.init()
 
-# Initialisiere die Joysticks außerhalb der Schleife
 pygame.joystick.init()
-joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-for joystick in joysticks:
-    joystick.init()
+
+if pygame.joystick.get_count() == 0:
+    print("No joystick detected. Please connect a joystick and try again.")
+    sys.exit()
+else:
+    for i in range(pygame.joystick.get_count()):
+        joystick = pygame.joystick.Joystick(i)
+        joystick.init()
+        print(f"Joystick {i + 1} detected. ID: {joystick.get_id()}")
+
+joystick = pygame.joystick.Joystick(0)
+joystick.init()
 
 running = True
 clock = pygame.time.Clock()
@@ -26,7 +34,7 @@ while running:
             print(f"Joystick {event.joy}, Axis {axis_id}: {axis_position:.2f}")
         elif event.type == pygame.JOYBUTTONDOWN:
             button_id = event.button
-            print(f"Joystick {event.joy}, Button {button_id}: {event.value}")
+            print(f"Joystick {event.joy}, Button {button_id}: {button_state}")
 
     # Aktualisiere die vorherigen Zustände für Achsen und Buttons
     for i, joystick in enumerate(joysticks):
