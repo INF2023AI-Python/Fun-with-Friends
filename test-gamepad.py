@@ -37,7 +37,7 @@ while running:
                 print(f"Joystick {i}, Button {button_id}: {button_state}")
                 prev_buttons_states[i][button_id] = button_state
 
-    clock.tick(60)
+    #clock.tick(60)
 
 pygame.quit()
 sys.exit()
