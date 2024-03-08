@@ -19,21 +19,6 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 
 if pygame.joystick.get_count() == 0:
     print("No joystick detected. Please connect a joystick and try again.")
-<<<<<<< HEAD
-
-#    sys.exit()
-#else:
-#    for i in range(pygame.joystick.get_count()):
-#        joystick = pygame.joystick.Joystick(i)
-#        joystick.init()
- #       print(f"Joystick {i + 1} detected. ID: {joystick.get_id()}")
-
-#joystick = pygame.joystick.Joystick(0)
-#joystick.init()
-
-# Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
-def draw_board(board_state):
-=======
     sys.exit()
 else:
     for i in range(pygame.joystick.get_count()):
@@ -59,7 +44,6 @@ field = [
 ]
 
 def draw_tic_tac_toe(matrix, field):
->>>>>>> 378d3de674caf2d502e4ebceb870b90372f8cedd
     matrix.Clear()
 
     # Zeichne das Tic-Tac-Toe-Feld
