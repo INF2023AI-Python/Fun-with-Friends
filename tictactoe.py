@@ -2,7 +2,7 @@ import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 #from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
-import sys
+#import sys
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -19,15 +19,15 @@ pygame.joystick.init()
 
 if pygame.joystick.get_count() == 0:
     print("No joystick detected. Please connect a joystick and try again.")
-    sys.exit()
-else:
-    for i in range(pygame.joystick.get_count()):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
-        print(f"Joystick {i + 1} detected. ID: {joystick.get_id()}")
+#     sys.exit()
+# else:
+#     for i in range(pygame.joystick.get_count()):
+#         joystick = pygame.joystick.Joystick(i)
+#         joystick.init()
+#         print(f"Joystick {i + 1} detected. ID: {joystick.get_id()}")
 
-joystick = pygame.joystick.Joystick(0)
-joystick.init()
+# joystick = pygame.joystick.Joystick(0)
+# joystick.init()
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
