@@ -18,26 +18,31 @@ prev_buttons_states = [[0] * joystick.get_numbuttons() for joystick in joysticks
 
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            running = False
+        elif event.type == pygame.JOYAXISMOTION:
+            axis_id = event.axis
+            axis_position = event.value
+            print(f"Joystick {event.joy}, Axis {axis_id}: {axis_position:.2f}")
+        elif event.type == pygame.JOYBUTTONDOWN:
+            button_id = event.button
+            print(f"Joystick {event.joy}, Button {button_id}: {event.value}")
 
-    # Terminalausgabe der Achsenpositionen und Button-Zustände bei Änderungen
+    # Aktualisiere die vorherigen Zustände für Achsen und Buttons
     for i, joystick in enumerate(joysticks):
         for axis_id in range(joystick.get_numaxes()):
             axis_position = joystick.get_axis(axis_id)
-            if axis_position != prev_axes_states[i][axis_id] and axis_position != 0.0:
+            if axis_position != prev_axes_states[i][axis_id]:
                 print(f"Joystick {i}, Axis {axis_id}: {axis_position:.2f}")
                 prev_axes_states[i][axis_id] = axis_position
 
         for button_id in range(joystick.get_numbuttons()):
             button_state = joystick.get_button(button_id)
-            if button_state != prev_buttons_states[i][button_id] and button_state != 0:
+            if button_state != prev_buttons_states[i][button_id]:
                 print(f"Joystick {i}, Button {button_id}: {button_state}")
                 prev_buttons_states[i][button_id] = button_state
 
-    #clock.tick(60)
+    clock.tick(60)
 
 pygame.quit()
 sys.exit()
