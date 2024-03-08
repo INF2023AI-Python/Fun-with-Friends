@@ -1,12 +1,9 @@
 import time
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import sys
-import os
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
-os.environ['PULSE_SERVER'] = '127.0.0.1:6666'
-
-# Konfiguration der LED-Matrix
+# RGBMatrix-Optionen
 options = RGBMatrixOptions()
 options.rows = 32
 options.chain_length = 1
@@ -15,67 +12,95 @@ options.hardware_mapping = "adafruit-hat-pwm"
 
 matrix = RGBMatrix(options=options)
 
-pygame.init()
-pygame.joystick.init()
+line_color = (255, 255, 255)  # weiß
 
-joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+font = pygame.font.Font(None, 36)
+game_over = False
 
-if pygame.joystick.get_count() == 0:
-    print("No joystick detected. Please connect a joystick and try again.")
-    sys.exit()
-else:
-    for i in range(pygame.joystick.get_count()):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
-        print(f"Joystick {i} detected. ID: {joystick.get_id()}")
+cell_width = matrix.width // 6
+cell_height = matrix.height // 6
 
-joystick = pygame.joystick.Joystick(0)
-joystick.init()
+game_board = [['', '', ''],
+              ['', '', ''],
+              ['', '', '']]
 
+def draw_grid(surface):
+    for i in range(1, 3):
+        pygame.draw.line(surface, line_color, (i * cell_width, 0), (i * cell_width, matrix.height // 2), 5)
+
+    for i in range(1, 3):
+        pygame.draw.line(surface, line_color, (0, i * cell_height), (matrix.width // 2, i * cell_height), 5)
+
+def draw_xo(surface):
+    for row in range(3):
+        for col in range(3):
+            if game_board[row][col] == 'X':
+                pygame.draw.line(surface, line_color, (col * cell_width, row * cell_height),
+                                 ((col + 1) * cell_width, (row + 1) * cell_height), 2)
+                pygame.draw.line(surface, line_color, ((col + 1) * cell_width, row * cell_height),
+                                 (col * cell_width, (row + 1) * cell_height), 2)
+            elif game_board[row][col] == 'O':
+                pygame.draw.circle(surface, line_color, (col * cell_width + cell_width // 2,
+                                                         row * cell_height + cell_height // 2),
+                                   cell_width // 2, 2)
+
+def player_turn(surface):
+    text = font.render('Player: ' + turn + ' ', True, (0, 0, 0), (255, 255, 255))
+    surface.blit(text, (100, cell_height * 4))
+
+def check_winner():
+    for i in range(3):
+        if game_board[i][0] == game_board[i][1] == game_board[i][2] != '':
+            return game_board[i][0]
+        if game_board[0][i] == game_board[1][i] == game_board[2][i] != '':
+            return game_board[0][i]
+
+    if game_board[0][0] == game_board[1][1] == game_board[2][2] != '':
+        return game_board[0][0]
+    if game_board[0][2] == game_board[1][1] == game_board[2][0] != '':
+        return game_board[0][2]
+
+    return None
+
+# Hauptprogrammschleife
+turn = 'X'
 running = True
-clock = pygame.time.Clock()
-
-# Speichere die vorherigen Zustände von Achsen und Tasten
-prev_axes_states = [[0.0] * joystick.get_numaxes() for joystick in joysticks]
-prev_buttons_states = [[0] * joystick.get_numbuttons() for joystick in joysticks]
-
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.JOYAXISMOTION:
-            axis_id = event.axis
-            axis_position = event.value
-            print(f"Joystick {event.joy}, Axis {axis_id}: {axis_position:.2f}")
-        elif event.type == pygame.JOYBUTTONDOWN:
-            button_id = event.button
-            print(f"Joystick {event.joy}, Button {button_id}: {button_state}")
 
-    # Aktualisiere die vorherigen Zustände für Achsen und Buttons
-    for i, joystick in enumerate(joysticks):
-        for axis_id in range(joystick.get_numaxes()):
-            axis_position = joystick.get_axis(axis_id)
-            if axis_position != prev_axes_states[i][axis_id]:
-                print(f"Joystick {i}, Axis {axis_id}: {axis_position:.2f}")
-                prev_axes_states[i][axis_id] = axis_position
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False
 
-        for button_id in range(joystick.get_numbuttons()):
-            button_state = joystick.get_button(button_id)
-            if button_state != prev_buttons_states[i][button_id]:
-                print(f"Joystick {i}, Button {button_id}: {button_state}")
-                prev_buttons_states[i][button_id] = button_state
+        elif event.type == pygame.MOUSEBUTTONDOWN and not game_over:
+            mouseX, mouseY = event.pos
+            clicked_row = mouseY // (matrix.height // 6)
+            clicked_col = mouseX // (matrix.width // 6)
 
-    # Zeichne ein Quadrat auf der Matrix
-    graphics.DrawLine(matrix, 5, 5, 15, 5, graphics.Color(255, 255, 255))
-    graphics.DrawLine(matrix, 15, 5, 15, 15, graphics.Color(255, 255, 255))
-    graphics.DrawLine(matrix, 15, 15, 5, 15, graphics.Color(255, 255, 255))
-    graphics.DrawLine(matrix, 5, 15, 5, 5, graphics.Color(255, 255, 255))
+            if game_board[clicked_row][clicked_col] == '':
+                game_board[clicked_row][clicked_col] = turn
+                if turn == 'X':
+                    turn = 'O'
+                else:
+                    turn = 'X'
 
-    # Aktualisiere die Matrix
-    matrix.SwapOnVSync()
+    game_surface = pygame.Surface((matrix.width, matrix.height))
+    game_surface.fill((0, 0, 0))
+    draw_grid(game_surface)
+    player_turn(game_surface)
+    draw_xo(game_surface)
 
-    clock.tick(60)
+    pygame.surfarray.blit_array(matrix, pygame.surfarray.array3d(game_surface))
+    pygame.display.flip()
 
-pygame.mixer.quit()
+    winner = check_winner()
+    if winner:
+        game_over = True
+        print('Winner:', winner)
+    elif all(game_board[i][j] != '' for i in range(3) for j in range(3)):
+        game_over = True
+        print('DRAW')
+
 pygame.quit()
 sys.exit()
