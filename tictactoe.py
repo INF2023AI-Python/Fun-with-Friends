@@ -3,8 +3,8 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import sys
 import os
-os.environ['PULSE_SERVER'] = '127.0.0.1:6666'
 
+os.environ['PULSE_SERVER'] = '127.0.0.1:6666'
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -39,32 +39,6 @@ clock = pygame.time.Clock()
 prev_axes_states = [[0.0] * joystick.get_numaxes() for joystick in joysticks]
 prev_buttons_states = [[0] * joystick.get_numbuttons() for joystick in joysticks]
 
-# Tic-Tac-Toe-Feld erstellen
-field = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
-]
-
-def draw_tic_tac_toe(matrix, field):
-    matrix.Clear()
-
-    # Zeichne das Tic-Tac-Toe-Feld
-    for row in range(1, 3):
-        graphics.DrawLine(matrix, 0, row * 10, matrix.width, row * 10, graphics.Color(255, 255, 255))
-
-    for col in range(1, 3):
-        graphics.DrawLine(matrix, col * 10, 0, col * 10, matrix.height, graphics.Color(255, 255, 255))
-
-    # Zeichne X und O basierend auf dem Spielfeld
-    for row in range(3):
-        for col in range(3):
-            if field[row][col] == 1:
-                graphics.DrawLine(matrix, col * 10, row * 10, (col + 1) * 10, (row + 1) * 10, graphics.Color(255, 0, 0))
-                graphics.DrawLine(matrix, col * 10, (row + 1) * 10, (col + 1) * 10, row * 10, graphics.Color(255, 0, 0))
-            elif field[row][col] == 2:
-                graphics.DrawCircle(matrix, col * 10 + 5, row * 10 + 5, 5, graphics.Color(0, 0, 255))
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -91,9 +65,16 @@ while running:
                 print(f"Joystick {i}, Button {button_id}: {button_state}")
                 prev_buttons_states[i][button_id] = button_state
 
-    # Zeichne das Tic-Tac-Toe-Feld auf der Matrix
-    draw_tic_tac_toe(matrix, field)
-    time.sleep(0.1)
+    # Zeichne ein Quadrat auf der Matrix
+    graphics.DrawLine(matrix, 5, 5, 15, 5, graphics.Color(255, 255, 255))
+    graphics.DrawLine(matrix, 15, 5, 15, 15, graphics.Color(255, 255, 255))
+    graphics.DrawLine(matrix, 15, 15, 5, 15, graphics.Color(255, 255, 255))
+    graphics.DrawLine(matrix, 5, 15, 5, 5, graphics.Color(255, 255, 255))
+
+    # Aktualisiere die Matrix
+    matrix.SwapOnVSync()
+
+    clock.tick(60)
 
 pygame.mixer.quit()
 pygame.quit()
