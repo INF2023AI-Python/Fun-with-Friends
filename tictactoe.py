@@ -2,6 +2,9 @@ import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import sys
+import os
+os.environ['PULSE_SERVER'] = '127.0.0.1:6666'
+
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
