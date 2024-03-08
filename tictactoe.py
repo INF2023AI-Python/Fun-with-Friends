@@ -92,5 +92,6 @@ while running:
     draw_tic_tac_toe(matrix, field)
     time.sleep(0.1)
 
+pygame.mixer.quit()
 pygame.quit()
 sys.exit()
