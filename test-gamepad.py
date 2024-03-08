@@ -5,6 +5,7 @@ pygame.init()
 
 pygame.joystick.init()
 
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 if pygame.joystick.get_count() == 0:
     print("No joystick detected. Please connect a joystick and try again.")
     sys.exit()
