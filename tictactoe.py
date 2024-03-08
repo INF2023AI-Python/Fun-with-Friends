@@ -1,9 +1,8 @@
 import time
 import pygame
-import sys
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-# RGBMatrix-Optionen
+# Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
 options.rows = 32
 options.chain_length = 1
@@ -12,95 +11,114 @@ options.hardware_mapping = "adafruit-hat-pwm"
 
 matrix = RGBMatrix(options=options)
 
-line_color = (255, 255, 255)  # weiß
+# Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
+def draw_board(board_state):
+    matrix.Clear()
+    for row in range(32):
+        for col in range(32):
+            # Zeichne das Raster
+            if row % 10 == 0 or col % 10 == 0:
+                matrix.SetPixel(col, row, 100, 100, 100)
 
-font = pygame.font.Font(None, 36)
-game_over = False
-
-cell_width = matrix.width // 6
-cell_height = matrix.height // 6
-
-game_board = [['', '', ''],
-              ['', '', ''],
-              ['', '', '']]
-
-def draw_grid(surface):
-    for i in range(1, 3):
-        pygame.draw.line(surface, line_color, (i * cell_width, 0), (i * cell_width, matrix.height // 2), 5)
-
-    for i in range(1, 3):
-        pygame.draw.line(surface, line_color, (0, i * cell_height), (matrix.width // 2, i * cell_height), 5)
-
-def draw_xo(surface):
+    # Zeichne die Spielsymbole
     for row in range(3):
         for col in range(3):
-            if game_board[row][col] == 'X':
-                pygame.draw.line(surface, line_color, (col * cell_width, row * cell_height),
-                                 ((col + 1) * cell_width, (row + 1) * cell_height), 2)
-                pygame.draw.line(surface, line_color, ((col + 1) * cell_width, row * cell_height),
-                                 (col * cell_width, (row + 1) * cell_height), 2)
-            elif game_board[row][col] == 'O':
-                pygame.draw.circle(surface, line_color, (col * cell_width + cell_width // 2,
-                                                         row * cell_height + cell_height // 2),
-                                   cell_width // 2, 2)
+            if board_state[row][col] == 'O':
+                graphics.DrawCircle(matrix, col * 10 + 5, row * 10 + 5, 4, graphics.Color(0, 0, 255))
+            elif board_state[row][col] == 'X':
+                graphics.DrawLine(matrix, col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9, graphics.Color(255, 0, 0))
+                graphics.DrawLine(matrix, col * 10 + 9, row * 10 + 1, col * 10 + 1, row * 10 + 9, graphics.Color(255, 0, 0))
 
-def player_turn(surface):
-    text = font.render('Player: ' + turn + ' ', True, (0, 0, 0), (255, 255, 255))
-    surface.blit(text, (100, cell_height * 4))
+# Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
+def check_winner(board_state):
+    for row in range(3):
+        if board_state[row][0] == board_state[row][1] == board_state[row][2] != ' ':
+            return True
 
-def check_winner():
-    for i in range(3):
-        if game_board[i][0] == game_board[i][1] == game_board[i][2] != '':
-            return game_board[i][0]
-        if game_board[0][i] == game_board[1][i] == game_board[2][i] != '':
-            return game_board[0][i]
+    for col in range(3):
+        if board_state[0][col] == board_state[1][col] == board_state[2][col] != ' ':
+            return True
 
-    if game_board[0][0] == game_board[1][1] == game_board[2][2] != '':
-        return game_board[0][0]
-    if game_board[0][2] == game_board[1][1] == game_board[2][0] != '':
-        return game_board[0][2]
+    if board_state[0][0] == board_state[1][1] == board_state[2][2] != ' ':
+        return True
 
-    return None
+    if board_state[0][2] == board_state[1][1] == board_state[2][0] != ' ':
+        return True
 
-# Hauptprogrammschleife
-turn = 'X'
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    return False
 
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            running = False
+# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
+def update_board_with_joystick(board_state, joystick):
+    # Erhalte die Achsenpositionen des Joysticks
+    x_axis = joystick.get_axis(0)
+    y_axis = joystick.get_axis(1)
 
-        elif event.type == pygame.MOUSEBUTTONDOWN and not game_over:
-            mouseX, mouseY = event.pos
-            clicked_row = mouseY // (matrix.height // 6)
-            clicked_col = mouseX // (matrix.width // 6)
+    # Aktualisiere die Position basierend auf den Achsenwerten
+    if x_axis < -0.5:
+        move_left(board_state)
+    elif x_axis > 0.5:
+        move_right(board_state)
 
-            if game_board[clicked_row][clicked_col] == '':
-                game_board[clicked_row][clicked_col] = turn
-                if turn == 'X':
-                    turn = 'O'
-                else:
-                    turn = 'X'
+    if y_axis < -0.5:
+        move_up(board_state)
+    elif y_axis > 0.5:
+        move_down(board_state)
 
-    game_surface = pygame.Surface((matrix.width, matrix.height))
-    game_surface.fill((0, 0, 0))
-    draw_grid(game_surface)
-    player_turn(game_surface)
-    draw_xo(game_surface)
+# Hilfsfunktionen für die Joystick-Bewegungen
+def move_left(board_state):
+    board_state[0] = ['O', ' ', 'X'] if board_state[0][0] == ' ' else board_state[0]
 
-    pygame.surfarray.blit_array(matrix, pygame.surfarray.array3d(game_surface))
-    pygame.display.flip()
+def move_right(board_state):
+    board_state[2] = ['X', ' ', 'O'] if board_state[2][2] == ' ' else board_state[2]
 
-    winner = check_winner()
-    if winner:
-        game_over = True
-        print('Winner:', winner)
-    elif all(game_board[i][j] != '' for i in range(3) for j in range(3)):
-        game_over = True
-        print('DRAW')
+def move_up(board_state):
+    board_state = [list(row) for row in zip(*board_state)]
+    move_left(board_state)
+    board_state = [list(row) for row in zip(*board_state)]
 
-pygame.quit()
-sys.exit()
+def move_down(board_state):
+    board_state = [list(row) for row in zip(*board_state)]
+    move_right(board_state)
+    board_state = [list(row) for row in zip(*board_state)]
+
+# Hauptspiel-Schleife
+while True:
+    # Tictactoe-Board initialisieren
+    board_state = [[' ' for _ in range(3)] for _ in range(3)]
+    current_player = 'O'
+
+    pygame.init()
+    pygame.joystick.init()
+
+    if pygame.joystick.get_count() == 0:
+        print("No joystick detected. Please connect a joystick and try again.")
+        pygame.quit()
+        break
+
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        draw_board(board_state)
+        update_board_with_joystick(board_state, joystick)
+
+        # Überprüfen Sie den Gewinner und den Unentschieden-Status
+        if check_winner(board_state):
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            print(f"Player {current_player} wins!")
+            break
+        elif ' ' not in [cell for row in board_state for cell in row]:
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            print("It's a draw!")
+            break
+
+        pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    if play_again != 'yes':
+        break
