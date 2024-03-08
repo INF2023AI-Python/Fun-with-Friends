@@ -3,6 +3,8 @@ import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import sys
+#sys.path.append('/home/pi/.local/lib/python3.9/site-packages')
+print(sys.path)
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
