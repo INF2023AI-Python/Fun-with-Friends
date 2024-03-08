@@ -13,7 +13,7 @@ else:
     for i in range(pygame.joystick.get_count()):
         joystick = pygame.joystick.Joystick(i)
         joystick.init()
-        print(f"Joystick {i + 1} detected. ID: {joystick.get_id()}")
+        print(f"Joystick {i} detected. ID: {joystick.get_id()}")
 
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
