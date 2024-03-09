@@ -1,7 +1,7 @@
 import time
 import pygame
-#from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
