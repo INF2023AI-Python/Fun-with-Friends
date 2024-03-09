@@ -15,7 +15,7 @@ options = RGBMatrixOptions()
 options.cols = COLS * CHIP_SIZE
 options.rows = ROWS * CHIP_SIZE
 options.chain_length = 1
-options.hardware_mapping = 'adafruit-hat-pwn'
+options.hardware_mapping = 'adafruit-hat-pwm'
 matrix = RGBMatrix(options=options)
 
 # Liste zum Verfolgen, welche Spalten bereits angezeigt wurden
