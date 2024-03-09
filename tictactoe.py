@@ -1,7 +1,6 @@
 import time
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -62,8 +61,8 @@ def check_winner(board_state):
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 def update_board_with_joystick(board_state, joystick):
-    global current_player  # Fügen Sie diese Zeile hinzu, um auf die globale Variable zuzugreifen
-    global orange_square_position  # Zugriff auf die globale Variable
+    global current_player
+    global orange_square_position
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
@@ -76,15 +75,15 @@ def update_board_with_joystick(board_state, joystick):
     # Aktualisiere die Position des orangenen Quadrats basierend auf den Achsenwerten
     new_position = [max(0, min(2, orange_square_position[0] + int(x_axis))),
                     max(0, min(2, orange_square_position[1] - int(y_axis)))]
-    
+
     # Überprüfe, ob die neue Position frei ist
     if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
 def set_x_or_o(board_state):
-    global orange_square_position  # Zugriff auf die globale Variable
-    global current_player  # Fügen Sie diese Zeile hinzu, um auf die globale Variable zuzugreifen
+    global orange_square_position
+    global current_player
     current_player = 'X' if board_state[orange_square_position[1]][orange_square_position[0]] == ' ' else 'O'
     board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
