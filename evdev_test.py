@@ -14,3 +14,8 @@ for event in dev.read_loop():
     if event.type == ecodes.EV_KEY:
 
         print(categorize(event))
+
+dev.active_keys(verbose=True)
+
+dev.active_keys()
+
