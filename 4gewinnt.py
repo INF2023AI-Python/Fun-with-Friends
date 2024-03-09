@@ -1,9 +1,10 @@
 import numpy as np
 import time
+import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Größe des Spielfelds
-ROWS = 6
+ROWS = 8 # 7 leere Zeile, Abstand zwischen Eingabe und Spielfeld!
 COLS = 7
 CHIP_SIZE = 3
 
@@ -15,7 +16,8 @@ options = RGBMatrixOptions()
 options.cols = COLS * CHIP_SIZE
 options.rows = ROWS * CHIP_SIZE
 options.chain_length = 1
-options.hardware_mapping = 'adafruit-hat'
+options.hardware_mapping = 'adafruit-hat-pwm'
+options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
 # Liste zum Verfolgen, welche Spalten bereits angezeigt wurden
@@ -29,7 +31,7 @@ def clear_screen():
 def display_board():
     for row in range(ROWS):
         for col in range(COLS):
-            if not displayed_columns[col]:  # Überprüfen, ob die Spalte bereits angezeigt wurde
+            #if not displayed_columns[col]:  # Überprüfen, ob die Spalte bereits angezeigt wurde
                 color = (0, 0, 0)  # Standardfarbe für leere Zellen
                 if board[row][col] == 1:
                     color = (255, 0, 0)  # Spieler 1: Rot
@@ -69,6 +71,21 @@ def check_win(player):
     return False
 
 def main():
+
+    pygame.init()
+    pygame.joystick.init()
+
+    # Überprüfe, ob ein COntroller angeschlossen ist
+    if pygame.joystick.get_count() == 0:
+        print("Kein Joystick gefunden.")
+        pygame.quit()
+        quit()
+
+    # Wähle den ersten verfügbaren Joystick aus
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
+
+
     player = 1
     while True:
         clear_screen()
@@ -79,6 +96,40 @@ def main():
         if column < 0 or column >= COLS:
             print("Ungültige Eingabe")
             continue
+
+        # Darstellung des Chips
+        col = 1
+        board[7][col] = player
+        # Haupt-Event-Schleife
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+                # Überprüfe die Joystick-Eingaben
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    # Wenn die Taste 0 (A) gedrückt wird, führe die Aktion aus
+                    if event.button == 1:
+                        if col < 6:
+                            board[7][col] = 0
+                            col += 1
+                            board[7][col] = player
+                        elif col == 6:
+                            board[7][col] = 0
+                            col = 0
+                            board[7][col] = player
+                    # Wenn die Taste 1 (B) gedrückt wird, führe eine andere Aktion aus
+                    elif event.button == 3:
+                        if col > 0:
+                            board[7][col] = 0
+                            col -= 1
+                            board[7][col]
+                        elif col == 0:
+                            board[7][col] = 0
+                            col = 6
+                            board[7][col] = player
+
 
         # Ermitteln der nächsten verfügbaren Zeile in der ausgewählten Spalte
         for row in range(ROWS):
@@ -102,3 +153,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+pygame.quit()
