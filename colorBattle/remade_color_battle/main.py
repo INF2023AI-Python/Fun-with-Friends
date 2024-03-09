@@ -2,7 +2,7 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
 from time import time
 import random
-from colorBattle.movement import wrapping, input
+from colorBattle.remade_color_battle.movement import wrapping, input
 
 
 # Constants and Configurations
@@ -22,6 +22,9 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 
 
 def main():
-    wrapping()
-    input()
+
+    while True:
+        wrapping()
+        input()
+
 
