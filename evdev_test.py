@@ -1,4 +1,5 @@
 import sys
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 sys.path.append("/home/pi/.local/lib/python3.9/site-packages")
 
