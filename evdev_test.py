@@ -2,16 +2,14 @@ import sys
 
 sys.path.append("/home/pi/.local/lib/python3.9/site-packages")
 
-import evdev
+from evdev import InputDevice, categorize, ecodes
 
-devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
+dev = InputDevice('/dev/input/event4')
 
-for device in devices:
+print(dev)
 
-   print(device.path, device.name, device.phys)
+for event in dev.read_loop():
 
-for event in device.read_loop():
+    if event.type == ecodes.EV_KEY:
 
-    if event.type == evdev.ecodes.EV_KEY:
-
-        print(evdev.categorize(event))
+        print(categorize(event))
