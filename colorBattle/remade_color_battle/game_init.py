@@ -1,5 +1,7 @@
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 import pygame
+from players import players_init
+
 
 options = RGBMatrixOptions()
 options.hardware_mapping = 'adafruit-hat'

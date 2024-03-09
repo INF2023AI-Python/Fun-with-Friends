@@ -21,5 +21,5 @@ def players_init():
     player2_y = SCREEN_HEIGHT // 2
     player2_speed = 10
     player2_color = (0, 0, 255)  # Blue
-    player2_trail_color = (255, 255, 0)  # Yellow trail for Player 2 (stronger)
+    player2_trail_color = (255, 255, 0)  # Yellow trail for Player 2
 
