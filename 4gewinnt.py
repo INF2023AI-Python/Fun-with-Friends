@@ -37,7 +37,7 @@ def display_board():
             for i in range(CHIP_SIZE):
                 for j in range(CHIP_SIZE):
                     matrix.SetPixel((COLS - col - 1) * CHIP_SIZE + j, (ROWS - row - 1) * CHIP_SIZE + i, *color)
-                displayed_columns[col] = True
+            displayed_columns[col] = True
 
 # Funktion zur Überprüfung, ob ein Spieler gewonnen hat
 def check_win(player):
