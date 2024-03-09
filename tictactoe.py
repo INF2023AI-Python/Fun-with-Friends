@@ -69,13 +69,17 @@ def update_board_with_joystick(board_state, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Aktualisiere die Position des orangenen Quadrats basierend auf den Achsenwerten
-    orange_square_position[0] = max(0, min(2, orange_square_position[0] + int(x_axis)))
-    orange_square_position[1] = max(0, min(2, orange_square_position[1] + int(y_axis)))
-
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
         set_x_or_o(board_state)
+
+    # Aktualisiere die Position des orangenen Quadrats basierend auf den Achsenwerten
+    new_position = [max(0, min(2, orange_square_position[0] + int(x_axis))),
+                    max(0, min(2, orange_square_position[1] + int(y_axis)))]
+    
+    # Überprüfe, ob die neue Position frei ist
+    if board_state[new_position[1]][new_position[0]] == ' ':
+        orange_square_position = new_position
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
 def set_x_or_o(board_state):
