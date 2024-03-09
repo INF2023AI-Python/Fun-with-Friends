@@ -1,8 +1,6 @@
 import time
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
-import sys
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -34,98 +32,93 @@ def draw_board(board_state):
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner(board_state):
     for row in range(3):
-        for col in range(3):
-            if board_state[row][col] == ' ':
-                continue
+        if board_state[row][0] == board_state[row][1] == board_state[row][2] != ' ':
+            return True
 
-            # Überprüfen Sie horizontal
-            if col + 2 < 3 and len(set(board_state[row][col:col + 3])) == 1:
-                return True
+    for col in range(3):
+        if board_state[0][col] == board_state[1][col] == board_state[2][col] != ' ':
+            return True
 
-            # Überprüfen Sie vertikal
-            if row + 2 < 3 and len(set(board_state[row + i][col] for i in range(3))) == 1:
-                return True
+    if board_state[0][0] == board_state[1][1] == board_state[2][2] != ' ':
+        return True
 
-            # Überprüfen Sie diagonal von links oben nach rechts unten
-            if row + 2 < 3 and col + 2 < 3 and len(set(board_state[row + i][col + i] for i in range(3))) == 1:
-                return True
-
-            # Überprüfen Sie diagonal von links unten nach rechts oben
-            if row - 2 >= 0 and col + 2 < 3 and len(set(board_state[row - i][col + i] for i in range(3))) == 1:
-                return True
+    if board_state[0][2] == board_state[1][1] == board_state[2][0] != ' ':
+        return True
 
     return False
 
-pygame.init()
+# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
+def update_board_with_joystick(board_state, joystick):
+    # Erhalte die Achsenpositionen des Joysticks
+    x_axis = joystick.get_axis(0)
+    y_axis = joystick.get_axis(1)
 
-pygame.joystick.init()
+    # Aktualisiere die Position basierend auf den Achsenwerten
+    if x_axis < -0.5:
+        move_left(board_state)
+    elif x_axis > 0.5:
+        move_right(board_state)
 
-if pygame.joystick.get_count() == 0:
-    print("No joystick detected. Please connect a joystick and try again.")
-    sys.exit()
+    if y_axis < -0.5:
+        move_up(board_state)
+    elif y_axis > 0.5:
+        move_down(board_state)
 
-joystick = pygame.joystick.Joystick(0)
-joystick.init()
+# Hilfsfunktionen für die Joystick-Bewegungen
+def move_left(board_state):
+    board_state[0] = ['O', ' ', 'X'] if board_state[0][0] == ' ' else board_state[0]
 
-# Initialisiere die Position des Quadrats
-square_x, square_y = 0, 0
+def move_right(board_state):
+    board_state[2] = ['X', ' ', 'O'] if board_state[2][2] == ' ' else board_state[2]
 
-# Tictactoe-Board initialisieren
-board_state = [[' ' for _ in range(3)] for _ in range(3)]
-current_player = 'O'
+def move_up(board_state):
+    board_state = [list(row) for row in zip(*board_state)]
+    move_left(board_state)
+    board_state = [list(row) for row in zip(*board_state)]
+
+def move_down(board_state):
+    board_state = [list(row) for row in zip(*board_state)]
+    move_right(board_state)
+    board_state = [list(row) for row in zip(*board_state)]
 
 # Hauptspiel-Schleife
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    # Tictactoe-Board initialisieren
+    board_state = [[' ' for _ in range(3)] for _ in range(3)]
+    current_player = 'O'
 
-        # Button 1 drücken
-        if event.type == pygame.JOYBUTTONDOWN and event.button == 1:
-            row, col = square_y // 10, square_x // 10
+    pygame.init()
+    pygame.joystick.init()
 
-            # Überprüfen, ob das Feld bereits belegt ist
-            if 0 <= row <= 2 and 0 <= col <= 2 and board_state[row][col] == ' ':
-                # Zug durchführen
-                board_state[row][col] = 'X' if current_player == 'X' else 'O'
+    if pygame.joystick.get_count() == 0:
+        print("No joystick detected. Please connect a joystick and try again.")
+        pygame.quit()
+        break
 
-                # Spielstatus überprüfen
-                if check_winner(board_state):
-                    draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-                    print(f"Player {current_player} wins!")
-                    time.sleep(1)
-                elif ' ' not in [cell for row in board_state for cell in row]:
-                    draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-                    print("It's a draw!")
-                    time.sleep(1)
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
 
-                # Spieler wechseln
-                current_player = 'X' if current_player == 'O' else 'O'
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
 
-    # Joystick-Steuerung für das Quadrat
-    for i in range(joystick.get_numaxes()):
-        axis_value = joystick.get_axis(i)
+        draw_board(board_state)
+        update_board_with_joystick(board_state, joystick)
 
-        # Bewegung nach links/rechts
-        if i == 0 and axis_value < -0.5:
-            square_x = max(square_x - 10, 0)
-        elif i == 0 and axis_value > 0.5:
-            square_x = min(square_x + 10, 20)
+        # Überprüfen Sie den Gewinner und den Unentschieden-Status
+        if check_winner(board_state):
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            print(f"Player {current_player} wins!")
+            break
+        elif ' ' not in [cell for row in board_state for cell in row]:
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            print("It's a draw!")
+            break
 
-        # Bewegung nach oben/unten
-        elif i == 1 and axis_value < -0.5:
-            square_y = max(square_y - 10, 0)
-        elif i == 1 and axis_value > 0.5:
-            square_y = min(square_y + 10, 20)
+        pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
 
-    square_size = min(10, 20 - max(square_x, square_y))  # Größe des Quadrats begrenzen
-
-    # Tictactoe-Board und Quadrat zeichnen
-    draw_board(board_state)
-    graphics.DrawLine(matrix, square_x, square_y, square_x + square_size, square_y, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x, square_y, square_x, square_y + square_size, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x + square_size, square_y, square_x + square_size, square_y + square_size, graphics.Color(255, 0, 0))
-    graphics.DrawLine(matrix, square_x, square_y + square_size, square_x + square_size, square_y + square_size, graphics.Color(255, 0, 0))
-
-    time.sleep(1)  # Fügt eine kurze Verzögerung hinzu, um die Bewegung sichtbar zu machen
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    if play_again != 'yes':
+        break
