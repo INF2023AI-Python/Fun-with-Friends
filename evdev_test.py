@@ -19,8 +19,8 @@ sys.path.append("/home/pi/.local/lib/python3.9/site-packages")
 import evdev
 
 options = RGBMatrixOptions()
-options.cols = COLS * CHIP_SIZE
-options.rows = ROWS * CHIP_SIZE
+options.cols = 32
+options.rows = 32
 options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat'
 matrix = RGBMatrix(options=options)
