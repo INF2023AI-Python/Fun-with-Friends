@@ -18,6 +18,13 @@ sys.path.append("/home/pi/.local/lib/python3.9/site-packages")
 
 import evdev
 
+options = RGBMatrixOptions()
+options.cols = COLS * CHIP_SIZE
+options.rows = ROWS * CHIP_SIZE
+options.chain_length = 1
+options.hardware_mapping = 'adafruit-hat'
+matrix = RGBMatrix(options=options)
+
 # Finde den Pfad des Controllers
 controller_path = None
 for device in [evdev.InputDevice(path) for path in evdev.list_devices()]:
@@ -33,10 +40,11 @@ else:
 # Öffne den Controller
 controller = evdev.InputDevice(controller_path)
 
-# Funktion zum Behandeln von Tastendrücken
+target_button = 288
+
 def handle_key_event(event):
-    if event.type == evdev.ecodes.EV_KEY:
-        print("Taste gedrückt:", event.code)
+    if event.type == evdev.ecodes.EV_KEY and event.code == target_button:
+        matrix.SetPixel(10, 10, 255, 0, 0)
 
 # Hauptprogramm
 for event in controller.read_loop():
