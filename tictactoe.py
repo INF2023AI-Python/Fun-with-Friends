@@ -12,6 +12,9 @@ options.drop_privileges = 0
 
 matrix = RGBMatrix(options=options)
 
+# Startposition des orangenen Quadrats
+orange_square_position = [1, 1]
+
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
     matrix.Clear()
@@ -27,8 +30,16 @@ def draw_board(board_state):
             if board_state[row][col] == 'O':
                 graphics.DrawCircle(matrix, col * 10 + 5, row * 10 + 5, 4, graphics.Color(0, 0, 255))
             elif board_state[row][col] == 'X':
-                graphics.DrawLine(matrix, col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9, graphics.Color(255, 0, 0))
-                graphics.DrawLine(matrix, col * 10 + 9, row * 10 + 1, col * 10 + 1, row * 10 + 9, graphics.Color(255, 0, 0))
+                x1, y1, x2, y2 = col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9
+                graphics.DrawLine(matrix, x1, y1, x2, y2, graphics.Color(255, 0, 0))
+                graphics.DrawLine(matrix, x2, y1, x1, y2, graphics.Color(255, 0, 0))
+
+    # Zeichne das orangene Quadrat
+    x1, y1, x2, y2 = orange_square_position[0] * 10, orange_square_position[1] * 10, (orange_square_position[0] + 1) * 10, (orange_square_position[1] + 1) * 10
+    graphics.DrawLine(matrix, x1, y1, x2, y1, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x2, y1, x2, y2, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x2, y2, x1, y2, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x1, y2, x1, y1, graphics.Color(255, 165, 0))
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner(board_state):
@@ -50,43 +61,37 @@ def check_winner(board_state):
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 def update_board_with_joystick(board_state, joystick):
+    global current_player
+    global orange_square_position
+
+    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
+    if joystick.get_button(1) == 1:
+        set_x_or_o(board_state)
+
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Aktualisiere die Position basierend auf den Achsenwerten
-    if x_axis < -0.5:
-        move_left(board_state)
-    elif x_axis > 0.5:
-        move_right(board_state)
+    # Aktualisiere die Position des orangenen Quadrats basierend auf den Achsenwerten
+    new_position = [max(0, min(2, orange_square_position[0] + int(x_axis))),
+                    max(0, min(2, orange_square_position[1] - int(y_axis)))]
 
-    if y_axis < -0.5:
-        move_up(board_state)
-    elif y_axis > 0.5:
-        move_down(board_state)
+    # Überprüfe, ob die neue Position frei ist
+    if board_state[new_position[1]][new_position[0]] == ' ':
+        orange_square_position = new_position
 
-# Hilfsfunktionen für die Joystick-Bewegungen
-def move_left(board_state):
-    board_state[0] = ['O', ' ', 'X'] if board_state[0][0] == ' ' else board_state[0]
-
-def move_right(board_state):
-    board_state[2] = ['X', ' ', 'O'] if board_state[2][2] == ' ' else board_state[2]
-
-def move_up(board_state):
-    board_state = [list(row) for row in zip(*board_state)]
-    move_left(board_state)
-    board_state = [list(row) for row in zip(*board_state)]
-
-def move_down(board_state):
-    board_state = [list(row) for row in zip(*board_state)]
-    move_right(board_state)
-    board_state = [list(row) for row in zip(*board_state)]
+# Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
+def set_x_or_o(board_state):
+    global orange_square_position
+    global current_player
+    current_player = 'X' if board_state[orange_square_position[1]][orange_square_position[0]] == ' ' else 'O'
+    board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
 # Hauptspiel-Schleife
 while True:
     # Tictactoe-Board initialisieren
     board_state = [[' ' for _ in range(3)] for _ in range(3)]
-    current_player = 'O'
+    current_player = 'O'  # Initialisieren Sie die Variable global
 
     pygame.init()
     pygame.joystick.init()
