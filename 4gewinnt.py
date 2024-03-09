@@ -32,15 +32,15 @@ def display_board():
     for row in range(ROWS):
         for col in range(COLS):
             #if not displayed_columns[col]:  # Überprüfen, ob die Spalte bereits angezeigt wurde
-                color = (0, 0, 0)  # Standardfarbe für leere Zellen
-                if board[row][col] == 1:
-                    color = (255, 0, 0)  # Spieler 1: Rot
-                elif board[row][col] == 2:
-                    color = (0, 0, 255)  # Spieler 2: Blau
-                for i in range(CHIP_SIZE):
-                    for j in range(CHIP_SIZE):
-                        matrix.SetPixel(col * CHIP_SIZE + j + 4, (ROWS - row - 1) * CHIP_SIZE + i, *color)
-                displayed_columns[col] = True
+            color = (0, 0, 0)  # Standardfarbe für leere Zellen
+            if board[row][col] == 1:
+                color = (255, 0, 0)  # Spieler 1: Rot
+            elif board[row][col] == 2:
+                color = (0, 0, 255)  # Spieler 2: Blau
+            for i in range(CHIP_SIZE):
+                for j in range(CHIP_SIZE):
+                    matrix.SetPixel(col * CHIP_SIZE + j + 4, (ROWS - row - 1) * CHIP_SIZE + i, *color)
+            displayed_columns[col] = True
 
 # Funktion zur Überprüfung, ob ein Spieler gewonnen hat
 def check_win(player):
