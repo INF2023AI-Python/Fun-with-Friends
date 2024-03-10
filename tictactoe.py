@@ -140,9 +140,7 @@ while True:
                 exit()
 
         draw_board(board_state)#
-        print("While-Schleife draw_board(board_state) aufgerufen")
         update_board_with_joystick(board_state, joystick)
-        print("While-Schleife update_board_with_joystick(board_state, joystick) aufgerufen")
 
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
