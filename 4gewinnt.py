@@ -16,7 +16,7 @@ options = RGBMatrixOptions()
 options.cols = 32
 options.rows = 32
 options.chain_length = 1
-options.hardware_mapping = 'adafruit-hat-pwm'
+options.hardware_mapping = 'adafriut-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
@@ -122,9 +122,11 @@ def main():
                 #Bestätigen der Eingabe
                 elif event.button == 2:
                     # Finden der nächsten freien Zeile
+                    print("for der for Schleife")
                     for row in range(ROWS, 0, -1):
                         if board[row][col] == 0:
                             board[row][col] = player
+                            print("in der while Schleife")
                             break
                     # Überprüfen auf Gewinn
                     if check_win(player):
