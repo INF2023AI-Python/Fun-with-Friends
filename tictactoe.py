@@ -60,8 +60,6 @@ def check_winner(board_state):
     return False
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
-# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
-# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
@@ -82,18 +80,22 @@ def update_board_with_joystick(board_state, joystick):
         # Bewege nach oben
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] - 1))]
+        print("Bewege nach oben")
     elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
         # Bewege nach unten
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] + 1))]
+        print("Bewege nach unten")
     elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach rechts
         new_position = [max(0, min(2, orange_square_position[0] + 1)),
                         max(0, min(2, orange_square_position[1]))]
+        print("Bewege nach rechts")
     elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach links
         new_position = [max(0, min(2, orange_square_position[0] - 1)),
                         max(0, min(2, orange_square_position[1]))]
+        print("Bewege nach links")
     else:
         # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
         new_position = orange_square_position
@@ -137,8 +139,10 @@ while True:
                 pygame.quit()
                 exit()
 
-        draw_board(board_state)
+        draw_board(board_state)#
+        print("While-Schleife draw_board(board_state) aufgerufen")
         update_board_with_joystick(board_state, joystick)
+        print("While-Schleife update_board_with_joystick(board_state, joystick) aufgerufen")
 
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
