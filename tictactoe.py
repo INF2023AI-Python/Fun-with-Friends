@@ -60,6 +60,7 @@ def check_winner(board_state):
     return False
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
+# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
@@ -96,6 +97,10 @@ def update_board_with_joystick(board_state, joystick):
     # Überprüfe, ob die neue Position frei ist
     if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
+
+    # Setze die Achsen auf 0
+    joystick.init()
+
 
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
