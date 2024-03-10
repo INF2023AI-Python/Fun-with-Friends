@@ -60,20 +60,23 @@ def check_winner(board_state):
     return False
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
+# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
-
-    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
-    if joystick.get_button(1) == 1:
-        set_x_or_o(board_state)
 
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Drucke die aktuellen Achsenwerte
-    print(f"x_axis: {x_axis}, y_axis: {y_axis}")
+    # Drucke die aktuellen Achsenwerte nur einmalig
+    if not hasattr(update_board_with_joystick, 'printed_current_values'):
+        print(f"x_axis: {x_axis}, y_axis: {y_axis}")
+        update_board_with_joystick.printed_current_values = True
+
+    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
+    if joystick.get_button(1) == 1:
+        set_x_or_o(board_state)
 
     # Bewegungsrichtung basierend auf den Achsenwerten
     if x_axis < -0.01 and y_axis < -0.8:
@@ -96,14 +99,11 @@ def update_board_with_joystick(board_state, joystick):
         new_position = [max(0, min(2, orange_square_position[0] - 1)),
                         max(0, min(2, orange_square_position[1]))]
         print(f"Bewege nach links (x_axis: {x_axis}, y_axis: {y_axis})")
-    else:
-        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
-        new_position = orange_square_position
-        print("Keine Bewegung")
 
     # Überprüfe, ob die neue Position frei ist
-    if board_state[new_position[1]][new_position[0]] == ' ':
+    if new_position != orange_square_position and board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
+
 
 
 
