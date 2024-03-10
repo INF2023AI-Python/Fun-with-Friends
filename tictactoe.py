@@ -139,7 +139,7 @@ while True:
                 pygame.quit()
                 exit()
 
-        draw_board(board_state)#
+        draw_board(board_state)
         update_board_with_joystick(board_state, joystick)
 
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
