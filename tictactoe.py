@@ -96,7 +96,7 @@ def update_board_with_joystick(board_state, joystick):
         print(f"Bewege nach links (x_axis: {x_axis}, y_axis: {y_axis})")
 
     # Überprüfe, ob die neue Position frei ist
-    if new_position != orange_square_position and board_state[new_position[1]][new_position[0]] == ' ':
+    if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
 
 
