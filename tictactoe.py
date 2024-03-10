@@ -1,5 +1,6 @@
 import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+import pygame
 from pygame.locals import KEYDOWN, QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT
 
 # Konfiguration der LED-Matrix
@@ -52,6 +53,7 @@ def update_square_position():
 
 # Hauptspiel-Schleife
 while True:
+    pygame.init()
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
@@ -62,4 +64,4 @@ while True:
     draw_board()
     draw_square(orange_square_position)
 
-    time.sleep(0.1)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+    pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
