@@ -98,43 +98,42 @@ def main():
                 running = False
 
         # Überprüfen der Joystick Eingaben
-            elif event.type == pygame.JOYBUTTONDOWN:
-                # Verschieben nach rechts
-                if event.button == 1:
-                    if col < 6:
-                        board[0][col] = 0
-                        col += 1
-                        board[0][col] = player
-                    elif col == 6:
-                        board[0][col] = 0
-                        col = 0
-                        board[0][col] = player
-                # Verschieben nach links
-                elif event.button == 3:
-                    if col > 0:
-                        board[0][col] = 0
-                        col -= 1
-                        board[0][col] = player
-                    elif col == 0:
-                        board[0][col] = 0
-                        col = 6
-                        board[0][col] = player
-                #Bestätigen der Eingabe
-                elif event.button == 2:
-                    # Finden der nächsten freien Zeile
-                    print("for der for Schleife")
-                    for row in range(ROWS, 0, -1):
-                        if board[row][col] == 0:
-                            board[row][col] = player
-                            print("in der while Schleife")
-                            break
-                    # Überprüfen auf Gewinn
-                    if check_win(player):
-                        clear_screen()
-                        display_winner(player)
-                    # Spielerwechsel
-                    player = 2 if player == 1 else 1
-                    time.sleep(0.5)
+            # Verschieben nach rechts
+            if joystick.get_button(1) == 1:
+                if col < 6:
+                    board[0][col] = 0
+                    col += 1
+                    board[0][col] = player
+                elif col == 6:
+                    board[0][col] = 0
+                    col = 0
+                    board[0][col] = player
+            # Verschieben nach links
+            elif joystick.get_button(3) == 1:
+                if col > 0:
+                    board[0][col] = 0
+                    col -= 1
+                    board[0][col] = player
+                elif col == 0:
+                    board[0][col] = 0
+                    col = 6
+                    board[0][col] = player
+            #Bestätigen der Eingabe
+            elif joystick.get_button(2) == 1:
+                # Finden der nächsten freien Zeile
+                print("for der for Schleife")
+                for row in range(ROWS, 0, -1):
+                    if board[row][col] == 0:
+                        board[row][col] = player
+                        print("in der while Schleife")
+                        break
+                # Überprüfen auf Gewinn
+                if check_win(player):
+                    clear_screen()
+                    display_winner(player)
+                # Spielerwechsel
+                player = 2 if player == 1 else 1
+                time.sleep(0.5)
 
 if __name__ == "__main__":
     main()
