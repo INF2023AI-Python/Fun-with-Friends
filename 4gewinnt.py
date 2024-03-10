@@ -32,15 +32,15 @@ def display_board():
     for row in range(ROWS):
         for col in range(COLS):
             #if not displayed_columns[col]:  # Überprüfen, ob die Spalte bereits angezeigt wurde
-            color = (0, 0, 0)  # Standardfarbe für leere Zellen
-            if board[row][col] == 1:
-                color = (255, 0, 0)  # Spieler 1: Rot
-            elif board[row][col] == 2:
-                color = (0, 0, 255)  # Spieler 2: Blau
-            for i in range(CHIP_SIZE):
-                for j in range(CHIP_SIZE):
-                    matrix.SetPixel(col * CHIP_SIZE + j + 4, (ROWS - row - 1) * CHIP_SIZE + i, *color)
-            displayed_columns[col] = True
+                color = (0, 0, 0)  # Standardfarbe für leere Zellen
+                if board[row][col] == 1:
+                    color = (255, 0, 0)  # Spieler 1: Rot
+                elif board[row][col] == 2:
+                    color = (0, 0, 255)  # Spieler 2: Blau
+                for i in range(CHIP_SIZE):
+                    for j in range(CHIP_SIZE):
+                        matrix.SetPixel(col * CHIP_SIZE + j + 4, (ROWS - row - 1) * CHIP_SIZE + i, *color)
+                displayed_columns[col] = True
 
 # Funktion zur Überprüfung, ob ein Spieler gewonnen hat
 def check_win(player):
@@ -87,49 +87,42 @@ def main():
 
 
     player = 1
+    col = 1
     while True:
         clear_screen()
         display_board()
-        column = int(input(f"Spieler {player}, Spalte (0-6): "))
-        
-        # Überprüfen Spalte
-        if column < 0 or column >= COLS:
-            print("Ungültige Eingabe")
-            continue
 
-        # Darstellung des Chips
-        col = 1
-        board[7][col] = player
-        # Haupt-Event-Schleife
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-                # Überprüfe die Joystick-Eingaben
-                elif event.type == pygame.JOYBUTTONDOWN:
-                    # Wenn die Taste 0 (A) gedrückt wird, führe die Aktion aus
-                    if event.button == 1:
-                        if col < 6:
-                            board[7][col] = 0
-                            col += 1
-                            board[7][col] = player
-                        elif col == 6:
-                            board[7][col] = 0
-                            col = 0
-                            board[7][col] = player
-                    # Wenn die Taste 1 (B) gedrückt wird, führe eine andere Aktion aus
-                    elif event.button == 3:
-                        if col > 0:
-                            board[7][col] = 0
-                            col -= 1
-                            board[7][col]
-                        elif col == 0:
-                            board[7][col] = 0
-                            col = 6
-                            board[7][col] = player
+        #Dartellung des Chips erstmalig fehlt?
 
+            # Überprüfe die Joystick-Eingaben
+            elif event.type == pygame.JOYBUTTONDOWN:
+                # Wenn die rot Taste gedrückt wird, dann verscheiben nach rechts
+                if event.button == 1:
+                    if col < 6:
+                        board[7][col] = 0
+                        col += 1
+                        board[7][col] = player
+                    elif col == 6:
+                        board[7][col] = 0
+                        col = 0
+                        board[7][col] = player
+                # Wenn die güne Taste gedrückt wird, dann verschieben nach links
+                elif event.button == 3:
+                    if col > 0:
+                        board[7][col] = 0
+                        col -= 1
+                        board[7][col]
+                    elif col == 0:
+                        board[7][col] = 0
+                        col = 6
+                        board[7][col] = player
+                # Wenn die gelbe Taste gedrückt wird, dann ist es die Eingabe
+                elif event.button == 2:
+                    column = col
 
         # Ermitteln der nächsten verfügbaren Zeile in der ausgewählten Spalte
         for row in range(ROWS):
