@@ -6,9 +6,11 @@ import time
 # RGB Matrix Konfiguration
 options = RGBMatrixOptions()
 options.rows = 32
-options.cols = 32
 options.chain_length = 1
 options.parallel = 1
+options.hardware_mapping = "adafruit-hat-pwm"
+options.drop_privileges = 0
+
 matrix = RGBMatrix(options=options)
 
 # Gitterparameter
