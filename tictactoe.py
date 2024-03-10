@@ -1,65 +1,122 @@
+import time
 import pygame
 from pygame.locals import QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-import time
 
-# RGB Matrix Konfiguration
+# Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
 options.rows = 32
 options.chain_length = 1
 options.parallel = 1
 options.hardware_mapping = "adafruit-hat-pwm"
 options.drop_privileges = 0
+
 matrix = RGBMatrix(options=options)
 
-# Gitterparameter
-grid_size = 3
-cell_size = 10
+# Startposition des orangenen Quadrats
+orange_square_position = [1, 1]
 
-# Startposition des Quadrats
-x, y = 1, 1
+# Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
+def draw_board(board_state):
+    matrix.Clear()
+    for row in range(32):
+        for col in range(32):
+            # Zeichne das Raster
+            if row % 10 == 0 or col % 10 == 0:
+                matrix.SetPixel(col, row, 100, 100, 100)
 
-# Bewegungsgeschwindigkeit
-speed = 1
+    # Zeichne die Spielsymbole
+    for row in range(3):
+        for col in range(3):
+            if board_state[row][col] == 'O':
+                graphics.DrawCircle(matrix, col * 10 + 5, row * 10 + 5, 4, graphics.Color(0, 0, 255))
+            elif board_state[row][col] == 'X':
+                x1, y1, x2, y2 = col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9
+                graphics.DrawLine(matrix, x1, y1, x2, y2, graphics.Color(255, 0, 0))
+                graphics.DrawLine(matrix, x2, y1, x1, y2, graphics.Color(255, 0, 0))
 
-def draw_grid(canvas):
-    for i in range(grid_size + 1):
-        graphics.DrawLine(canvas, i * cell_size, 0, i * cell_size, grid_size * cell_size, graphics.Color(255, 255, 255))
-        graphics.DrawLine(canvas, 0, i * cell_size, grid_size * cell_size, i * cell_size, graphics.Color(255, 255, 255))
+    # Zeichne das orangene Quadrat
+    x1, y1, x2, y2 = orange_square_position[0] * 10, orange_square_position[1] * 10, (orange_square_position[0] + 1) * 10, (orange_square_position[1] + 1) * 10
+    graphics.DrawLine(matrix, x1, y1, x2, y1, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x2, y1, x2, y2, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x2, y2, x1, y2, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x1, y2, x1, y1, graphics.Color(255, 165, 0))
 
-def draw_square(canvas, x, y):
-    graphics.FillRect(canvas, x * cell_size, y * cell_size, (x + 1) * cell_size, (y + 1) * cell_size, graphics.Color(255, 165, 0))
+# Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
+def check_winner(board_state):
+    for row in range(3):
+        if board_state[row][0] == board_state[row][1] == board_state[row][2] != ' ':
+            return True
 
-# Pygame Konfiguration
-pygame.init()
-pygame.display.set_caption("LED Matrix Control")
-screen = pygame.display.set_mode((320, 320))  # Passende Größe für das 32x32 Gitter
+    for col in range(3):
+        if board_state[0][col] == board_state[1][col] == board_state[2][col] != ' ':
+            return True
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False
+    if board_state[0][0] == board_state[1][1] == board_state[2][2] != ' ':
+        return True
+
+    if board_state[0][2] == board_state[1][1] == board_state[2][0] != ' ':
+        return True
+
+    return False
+
+# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Pfeiltasten-Eingaben
+def update_board_with_keys(board_state):
+    global orange_square_position
 
     keys = pygame.key.get_pressed()
-    if keys[K_UP] and y > 0:
-        y -= speed
-    elif keys[K_DOWN] and y < grid_size - 1:
-        y += speed
-    elif keys[K_LEFT] and x > 0:
-        x -= speed
-    elif keys[K_RIGHT] and x < grid_size - 1:
-        x += speed
+    if keys[K_UP] and orange_square_position[1] > 0:
+        orange_square_position[1] -= 1
+    elif keys[K_DOWN] and orange_square_position[1] < 2:
+        orange_square_position[1] += 1
+    elif keys[K_LEFT] and orange_square_position[0] > 0:
+        orange_square_position[0] -= 1
+    elif keys[K_RIGHT] and orange_square_position[0] < 2:
+        orange_square_position[0] += 1
 
-    # Gitter zeichnen
-    canvas = matrix.CreateFrameCanvas()
-    draw_grid(canvas)
+# Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
+def set_x_or_o(board_state):
+    global orange_square_position
+    current_player = 'X' if board_state[orange_square_position[1]][orange_square_position[0]] == ' ' else 'O'
+    board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
-    # Quadrat zeichnen
-    draw_square(canvas, x, y)
+# Hauptspiel-Schleife
+while True:
+    # Tictactoe-Board initialisieren
+    board_state = [[' ' for _ in range(3)] for _ in range(3)]
 
-    canvas = matrix.SwapOnVSync(canvas)
+    pygame.init()
+    pygame.joystick.init()
 
-    time.sleep(0.05)  # Kurze Verzögerung für die Sichtbarkeit der Bewegung
+    if pygame.joystick.get_count() == 0:
+        print("No joystick detected. Please connect a joystick and try again.")
+        pygame.quit()
+        break
 
-pygame.quit()
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        draw_board(board_state)
+        update_board_with_keys(board_state)
+
+        # Überprüfen Sie den Gewinner und den Unentschieden-Status
+        if check_winner(board_state):
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            print(f"Player {current_player} wins!")
+            break
+        elif ' ' not in [cell for row in board_state for cell in row]:
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            print("It's a draw!")
+            break
+
+        pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    if play_again != 'yes':
+        break
