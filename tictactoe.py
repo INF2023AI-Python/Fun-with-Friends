@@ -65,7 +65,7 @@ def update_board_with_joystick(board_state, joystick):
     global orange_square_position
 
     # Ini vor jeder Eingabe
-    joystick.init()
+    #joystick.init()
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
@@ -125,10 +125,10 @@ while True:
     pygame.init()
     pygame.joystick.init()
 
-    # if pygame.joystick.get_count() == 0:
-    #     print("No joystick detected. Please connect a joystick and try again.")
-    #     pygame.quit()
-    #     break
+    if pygame.joystick.get_count() == 0:
+        print("No joystick detected. Please connect a joystick and try again.")
+        pygame.quit()
+        break
 
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
@@ -157,4 +157,3 @@ while True:
     play_again = input("Do you want to play again? (yes/no): ").lower()
     if play_again != 'yes':
         break
-    pygame.quit()
