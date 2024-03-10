@@ -72,30 +72,39 @@ def update_board_with_joystick(board_state, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
+    # Drucke die aktuellen Achsenwerte
+    print(f"x_axis: {x_axis}, y_axis: {y_axis}")
+
     # Bewegungsrichtung basierend auf den Achsenwerten
     if x_axis < -0.01 and y_axis < -0.8:
         # Bewege nach oben
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] - 1))]
+        print(f"Bewege nach oben (x_axis: {x_axis}, y_axis: {y_axis})")
     elif x_axis < -0.01 and y_axis > 0.8:
         # Bewege nach unten
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] + 1))]
+        print(f"Bewege nach unten (x_axis: {x_axis}, y_axis: {y_axis})")
     elif x_axis > 0.8 and y_axis < -0.01:
         # Bewege nach rechts
         new_position = [max(0, min(2, orange_square_position[0] + 1)),
                         max(0, min(2, orange_square_position[1]))]
+        print(f"Bewege nach rechts (x_axis: {x_axis}, y_axis: {y_axis})")
     elif x_axis < -0.8 and y_axis < -0.01:
         # Bewege nach links
         new_position = [max(0, min(2, orange_square_position[0] - 1)),
                         max(0, min(2, orange_square_position[1]))]
+        print(f"Bewege nach links (x_axis: {x_axis}, y_axis: {y_axis})")
     else:
         # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
         new_position = orange_square_position
+        print("Keine Bewegung")
 
     # Überprüfe, ob die neue Position frei ist
     if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
+
 
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
