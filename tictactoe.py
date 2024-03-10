@@ -69,11 +69,6 @@ def update_board_with_joystick(board_state, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Drucke die aktuellen Achsenwerte nur einmalig
-    if not hasattr(update_board_with_joystick, 'printed_current_values'):
-        print(f"x_axis: {x_axis}, y_axis: {y_axis}")
-        update_board_with_joystick.printed_current_values = True
-
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
         set_x_or_o(board_state)
