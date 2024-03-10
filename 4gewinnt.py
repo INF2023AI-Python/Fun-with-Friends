@@ -35,7 +35,7 @@ def display_board():
                     color = (0, 0, 255)  # Spieler 2: Blau
                 for i in range(CHIP_SIZE):
                     for j in range(CHIP_SIZE):
-                        matrix.SetPixel(col * CHIP_SIZE + j + 4, (ROWS - row - 1) * CHIP_SIZE + i, *color)
+                        matrix.SetPixel(col * CHIP_SIZE + j + 4, row * CHIP_SIZE + i, *color)
 
 def main():
 
@@ -83,7 +83,7 @@ def main():
                     if col > 0:
                         board[7][col] = 0
                         col -= 1
-                        board[7][col]
+                        board[7][col] = player
                     elif col == 0:
                         board[7][col] = 0
                         col = 6
@@ -91,6 +91,7 @@ def main():
                 # Wenn die gelbe Taste gedrückt wird, dann ist es die Eingabe
                 #elif event.button == 2:
                     #column = col
+                    # Hier muss später der Spielerwechsel stehen
 
         # Wechseln zum nächsten Spieler
         player = 2 if player == 1 else 1
@@ -98,5 +99,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-#pygame.quit()
