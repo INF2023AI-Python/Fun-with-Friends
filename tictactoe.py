@@ -61,9 +61,13 @@ def check_winner(board_state):
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
+# Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
 def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
+
+    # Ini vor jeder Eingabe
+    joystick.init()
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
@@ -74,19 +78,19 @@ def update_board_with_joystick(board_state, joystick):
     y_axis = joystick.get_axis(1)
 
     # Bewegungsrichtung basierend auf den Achsenwerten
-    if x_axis < -0.01 and y_axis < -0.8:
+    if x_axis == 0 and y_axis == -1:
         # Bewege nach oben
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] - 1))]
-    elif x_axis < -0.01 and y_axis > 0.8:
+    elif x_axis == 0 and y_axis == 1:
         # Bewege nach unten
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] + 1))]
-    elif x_axis > 0.8 and y_axis < -0.01:
+    elif x_axis == 1 and y_axis == 0:
         # Bewege nach rechts
         new_position = [max(0, min(2, orange_square_position[0] + 1)),
                         max(0, min(2, orange_square_position[1]))]
-    elif x_axis < -0.8 and y_axis < -0.01:
+    elif x_axis == -1 and y_axis == 0:
         # Bewege nach links
         new_position = [max(0, min(2, orange_square_position[0] - 1)),
                         max(0, min(2, orange_square_position[1]))]
@@ -98,8 +102,6 @@ def update_board_with_joystick(board_state, joystick):
     if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
 
-    # Setze die Achsen auf 0
-    joystick.init()
 
 
 
