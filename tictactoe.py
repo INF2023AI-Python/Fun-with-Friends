@@ -125,10 +125,10 @@ while True:
     pygame.init()
     pygame.joystick.init()
 
-    if pygame.joystick.get_count() == 0:
-        print("No joystick detected. Please connect a joystick and try again.")
-        pygame.quit()
-        break
+    # if pygame.joystick.get_count() == 0:
+    #     print("No joystick detected. Please connect a joystick and try again.")
+    #     pygame.quit()
+    #     break
 
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
@@ -157,3 +157,4 @@ while True:
     play_again = input("Do you want to play again? (yes/no): ").lower()
     if play_again != 'yes':
         break
+    pygame.quit()
