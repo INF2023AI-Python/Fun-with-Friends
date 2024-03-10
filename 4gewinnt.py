@@ -4,8 +4,8 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Angaben zum Spielfeld
-ROWS = 7 #Zeile 2 ist der Abstand zwischen Feld und der Auswahl der Spalte
-COLS = 6 #Beginn bei 0 -> 7 Spalten und 8 Reihen
+ROWS = 8 #Zeile 2 ist der Abstand zwischen Feld und der Auswahl der Spalte
+COLS = 7 #Beginn bei 0 -> 7 Spalten und 8 Reihen
 CHIP_SIZE = 3
 
 # Leeres Array für das Spielfeld
