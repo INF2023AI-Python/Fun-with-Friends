@@ -77,20 +77,20 @@ def update_board_with_joystick(board_state, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Bewegungsrichtung basierend auf den Achsenwerten
-    if x_axis == 0 and y_axis == -1:
+    # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
+    if -0.2 < x_axis < 0.2 and y_axis < -0.8:
         # Bewege nach oben
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] - 1))]
-    elif x_axis == 0 and y_axis == 1:
+    elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
         # Bewege nach unten
         new_position = [max(0, min(2, orange_square_position[0])),
                         max(0, min(2, orange_square_position[1] + 1))]
-    elif x_axis == 1 and y_axis == 0:
+    elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach rechts
         new_position = [max(0, min(2, orange_square_position[0] + 1)),
                         max(0, min(2, orange_square_position[1]))]
-    elif x_axis == -1 and y_axis == 0:
+    elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach links
         new_position = [max(0, min(2, orange_square_position[0] - 1)),
                         max(0, min(2, orange_square_position[1]))]
@@ -101,8 +101,6 @@ def update_board_with_joystick(board_state, joystick):
     # Überprüfe, ob die neue Position frei ist
     if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
-
-
 
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
