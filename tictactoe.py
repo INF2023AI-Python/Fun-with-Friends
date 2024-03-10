@@ -1,7 +1,7 @@
 import time
 import pygame
 from pygame.locals import QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions, graphics
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
