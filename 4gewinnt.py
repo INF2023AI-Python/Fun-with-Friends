@@ -91,6 +91,12 @@ def main():
     while True:
         clear_screen()
         display_board()
+        column = int(input(f"Spieler {player}, Spalte (0-6): "))
+        
+        # Überprüfen Spalte
+        if column < 0 or column >= COLS:
+            print("Ungültige Eingabe")
+            continue
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -147,4 +153,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-pygame.quit()
+#pygame.quit()
