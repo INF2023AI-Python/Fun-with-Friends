@@ -1,7 +1,7 @@
 import time
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
-from pygame.locals import KEYDOWN, QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT
+from pygame.locals import QUIT
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -20,11 +20,9 @@ cell_size = 10
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
 
-# Bewegungsgeschwindigkeit des orangenen Quadrats
-speed = 1
-
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board():
+    matrix.Clear()
     for row in range(32):
         for col in range(32):
             # Zeichne das Raster
@@ -33,35 +31,49 @@ def draw_board():
 
 def draw_square(orange_square_position):
     x1, y1, x2, y2 = orange_square_position[0] * 10, orange_square_position[1] * 10, (orange_square_position[0] + 1) * 10, (orange_square_position[1] + 1) * 10
-    for x in range(x1, x2):
-        for y in range(y1, y2):
-            matrix.SetPixel(x, y, 255, 165, 0)
 
-# Funktion zum Aktualisieren der Position des orangenen Quadrats basierend auf den Tasteneingaben
-def update_square_position():
+    # Zeichne den Rahmen des Quadrats
+    graphics.DrawLine(matrix, x1, y1, x2, y1, graphics.Color(255, 165, 0))  # Obere Linie
+    graphics.DrawLine(matrix, x2, y1, x2, y2, graphics.Color(255, 165, 0))  # Rechte Linie
+    graphics.DrawLine(matrix, x2, y2, x1, y2, graphics.Color(255, 165, 0))  # Untere Linie
+    graphics.DrawLine(matrix, x1, y2, x1, y1, graphics.Color(255, 165, 0))  # Linke Linie
+
+# Funktion zum Aktualisieren der Position des orangenen Quadrats basierend auf den Achsen des Joysticks
+def update_square_position(joystick):
     global orange_square_position
 
-    keys = pygame.key.get_pressed()
-    if keys[K_UP] and orange_square_position[1] > 0:
-        orange_square_position[1] -= speed
-    elif keys[K_DOWN] and orange_square_position[1] < grid_size - 1:
-        orange_square_position[1] += speed
-    elif keys[K_LEFT] and orange_square_position[0] > 0:
-        orange_square_position[0] -= speed
-    elif keys[K_RIGHT] and orange_square_position[0] < grid_size - 1:
-        orange_square_position[0] += speed
+    # Erhalte die Achsenpositionen des Joysticks
+    x_axis = joystick.get_axis(0)
+    y_axis = joystick.get_axis(1)
+
+    # Aktualisiere die Position des orangenen Quadrats basierend auf den Achsenwerten
+    new_position = [max(0, min(grid_size - 1, orange_square_position[0] + int(x_axis))),
+                    max(0, min(grid_size - 1, orange_square_position[1] - int(y_axis)))]
+
+    # Überprüfe, ob die neue Position frei ist
+    if matrix.GetPixel(new_position[0] * 10, new_position[1] * 10) != (255, 165, 0):
+        orange_square_position = new_position
 
 # Hauptspiel-Schleife
+pygame.init()
+pygame.joystick.init()
+
+if pygame.joystick.get_count() == 0:
+    print("No joystick detected. Please connect a joystick and try again.")
+    pygame.quit()
+    exit()
+
+joystick = pygame.joystick.Joystick(0)
+joystick.init()
+
 while True:
-    pygame.init()
     for event in pygame.event.get():
         if event.type == QUIT:
+            pygame.quit()
             exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_UP:
-                update_square_position()
 
     draw_board()
+    update_square_position(joystick)
     draw_square(orange_square_position)
 
-    pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+    time.sleep(0.1)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
