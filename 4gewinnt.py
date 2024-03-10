@@ -41,25 +41,25 @@ def display_board():
 def check_win(player):
     # Horizontale Linie
     for r in range(ROWS):
-        for c in range(COLS - (CHIP_SIZE - 1)): #sollte es hier nicht vielleicht ligischer -4 sein?
+        for c in range(COLS - 4): #sollte es hier nicht vielleicht ligischer -4 sein?
             if all(board[r][c + i] == player for i in range(4)):
                 return True
             
     # Vertikale Linie
     for c in range(COLS):
-        for r in range(ROWS - (CHIP_SIZE - 1)):
+        for r in range(ROWS - 4):
             if all(board[r + i][c] == player for i in range(4)):
                 return True
         
     # Diagonal nach oben rechts
-    for r in range(ROWS - (CHIP_SIZE - 1)):
-        for c in range(COLS - (CHIP_SIZE - 1)):
+    for r in range(ROWS - 4):
+        for c in range(COLS - 4):
             if all(board[r + i][c + i] == player for i in range(4)):
                 return True
             
     # Diagonale nach unten rechts
-    for r in range(CHIP_SIZE -1, ROWS):
-        for c in range(COLS - (CHIP_SIZE - 1)):
+    for r in range(4, ROWS):
+        for c in range(COLS - 4):
             if all(board[r - i][c + i] == player for i in range(4)):
                 return True
             
@@ -121,12 +121,11 @@ def main():
             #Bestätigen der Eingabe
             elif joystick.get_button(2) == 1:
                 # Finden der nächsten freien Zeile
-                print("for der for Schleife")
                 for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
-                        board[row][col] = player
-                        print("in der while Schleife")
-                        break
+                        if row > 2:
+                            board[row][col] = player
+                            break
                 # Überprüfen auf Gewinn
                 if check_win(player):
                     clear_screen()
