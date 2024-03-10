@@ -12,6 +12,17 @@ PLAY_WIDTH = 32
 PLAY_HEIGHT = 28
 GAME_DURATION = 60
 
+width, height = 32, 32
+options = RGBMatrixOptions()
+options.rows = 32
+options.cols = 32
+options.chain_length = 1
+options.parallel = 1
+options.hardware_mapping = 'adafruit-hat-pwm'
+
+matrix = RGBMatrix(options=options)
+offset_canvas = matrix.CreateFrameCanvas()
+
 
 global player1_x, player1_y, player2_x, player2_y, game_area, player_size
 player1_speed = 10
@@ -28,7 +39,25 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 def main():
 
     while True:
+        clock = pygame.time.Clock()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        #read input, keep players in the area
         wrapping()
-        input()
+        input(joysticks)
+
+        #draw obstacle
+
+
+
+
+
+        #update canvas
+        offset_canvas = matrix.SwapOnVSync(offset_canvas)
+
+        clock.tick(60)
+    pygame.quit()
 
 

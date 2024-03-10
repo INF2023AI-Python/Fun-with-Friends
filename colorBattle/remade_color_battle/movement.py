@@ -23,6 +23,8 @@ def input(joysticks):
         elif i == 1:  # Player 2 controls (Second gamepad)
             player2_x += int(axis_x * player2_speed)
             player2_y += int(axis_y * player2_speed)
+
+
 def wrapping():
     # Wrap player 1 around the screen borders
     if player1_x < 0:
