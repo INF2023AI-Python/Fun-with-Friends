@@ -10,7 +10,6 @@ options.chain_length = 1
 options.parallel = 1
 options.hardware_mapping = "adafruit-hat-pwm"
 options.drop_privileges = 0
-
 matrix = RGBMatrix(options=options)
 
 # Gitterparameter
@@ -25,11 +24,11 @@ speed = 1
 
 def draw_grid(canvas):
     for i in range(grid_size + 1):
-        graphics.drawline(canvas, i * cell_size, 0, i * cell_size, grid_size * cell_size, graphics.Color(255, 255, 255))
-        graphics.drawline(canvas, 0, i * cell_size, grid_size * cell_size, i * cell_size, graphics.Color(255, 255, 255))
+        graphics.DrawLine(canvas, i * cell_size, 0, i * cell_size, grid_size * cell_size, graphics.Color(255, 255, 255))
+        graphics.DrawLine(canvas, 0, i * cell_size, grid_size * cell_size, i * cell_size, graphics.Color(255, 255, 255))
 
 def draw_square(canvas, x, y):
-    graphics.rectangle(canvas, x * cell_size, y * cell_size, (x + 1) * cell_size, (y + 1) * cell_size, graphics.Color(255, 165, 0))
+    graphics.FillRect(canvas, x * cell_size, y * cell_size, (x + 1) * cell_size, (y + 1) * cell_size, graphics.Color(255, 165, 0))
 
 # Pygame Konfiguration
 pygame.init()
