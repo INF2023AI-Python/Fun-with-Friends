@@ -72,20 +72,42 @@ def update_board_with_joystick(board_state, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Aktualisiere die Position des orangenen Quadrats basierend auf den Achsenwerten
-    new_position = [max(0, min(2, orange_square_position[0] + int(x_axis))),
-                    max(0, min(2, orange_square_position[1] - int(y_axis)))]
+    # Bewegungsrichtung basierend auf den Achsenwerten
+    if x_axis < -0.01 and y_axis < -0.8:
+        # Bewege nach oben
+        new_position = [max(0, min(2, orange_square_position[0])),
+                        max(0, min(2, orange_square_position[1] - 1))]
+    elif x_axis < -0.01 and y_axis > 0.8:
+        # Bewege nach unten
+        new_position = [max(0, min(2, orange_square_position[0])),
+                        max(0, min(2, orange_square_position[1] + 1))]
+    elif x_axis > 0.8 and y_axis < -0.01:
+        # Bewege nach rechts
+        new_position = [max(0, min(2, orange_square_position[0] + 1)),
+                        max(0, min(2, orange_square_position[1]))]
+    elif x_axis < -0.8 and y_axis < -0.01:
+        # Bewege nach links
+        new_position = [max(0, min(2, orange_square_position[0] - 1)),
+                        max(0, min(2, orange_square_position[1]))]
+    else:
+        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
+        new_position = orange_square_position
 
     # Überprüfe, ob die neue Position frei ist
     if board_state[new_position[1]][new_position[0]] == ' ':
         orange_square_position = new_position
 
+
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
 def set_x_or_o(board_state):
     global orange_square_position
     global current_player
-    current_player = 'X' if board_state[orange_square_position[1]][orange_square_position[0]] == ' ' else 'O'
-    board_state[orange_square_position[1]][orange_square_position[0]] = current_player
+
+    # Überprüfe, ob das ausgewählte Feld leer ist (' ')
+    if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
+        current_player = 'X' if current_player == 'O' else 'O'
+        board_state[orange_square_position[1]][orange_square_position[0]] = current_player
+
 
 # Hauptspiel-Schleife
 while True:
