@@ -122,7 +122,7 @@ def main():
             elif joystick.get_button(2) == 1:
                 # Finden der nächsten freien Zeile
                 print("for der for Schleife")
-                for row in range(ROWS, 0, -1):
+                for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
                         board[row][col] = player
                         print("in der while Schleife")
