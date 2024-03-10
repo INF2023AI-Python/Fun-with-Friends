@@ -133,7 +133,7 @@ def main():
                     display_winner(player)
                 # Spielerwechsel
                 player = 2 if player == 1 else 1
-                time.sleep(0.5)
+                pygame.time.Clock().tick(10)
 
 if __name__ == "__main__":
     main()
