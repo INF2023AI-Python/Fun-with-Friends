@@ -143,21 +143,24 @@ class RunText:
         # Zentriere den Text horizontal
         text_x = (offscreen_canvas.width - max(win_text_width, player_text_width, symbol_text_width)) // 2
 
+        # Zentriere den Text vertikal
+        text_y = (offscreen_canvas.height - font.height) // 2
+
         while True:
             offscreen_canvas.Clear()
 
             # Zeige den Win-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, 8, self.text_color, self.win_text)
+            graphics.DrawText(offscreen_canvas, font, text_x, text_y, self.text_color, self.win_text)
             
             # Zeige den Player-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, 16, self.text_color, self.player_text)
+            graphics.DrawText(offscreen_canvas, font, text_x, text_y + font.height, self.text_color, self.player_text)
 
             # Zeige den Symbol-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, 24, self.text_color, self.symbol_text)
+            graphics.DrawText(offscreen_canvas, font, text_x, text_y + 2 * font.height, self.text_color, self.symbol_text)
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            time.sleep(0.05)
-            break
+            time.sleep(5)
+
 
 # Funktion für die Hauptschleife des Spiels
 def tictactoe():
