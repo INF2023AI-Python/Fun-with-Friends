@@ -128,7 +128,10 @@ class RunText:
         font = graphics.Font()
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
         textColor = self.color
-        text_width = graphics.Width(font, self.text)
+
+        # Ersetze die Zeile, die die Breite berechnet
+        text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, textColor, self.text)
+
         text_x = (offscreen_canvas.width - text_width) // 2  # Zentriere den Text horizontal
 
         while True:
