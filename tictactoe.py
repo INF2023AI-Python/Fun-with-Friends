@@ -133,6 +133,7 @@ class RunText:
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
+        font.Scale(0.5)
 
         # Ersetze die Zeilen, die die Breite berechnen
         win_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.win_text)
