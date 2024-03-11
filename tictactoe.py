@@ -1,6 +1,7 @@
 import time
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+import sys
 
 # Konfiguration der LED-Matrix
 options = RGBMatrixOptions()
@@ -118,26 +119,36 @@ def set_x_or_o(board_state):
 # Importiere die RunText-Klasse und füge sie in deinen Code ein
 
 class RunText:
-    def __init__(self, matrix, text, color):
+    def __init__(self, matrix, text, player=None):
         self.matrix = matrix
         self.text = text
-        self.color = color
+        self.player = player
+        self.text_color = self.determine_text_color()
+
+    def determine_text_color(self):
+        if self.player == 'X':
+            return graphics.Color(255, 0, 0)  # Rot für Spieler X
+        elif self.player == 'O':
+            return graphics.Color(0, 0, 255)  # Blau für Spieler O
+        else:
+            return graphics.Color(255, 255, 255)  # Weiß für Unentschieden
 
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
-        textColor = self.color
 
         # Ersetze die Zeile, die die Breite berechnet
-        text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, textColor, self.text)
+        text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.text)
 
         text_x = (offscreen_canvas.width - text_width) // 2  # Zentriere den Text horizontal
 
         while True:
             offscreen_canvas.Clear()
-            graphics.DrawText(offscreen_canvas, font, text_x, 16, textColor, self.text)
+            graphics.DrawText(offscreen_canvas, font, text_x, 16, self.text_color, self.text)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+            time.sleep(0.05)
+            break
 
 
 
@@ -172,19 +183,18 @@ while True:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             print(f"Player {current_player} wins!")
             # Zeige den Gewinnertext an
-            win_text = f"Player {current_player} wins!"
-            win_color = graphics.Color(255, 0, 0) if current_player == 'X' else graphics.Color(0, 0, 255)
-            run_text = RunText(matrix, win_text, win_color)
+            win_text = "WIN"
+            player_text = f"Player {current_player}"
+            symbol_text = current_player
+            run_text = RunText(matrix, win_text, player_text, symbol_text)
             run_text.run()
-            time.sleep(5)
             break
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
             print("It's a draw!")
-              # Zeige den Unentschieden-Text an
-            draw_text = RunText(matrix, "It's a draw!", graphics.Color(255, 255, 255))
+            # Zeige den Unentschieden-Text an
+            draw_text = RunText(matrix, "DRAW", "", "")
             draw_text.run()
-            time.sleep(5)
             break
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
