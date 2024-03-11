@@ -139,25 +139,19 @@ class RunText:
         player_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.player_text)
         symbol_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.symbol_text)
 
-        # Zentriere den Text horizontal
-        text_x = (offscreen_canvas.width - max(win_text_width, player_text_width, symbol_text_width)) // 2
-
-        # Zentriere den Text vertikal
-        text_y = (offscreen_canvas.height - font.height) // 2
-
-        # Verschiebe den Text, um ihn besser im Raster zu zentrieren
-        text_x += 5  # Beispielwert, passen Sie dies nach Bedarf an
-        text_y += 5  # Beispielwert, passen Sie dies nach Bedarf an
+        # Oben links in der Matrix beginnen
+        text_x = 0
+        text_y = 0
 
         while True:
             offscreen_canvas.Clear()
 
             # Zeige den Win-Text an
-            graphics.DrawText(offscreen_canvas, font, 0, text_y, self.text_color, self.win_text)            
+            graphics.DrawText(offscreen_canvas, font, text_x, text_y, self.text_color, self.win_text)
             # Zeige den Player-Text an
-            graphics.DrawText(offscreen_canvas, font, 0, text_y + font.height, self.text_color, self.player_text)
+            graphics.DrawText(offscreen_canvas, font, text_x, text_y + font.height, self.text_color, self.player_text)
             # Zeige den Symbol-Text an
-            graphics.DrawText(offscreen_canvas, font, 0, text_y + 2 * font.height, self.text_color, self.symbol_text)
+            graphics.DrawText(offscreen_canvas, font, text_x, text_y + 2 * font.height, self.text_color, self.symbol_text)
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             time.sleep(5)
