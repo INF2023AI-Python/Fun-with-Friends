@@ -3,7 +3,8 @@ import pygame
 # importieren unserer Programme
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-SIZE = 2
+SIZE = 1 # Größe 2
+SIZE_FIELD = 16
 
 # Leeres Array für die Pictogramme
 selection = np.zeros((SIZE,SIZE), dtype = int)
@@ -29,6 +30,10 @@ def display_screen():
             color = (0, 0, 0)
             if selection[row][col] == 1:
                 color = (255, 255, 255)
+            for i in range(SIZE_FIELD - 1):
+                matrix.SetPixel(row * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel((row + 1) * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel(row * SIZE_FIELD + i, (col + 1) * SIZE_FIELD + i, *color)
 
 def main():
     # Pygame und COntrollerprüfung
@@ -105,4 +110,5 @@ def main():
                 elif selection[1][0] == 1:
                     #links unten ausgewählt
                 elif selection[1][1]:
-                    #rechts unten ausgewählt
+                    return
+                    # Später hier ausschalten des Pi
