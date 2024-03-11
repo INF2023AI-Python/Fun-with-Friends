@@ -65,9 +65,6 @@ def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
 
-    # Ini vor jeder Eingabe
-    #joystick.init()
-
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
         set_x_or_o(board_state)
@@ -117,7 +114,6 @@ def set_x_or_o(board_state):
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
 # Importiere die RunText-Klasse und füge sie in deinen Code ein
-
 class RunText:
     def __init__(self, matrix, win_text, player_text, symbol_text):
         self.matrix = matrix
@@ -163,9 +159,11 @@ class RunText:
             time.sleep(0.05)
             break
 
+# Funktion für die Hauptschleife des Spiels
+def tictactoe():
+    global current_player
+    global orange_square_position
 
-# Hauptspiel-Schleife
-while True:
     # Tictactoe-Board initialisieren
     board_state = [[' ' for _ in range(3)] for _ in range(3)]
     current_player = 'O'  # Initialisieren Sie die Variable global
@@ -176,7 +174,7 @@ while True:
     if pygame.joystick.get_count() == 0:
         print("No joystick detected. Please connect a joystick and try again.")
         pygame.quit()
-        break
+        sys.exit()
 
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
@@ -185,7 +183,7 @@ while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                exit()
+                sys.exit()
 
         draw_board(board_state)
         update_board_with_joystick(board_state, joystick)
@@ -200,13 +198,17 @@ while True:
             symbol_text = current_player
             run_text = RunText(matrix, win_text, player_text, symbol_text)
             run_text.run()
-            break
+            return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
             print("It's a draw!")
             # Zeige den Unentschieden-Text an
             draw_text = RunText(matrix, "DRAW", "", "")
             draw_text.run()
-            break
+            return
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+
+# Hauptausführung des Programms
+if __name__ == "__main__":
+    tictactoe()
