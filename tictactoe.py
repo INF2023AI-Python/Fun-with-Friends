@@ -98,9 +98,8 @@ def update_board_with_joystick(board_state, joystick):
         # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
         new_position = orange_square_position
 
-    # Überprüfe, ob die neue Position frei ist
-    if board_state[new_position[1]][new_position[0]] == ' ':
-        orange_square_position = new_position
+    # Überprüfe, ob die neue Position gültig ist
+    orange_square_position = new_position
 
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
