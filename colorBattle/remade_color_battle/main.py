@@ -1,9 +1,10 @@
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+# from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
 from time import time
 import random
 # from colorBattle.remade_color_battle.movement import wrapping, input
-
+import obstacle
 
 # Constants and Configurations
 SCREEN_WIDTH = 32
@@ -24,10 +25,10 @@ matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
 
-global player1_x, player1_y, player2_x, player2_y, game_area, player_size
-player1_speed = 10
-player2_speed = 10
-game_area = [[0 for _ in range(SCREEN_WIDTH)] for _ in range(SCREEN_HEIGHT)]
+# global player1_x, player1_y, player2_x, player2_y, game_area, player_size
+# player1_speed = 10
+# player2_speed = 10
+# game_area = [[0 for _ in range(SCREEN_WIDTH)] for _ in range(SCREEN_HEIGHT)]
 
 # initialise
 pygame.init()
@@ -36,25 +37,25 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 
 
 def main():
+    running = True
+    while running:
+        if event.type == pygame.QUIT:
+                running = False
 
-    while True:
         clock = pygame.time.Clock()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         #read input, keep players in the area
-        wrapping()
-        input(joysticks)
+        # wrapping()
+        # input(joysticks)
 
         #draw obstacle
+        obstacle()
 
 
-
-
-
-        #update canvas
-        offset_canvas = matrix.SwapOnVSync(offset_canvas)
 
         clock.tick(60)
     pygame.quit()
