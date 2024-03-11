@@ -132,8 +132,7 @@ class RunText:
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
-        font.Scale(0.5)
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
 
         # Ersetze die Zeilen, die die Breite berechnen
         win_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.win_text)
@@ -154,11 +153,11 @@ class RunText:
             offscreen_canvas.Clear()
 
             # Zeige den Win-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, text_y, self.text_color, self.win_text)            
+            graphics.DrawText(offscreen_canvas, font, 0, text_y, self.text_color, self.win_text)            
             # Zeige den Player-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, text_y + font.height, self.text_color, self.player_text)
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + font.height, self.text_color, self.player_text)
             # Zeige den Symbol-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, text_y + 2 * font.height, self.text_color, self.symbol_text)
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + 2 * font.height, self.text_color, self.symbol_text)
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             time.sleep(5)
