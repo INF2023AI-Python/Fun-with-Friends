@@ -10,14 +10,12 @@ PLAY_WIDTH = 32
 PLAY_HEIGHT = 28
 GAME_DURATION = 60
 
-width, height = 32, 32
 options = RGBMatrixOptions()
 options.rows = 32
-options.cols = 32
 options.chain_length = 1
 options.parallel = 1
-options.hardware_mapping = 'adafruit-hat-pwm'
-
+options.hardware_mapping = "adafruit-hat-pwm"
+options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
@@ -31,7 +29,11 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 def main():
     running = True
     clock = pygame.time.Clock()
-
+    # Draw obstacle
+        # Easy mode
+    #obstacle.obstacle(offset_canvas, matrix)
+        # Hard mode: maze
+    obstacle.maze(offset_canvas, matrix)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,8 +43,7 @@ def main():
         # wrapping()
         # input(joysticks)
 
-        # Draw obstacle
-        #obstacle.obstacle(offset_canvas, matrix)
+        
 
         clock.tick(60)
         matrix.SwapOnVSync(offset_canvas)
