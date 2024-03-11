@@ -41,26 +41,26 @@ def display_board():
 def check_win(player):
     # Horizontale Linie
     for r in range(ROWS):
-        for c in range(COLS - 3): #sollte es hier nicht vielleicht ligischer -4 sein?
-            if all(board[r][c + i] == player for i in range(3)):
+        for c in range(COLS - 4): #sollte es hier nicht vielleicht ligischer -4 sein?
+            if all(board[r][c + i] == player for i in range(4)):
                 return True
             
     # Vertikale Linie
     for c in range(COLS):
-        for r in range(ROWS - 3):
-            if all(board[r + i][c] == player for i in range(3)):
+        for r in range(ROWS - 4):
+            if all(board[r + i][c] == player for i in range(4)):
                 return True
         
     # Diagonal nach oben rechts
-    for r in range(ROWS - 3):
-        for c in range(COLS - 3):
-            if all(board[r + i][c + i] == player for i in range(3)):
+    for r in range(ROWS - 4):
+        for c in range(COLS - 4):
+            if all(board[r + i][c + i] == player for i in range(4)):
                 return True
             
     # Diagonale nach unten rechts
     for r in range(4, ROWS):
-        for c in range(COLS - 3):
-            if all(board[r - i][c + i] == player for i in range(3)):
+        for c in range(COLS - 4):
+            if all(board[r - i][c + i] == player for i in range(4)):
                 return True
             
     return False
@@ -138,6 +138,7 @@ def main():
                     # pygame.quit()
                     return
                 # Spielerwechsel
+                time.sleep(0.5)
                 player = 2 if player == 1 else 1
         pygame.time.Clock().tick(7)
 
