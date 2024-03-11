@@ -126,7 +126,7 @@ class RunText:
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/7x13.bdf")
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
         textColor = self.color
         text_width = graphics.Width(font, self.text)
         text_x = (offscreen_canvas.width - text_width) // 2  # Zentriere den Text horizontal
