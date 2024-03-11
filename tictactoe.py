@@ -140,8 +140,8 @@ class RunText:
         symbol_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.symbol_text)
 
         # Oben links in der Matrix beginnen
-        text_x = 0
-        text_y = 0
+        text_x += 2
+        text_y += 2
 
         while True:
             offscreen_canvas.Clear()
