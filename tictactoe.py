@@ -115,6 +115,28 @@ def set_x_or_o(board_state):
         current_player = 'X' if current_player == 'O' else 'O'
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
+# Importiere die RunText-Klasse und füge sie in deinen Code ein
+
+class RunText:
+    def __init__(self, matrix, text, color):
+        self.matrix = matrix
+        self.text = text
+        self.color = color
+
+    def run(self):
+        offscreen_canvas = self.matrix.CreateFrameCanvas()
+        font = graphics.Font()
+        font.LoadFont("../../../fonts/7x13.bdf")
+        textColor = self.color
+        text_width = graphics.Width(font, self.text)
+        text_x = (offscreen_canvas.width - text_width) // 2  # Zentriere den Text horizontal
+
+        while True:
+            offscreen_canvas.Clear()
+            graphics.DrawText(offscreen_canvas, font, text_x, 16, textColor, self.text)
+            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+
+
 
 # Hauptspiel-Schleife
 while True:
@@ -146,14 +168,20 @@ while True:
         if check_winner(board_state):
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             print(f"Player {current_player} wins!")
+            # Zeige den Gewinnertext an
+            win_text = f"Player {current_player} wins!"
+            win_color = graphics.Color(255, 0, 0) if current_player == 'X' else graphics.Color(0, 0, 255)
+            run_text = RunText(matrix, win_text, win_color)
+            run_text.run()
+            time.sleep(5)
             break
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
             print("It's a draw!")
+              # Zeige den Unentschieden-Text an
+            draw_text = RunText(matrix, "It's a draw!", graphics.Color(255, 255, 255))
+            draw_text.run()
+            time.sleep(5)
             break
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
-
-    play_again = input("Do you want to play again? (yes/no): ").lower()
-    if play_again != 'yes':
-        break
