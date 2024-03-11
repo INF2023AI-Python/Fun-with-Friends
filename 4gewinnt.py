@@ -5,7 +5,7 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 # Angaben zum Spielfeld
 ROWS = 8 #Zeile 2 ist der Abstand zwischen Feld und der Auswahl der Spalte
-COLS = 7 #Beginn bei 0 -> 7 Spalten und 8 Reihen
+COLS = 7 
 CHIP_SIZE = 3
 
 # Leeres Array für das Spielfeld
@@ -35,7 +35,7 @@ def display_board():
                 color = (0, 0, 255) # Spieler 2: Blau
             for i in range(CHIP_SIZE):
                 for j in range(CHIP_SIZE):
-                    matrix.SetPixel(col * CHIP_SIZE + j + 4, row * CHIP_SIZE + i, *color)
+                    matrix.SetPixel(col * CHIP_SIZE + j + 4, row * CHIP_SIZE + i + 6, *color)
 
 # Funktion zum Prüfen auf Gewinn
 def check_win(player):
@@ -68,8 +68,10 @@ def check_win(player):
 def display_winner(player):
     if player == 1:
         matrix.Fill(255, 0, 0)
+        time.sleep(5)
     if player == 2:
         matrix.Fill(0, 0, 255)
+        time.sleep(5)
 
 def main():
     # Pygame und COntrollerprüfung
@@ -97,9 +99,12 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        # x_axis = joystick.get_axis(0)
+        #y_axis = joystick.get_axis(1)
+
         # Überprüfen der Joystick Eingaben
             # Verschieben nach rechts
-            if joystick.get_button(1) == 1:
+            elif joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
                 if col < 6:
                     board[0][col] = 0
                     col += 1
@@ -109,7 +114,7 @@ def main():
                     col = 0
                     board[0][col] = player
             # Verschieben nach links
-            elif joystick.get_button(3) == 1:
+            elif joystick.get_axis(0) < -0.8 and -0.2 < joystick.get_axis(1) < 0.2:
                 if col > 0:
                     board[0][col] = 0
                     col -= 1
@@ -119,7 +124,7 @@ def main():
                     col = 6
                     board[0][col] = player
             #Bestätigen der Eingabe
-            elif joystick.get_button(2) == 1:
+            elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) > 0.8:
                 # Finden der nächsten freien Zeile
                 for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
@@ -130,9 +135,11 @@ def main():
                 if check_win(player):
                     clear_screen()
                     display_winner(player)
+                    # pygame.quit()
+                    return
                 # Spielerwechsel
                 player = 2 if player == 1 else 1
-                pygame.time.Clock().tick(10)
+        pygame.time.Clock().tick(7)
 
 if __name__ == "__main__":
     main()
