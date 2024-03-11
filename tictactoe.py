@@ -119,16 +119,17 @@ def set_x_or_o(board_state):
 # Importiere die RunText-Klasse und füge sie in deinen Code ein
 
 class RunText:
-    def __init__(self, matrix, text, player=None):
+    def __init__(self, matrix, win_text, player_text, symbol_text):
         self.matrix = matrix
-        self.text = text
-        self.player = player
+        self.win_text = win_text
+        self.player_text = player_text
+        self.symbol_text = symbol_text
         self.text_color = self.determine_text_color()
 
     def determine_text_color(self):
-        if self.player == 'X':
+        if self.symbol_text == 'X':
             return graphics.Color(255, 0, 0)  # Rot für Spieler X
-        elif self.player == 'O':
+        elif self.symbol_text == 'O':
             return graphics.Color(0, 0, 255)  # Blau für Spieler O
         else:
             return graphics.Color(255, 255, 255)  # Weiß für Unentschieden
@@ -138,18 +139,29 @@ class RunText:
         font = graphics.Font()
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
 
-        # Ersetze die Zeile, die die Breite berechnet
-        text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.text)
+        # Ersetze die Zeilen, die die Breite berechnen
+        win_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.win_text)
+        player_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.player_text)
+        symbol_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.symbol_text)
 
-        text_x = (offscreen_canvas.width - text_width) // 2  # Zentriere den Text horizontal
+        # Zentriere den Text horizontal
+        text_x = (offscreen_canvas.width - max(win_text_width, player_text_width, symbol_text_width)) // 2
 
         while True:
             offscreen_canvas.Clear()
-            graphics.DrawText(offscreen_canvas, font, text_x, 16, self.text_color, self.text)
+
+            # Zeige den Win-Text an
+            graphics.DrawText(offscreen_canvas, font, text_x, 8, self.text_color, self.win_text)
+            
+            # Zeige den Player-Text an
+            graphics.DrawText(offscreen_canvas, font, text_x, 16, self.text_color, self.player_text)
+
+            # Zeige den Symbol-Text an
+            graphics.DrawText(offscreen_canvas, font, text_x, 24, self.text_color, self.symbol_text)
+
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             time.sleep(0.05)
             break
-
 
 
 # Hauptspiel-Schleife
