@@ -113,7 +113,6 @@ def set_x_or_o(board_state):
         current_player = 'X' if current_player == 'O' else 'O'
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
-# Importiere die RunText-Klasse und füge sie in deinen Code ein
 class RunText:
     def __init__(self, matrix, win_text, player_text, symbol_text):
         self.matrix = matrix
@@ -133,7 +132,7 @@ class RunText:
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/7x13.bdf")
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
 
         # Ersetze die Zeilen, die die Breite berechnen
         win_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.win_text)
@@ -143,21 +142,27 @@ class RunText:
         # Zentriere den Text horizontal
         text_x = (offscreen_canvas.width - max(win_text_width, player_text_width, symbol_text_width)) // 2
 
+        # Zentriere den Text vertikal
+        text_y = (offscreen_canvas.height - font.height) // 2
+
+        # Verschiebe den Text, um ihn besser im Raster zu zentrieren
+        text_x += 2  # Beispielwert, passen Sie dies nach Bedarf an
+        text_y += 2  # Beispielwert, passen Sie dies nach Bedarf an
+
         while True:
             offscreen_canvas.Clear()
 
             # Zeige den Win-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, 8, self.text_color, self.win_text)
-            
+            graphics.DrawText(offscreen_canvas, font, 0, text_y, self.text_color, self.win_text)            
             # Zeige den Player-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, 16, self.text_color, self.player_text)
-
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + font.height, self.text_color, self.player_text)
             # Zeige den Symbol-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, 24, self.text_color, self.symbol_text)
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + 2 * font.height, self.text_color, self.symbol_text)
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            time.sleep(0.05)
+            time.sleep(5)
             break
+
 
 # Funktion für die Hauptschleife des Spiels
 def tictactoe():
