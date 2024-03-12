@@ -104,11 +104,14 @@ def main():
                     selection[row][col] = 1
             elif joystick.get_button(8) == 1:
                 if selection[0][0] == 1:
-                    #links oben ausgewählt
+                    # links oben ausgewählt
+                    pass
                 elif selection[0][1] == 1:
-                    #rechts oben ausgewählt
+                    # rechts oben ausgewählt
+                    pass
                 elif selection[1][0] == 1:
-                    #links unten ausgewählt
+                    # links unten ausgewählt
+                    pass
                 elif selection[1][1]:
                     return
                     # Später hier ausschalten des Pi
