@@ -110,19 +110,6 @@ def draw_screen():
             matrix.SetPixel(row, col, *red)
 
 
-# Anzeige der Auswahl
-def display_screen():
-    # Darstellung der Piktogramme
-    for row in range(SIZE):
-        for col in range(SIZE):
-            color = (0, 0, 0)
-            if selection[row][col] == 1:
-                color = (255, 255, 255)
-            for i in range(SIZE_FIELD - 1):
-                matrix.SetPixel(row * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
-                matrix.SetPixel((row + 1) * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
-                matrix.SetPixel(row * SIZE_FIELD + i, (col + 1) * SIZE_FIELD + i, *color)
-
 
 def main():
     # Pygame und COntrollerprüfung
@@ -145,7 +132,6 @@ def main():
     while True:
         clear_screen()
         draw_screen()
-        display_screen()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
