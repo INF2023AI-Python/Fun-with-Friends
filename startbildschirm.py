@@ -88,28 +88,28 @@ def draw_screen():
             matrix.SetPixel(row, col, *blue)  
     
     # ShutDown
-    for row in range(23, 24):
+    for row in range(23, 25):
         for col in range(18, 24):
             matrix.SetPixel(row, col, *red)
-    for row in range(22, 25):
+    for row in range(22, 26):
         for col in range(28, 30):
             matrix.SetPixel(row, col, *red)
-    for row in range(20, 21):
+    for row in range(20, 22):
         for col in range(26, 28):
             matrix.SetPixel(row, col, *red)
-    for row in range(26, 27):
+    for row in range(26, 28):
         for col in range(26, 28):
             matrix.SetPixel(row, col, *red)
-    for row in range(18, 19):
+    for row in range(18, 20):
         for col in range(22, 26):
             matrix.SetPixel(row, col, *red)
-    for row in range(28, 29):    
+    for row in range(28, 30):    
         for col in range(22, 26):
             matrix.SetPixel(row, col, *red)
-    for row in range(20, 21):
+    for row in range(20, 22):
         for col in range(20, 22):
             matrix.SetPixel(row, col, *red)
-    for row in range(26, 27):    
+    for row in range(26, 28):    
         for col in range(20, 22):
             matrix.SetPixel(row, col, *red)
     
