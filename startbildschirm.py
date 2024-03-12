@@ -69,7 +69,7 @@ def draw_screen():
 
     # VierGewinnt
     for row in range(2, 5):
-        for col in range(27, 29):
+        for col in range(27, 30):
             matrix.SetPixel(row, col, *red)
     
     
