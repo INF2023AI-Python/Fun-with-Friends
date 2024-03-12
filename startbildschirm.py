@@ -124,3 +124,4 @@ def main():
                 elif selection[1][1]:
                     return
                     # Später hier ausschalten des Pi
+main()
