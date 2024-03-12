@@ -71,11 +71,23 @@ def draw_screen():
     for row in range(2, 5):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *red)
+    for row in range(5, 8):
+        for col in range(24, 30):
+            matrix.SetPixel(row, col, *blue)   
+    for row in range(8, 11):
+        for col in range(21, 30):
+            matrix.SetPixel(row, col, *red)
+    for row in range(11, 14):
+        for col in range(18, 24):
+            matrix.SetPixel(row, col, *blue)   
+    for row in range(11,14):
+        for col in range(25, 27):
+            matrix.SetPixel(row, col, *red)
+    for row in range(11,14):
+        for col in range(27, 30):
+            matrix.SetPixel(row, col, *blue)  
     
     
-    
-    
-
 # Anzeige der Auswahl
 def display_screen():
     # Darstellung der Piktogramme
