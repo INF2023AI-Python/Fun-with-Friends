@@ -66,6 +66,11 @@ def draw_screen():
     ]
     for pos in positionsO:
         matrix.SetPixel(pos[0], pos[1], *blue)
+
+    # VierGewinnt
+    for row in range(2, 5):
+        for col in range(27, 29):
+            matrix.SetPixel(row, col, *red)
     
     
     
