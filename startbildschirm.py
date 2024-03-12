@@ -17,25 +17,12 @@ options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
+# Startposition des orangenen Quadrats
+orange_square_position = [0, 0]
+
 
 def clear_screen():
     matrix.Clear()
-
-
-def draw_orange_square(row, col):
-    # Farbe des Quadrats (orange)
-    color = (255, 165, 0)
-
-    # Position und Größe des Quadrats
-    start_row = row
-    end_row = row + 5
-    start_col = col
-    end_col = col + 5
-
-    # Zeichnen des orangefarbenen Quadrats
-    for r in range(start_row, end_row):
-        for c in range(start_col, end_col):
-            matrix.SetPixel(c, r, *color)
 
 
 def draw_screen():
@@ -47,13 +34,17 @@ def draw_screen():
     # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
+    for row in range(32):
         matrix.SetPixel(15, row, *color)
+    for row in range(32):
         matrix.SetPixel(31, row, *color)
 
     # Zeichnen der horizontalen Linie
     for col in range(32):
         matrix.SetPixel(col, 0, *color)
+    for col in range(32):
         matrix.SetPixel(col, 15, *color)
+    for col in range(32):
         matrix.SetPixel(col, 31, *color)
 
     # Zeichnen der Piktogramme
@@ -126,8 +117,39 @@ def draw_screen():
             matrix.SetPixel(row, col, *red)
 
 
+# Funktion zum Zeichnen des orangefarbenen Quadrats
+def draw_orange_square(row, col):
+    # Farbe des Quadrats (orange)
+    color = (255, 165, 0)
+
+    # Position und Größe des Quadrats
+    start_row = row * SIZE_FIELD
+    end_row = (row + 1) * SIZE_FIELD
+    start_col = col * SIZE_FIELD
+    end_col = (col + 1) * SIZE_FIELD
+
+    # Zeichnen des orangefarbenen Quadrats
+    for r in range(start_row, end_row):
+        for c in range(start_col, end_col):
+            matrix.SetPixel(c, r, *color)
+
+
+# Anzeige der Auswahl
+def display_screen():
+    # Darstellung der Piktogramme
+    for row in range(SIZE):
+        for col in range(SIZE):
+            color = (0, 0, 0)
+            if selection[row][col] == 1:
+                color = (255, 255, 255)
+            for i in range(SIZE_FIELD - 1):
+                matrix.SetPixel(row * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel((row + 1) * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel(row * SIZE_FIELD + i, (col + 1) * SIZE_FIELD + i, *color)
+
+
 def main():
-    # Pygame und Controllerprüfung
+    # Pygame und COntrollerprüfung
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
@@ -135,35 +157,79 @@ def main():
         pygame.quit()
         quit()
 
-    # Wähle den ersten verfügbaren Joystick
+    # Wähle den ersten verfügbaren Joystick was
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
-    # Anfangsposition des orangefarbenen Quadrats
-    orange_row = 5
-    orange_col = 5
+    # Anzeige bei Beginn
+    row = 0
+    col = 0
+    selection[row][col] = 1
 
     while True:
         clear_screen()
         draw_screen()
+        draw_orange_square(row, col)
+        # display_screen()
 
-        # Bewegung des orangefarbenen Quadrats basierend auf Joystick-Eingaben
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Überprüfen der Joystick Eingaben
+        # Verschieben nach rechts
         if joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
-            orange_col += 1
+            if col < 1:
+                selection[row][col] = 0
+                col += 1
+                selection[row][col] = 1
+            elif col == 1:
+                selection[row][col] = 0
+                col = 0
+                selection[row][col] = 1
+        # Verschieben nach links
         elif joystick.get_axis(0) < -0.8 and -0.2 < joystick.get_axis(1) < 0.2:
-            orange_col -= 1
+            if col > 0:
+                selection[row][col] = 0
+                col -= 1
+                selection[row][col] = 1
+            elif col == 0:
+                selection[row][col] = 0
+                col = 1
+                selection[row][col] = 1
+        # Verschieben nach oben
         elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) < -0.8:
-            orange_row -= 1
+            if row < 1:
+                selection[row][col] = 0
+                row += 1
+                selection[row][col] = 1
+            elif row == 1:
+                selection[row][col] = 0
+                row = 0
+                selection[row][col] = 1
+        # Verschieben nach unten
         elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) > 0.8:
-            orange_row += 1
-
-        # Grenzen für die Position des orangefarbenen Quadrats sicherstellen
-        orange_row = max(0, min(orange_row, 26))
-        orange_col = max(0, min(orange_col, 26))
-
-        # Zeichnen des orangefarbenen Quadrats
-        draw_orange_square(orange_row, orange_col)
-
+            if row > 0:
+                selection[row][col] = 0
+                row -= 1
+                selection[row][col] = 1
+            elif row == 0:
+                selection[row][col] = 0
+                row = 1
+                selection[row][col] = 1
+        elif joystick.get_button(8) == 1:
+            if selection[0][0] == 1:
+                # links oben ausgewählt
+                pass
+            elif selection[0][1] == 1:
+                # rechts oben ausgewählt
+                pass
+            elif selection[1][0] == 1:
+                # links unten ausgewählt
+                pass
+            elif selection[1][1]:
+                return
+                # Später hier ausschalten des Pi
         pygame.time.Clock().tick(10)
 
 
