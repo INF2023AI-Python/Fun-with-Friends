@@ -6,3 +6,5 @@
   + Raspberry Pi OS with desktop and recommended software for 32-Bit if you use Raspberry Pi 3
 + Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
+  + choose Quality binding
+  + add isolcpus=3 in the /boot/cmdline.text, then reboot
