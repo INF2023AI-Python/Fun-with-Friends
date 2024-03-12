@@ -25,6 +25,8 @@ def clear_screen():
 def draw_screen():
     # Farbe der Linie (weiß)
     color = (255, 255, 255)
+    red = (255, 0, 0)
+    blue = (0, 0, 255) 
     
     # Zeichnen der vertikalen Linie
     for row in range(32):
@@ -46,10 +48,21 @@ def draw_screen():
     # Colorbattel
     for row in range(2, 7):
         for col in range(5, 10):
-            matrix.SetPixel(row, col, 255, 0, 0)
+            matrix.SetPixel(row, col, *red)
     for row in range(9, 14):
         for col in range(5, 10):
-            matrix.SetPixel(row, col, 0, 0, 255)
+            matrix.SetPixel(row, col, *blue)
+
+    # tictactoe
+    positions = [
+        (17, 4), (18, 5), (19, 6), (20, 7), (21, 6), (22, 5), (23, 4), 
+        (19, 8), (21, 8)
+    ]
+    
+    # Zeichnen des X-Zeichens
+    for pos in positions:
+        matrix.SetPixel(pos[0], pos[1], *red)
+    
     
 
 # Anzeige der Auswahl
