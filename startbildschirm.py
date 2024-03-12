@@ -54,14 +54,20 @@ def draw_screen():
             matrix.SetPixel(row, col, *blue)
 
     # tictactoe
-    positions = [
+    positionsX = [
         (17, 4), (18, 5), (19, 6), (20, 7), (21, 6), (22, 5), (23, 4), 
         (19, 8), (21, 8), (18,9), (22,9), (17,10), (23,10)
     ]
-    
-    # Zeichnen des X-Zeichens
-    for pos in positions:
+    for pos in positionsX:
         matrix.SetPixel(pos[0], pos[1], *red)
+    positionsO = [
+        (24,6), (24,7), (24,8), (25,5), (25,9),(26,4), (26,10), 
+        (27,4), (27,10), (28,5), (28,9), (29,6), (29,7), (29,8)
+    ]
+    for pos in positionsO:
+        matrix.SetPixel(pos[0], pos[1], *blue)
+    
+    
     
     
 
