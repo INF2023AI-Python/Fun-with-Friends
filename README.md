@@ -7,4 +7,4 @@
 + Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
   + choose Quality binding
-  + add isolcpus=3 in the /boot/cmdline.text, then reboot
+  + add 'isolcpus=3' at the end in the /boot/cmdline.text, then reboot
