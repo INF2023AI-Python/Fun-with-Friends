@@ -91,7 +91,27 @@ def draw_screen():
     for row in range(23, 24):
         for col in range(18, 24):
             matrix.SetPixel(row, col, *red)
-    
+    for row in range(22, 25):
+        for col in range(28, 30):
+            matrix.SetPixel(row, col, *red)
+    for row in range(20, 21):
+        for col in range(26, 28):
+            matrix.SetPixel(row, col, *red)
+    for row in range(26, 27):
+        for col in range(26, 28):
+            matrix.SetPixel(row, col, *red)
+    for row in range(18, 19):
+        for col in range(22, 26):
+            matrix.SetPixel(row, col, *red)
+    for row in range(28, 29):    
+        for col in range(22, 26):
+            matrix.SetPixel(row, col, *red)
+    for row in range(20, 21):
+        for col in range(20, 22):
+            matrix.SetPixel(row, col, *red)
+    for row in range(26, 27):    
+        for col in range(20, 22):
+            matrix.SetPixel(row, col, *red)
     
 # Anzeige der Auswahl
 def display_screen():
