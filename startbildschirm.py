@@ -1,13 +1,13 @@
 import numpy as np
 import pygame
-# Importieren unserer Programme
+# importieren unserer Programme
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-SIZE = 2  # Größe der Matrix
+SIZE = 1 # Größe 2
 SIZE_FIELD = 16
 
-# Leeres Array für die Piktogramme
-selection = np.zeros((SIZE, SIZE), dtype=int)
+# Leeres Array für die Pictogramme
+selection = np.zeros((SIZE,SIZE), dtype = int)
 
 # Konfiguration der Matrix
 options = RGBMatrixOptions()
@@ -22,6 +22,14 @@ matrix = RGBMatrix(options=options)
 def clear_screen():
     matrix.Clear()
 
+def draw_vertical_line():
+    # Farbe der Linie (weiß)
+    color = (255, 255, 255)
+    
+    # Zeichnen der vertikalen Linie
+    for row in range(32):
+        matrix.SetPixel(0, row, *color)
+
 # Anzeige der Auswahl
 def display_screen():
     # Darstellung der Piktogramme
@@ -30,15 +38,13 @@ def display_screen():
             color = (0, 0, 0)
             if selection[row][col] == 1:
                 color = (255, 255, 255)
-            # Vertikale Linien
-            matrix.SetPixel(row * SIZE_FIELD, col * SIZE_FIELD, *color)
-            matrix.SetPixel(row * SIZE_FIELD, (col + 1) * SIZE_FIELD - 1, *color)
-            # Horizontale Linien
-            matrix.SetPixel(col * SIZE_FIELD, row * SIZE_FIELD, *color)
-            matrix.SetPixel((col + 1) * SIZE_FIELD - 1, row * SIZE_FIELD, *color)
+            for i in range(SIZE_FIELD - 1):
+                matrix.SetPixel(row * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel((row + 1) * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel(row * SIZE_FIELD + i, (col + 1) * SIZE_FIELD + i, *color)
 
 def main():
-    # Pygame und Controllerprüfung
+    # Pygame und COntrollerprüfung
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
@@ -63,7 +69,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            # Überprüfen der Joystick Eingaben
+        # Überprüfen der Joystick Eingaben
             # Verschieben nach rechts
             if joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
                 if col < 1:
