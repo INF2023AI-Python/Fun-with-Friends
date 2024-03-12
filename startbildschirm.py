@@ -29,6 +29,10 @@ def draw_vertical_line():
     # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
+    for row in range(32):
+        matrix.SetPixel(15, row, *color)
+    for row in range(32):
+        matrix.SetPixel(16, row, *color)
 
 # Anzeige der Auswahl
 def display_screen():
@@ -64,7 +68,7 @@ def main():
     while True:
         clear_screen()
         draw_vertical_line()
-        display_screen()
+        #display_screen()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -124,4 +128,5 @@ def main():
                 elif selection[1][1]:
                     return
                     # Später hier ausschalten des Pi
+        pygame.time.Clock().tick(10)
 main()
