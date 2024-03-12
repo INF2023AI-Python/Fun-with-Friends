@@ -22,7 +22,7 @@ matrix = RGBMatrix(options=options)
 def clear_screen():
     matrix.Clear()
 
-def draw_vertical_line():
+def draw_screen():
     # Farbe der Linie (weiß)
     color = (255, 255, 255)
     
@@ -41,6 +41,13 @@ def draw_vertical_line():
         matrix.SetPixel(col, 15, *color)
     for col in range(32):
         matrix.SetPixel(col, 31, *color)
+    
+    # Zeichnen der Piktogramme
+    # Colorbattel
+    for row in range(5, 10):
+        for col in range(5, 10):
+            matrix.SetPixel(row, col, 255, 0, 0)
+    
 
 # Anzeige der Auswahl
 def display_screen():
@@ -75,7 +82,7 @@ def main():
 
     while True:
         clear_screen()
-        draw_vertical_line()
+        draw_screen()
         #display_screen()
 
         for event in pygame.event.get():
