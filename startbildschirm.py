@@ -32,7 +32,15 @@ def draw_vertical_line():
     for row in range(32):
         matrix.SetPixel(15, row, *color)
     for row in range(32):
-        matrix.SetPixel(16, row, *color)
+        matrix.SetPixel(31, row, *color)
+
+    # Zeichnen der horizontalen Linie
+    for col in range(32):
+        matrix.SetPixel(col, 0, *color)
+    for col in range(32):
+        matrix.SetPixel(col, 15, *color)
+    for col in range(32):
+        matrix.SetPixel(col, 31, *color)
 
 # Anzeige der Auswahl
 def display_screen():
