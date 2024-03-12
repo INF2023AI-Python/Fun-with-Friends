@@ -44,9 +44,12 @@ def draw_screen():
     
     # Zeichnen der Piktogramme
     # Colorbattel
-    for row in range(2, 6):
+    for row in range(2, 7):
         for col in range(5, 10):
             matrix.SetPixel(row, col, 255, 0, 0)
+    for row in range(9, 14):
+        for col in range(5, 10):
+            matrix.SetPixel(row, col, 0, 0, 255)
     
 
 # Anzeige der Auswahl
