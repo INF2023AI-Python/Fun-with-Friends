@@ -2,11 +2,8 @@ import numpy as np
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-SIZE = 1  # Größe 1
-SIZE_FIELD = 16
 
-# Leeres Array für die Piktogramme
-selection = np.zeros((SIZE, SIZE), dtype=int)
+orange_square_positions = [0,0]
 
 # Konfiguration der Matrix
 options = RGBMatrixOptions()
@@ -22,11 +19,26 @@ def clear_screen():
     matrix.Clear()
 
 # Funktion zum Zeichnen des Bildschirms
-def draw_screen():
+def draw_screen(x, y):
     # Farbe der Linie (weiß)
     color = (255, 255, 255)
     red = (255, 0, 0)
     blue = (0, 0, 255)
+    orange = (255, 165, 0)  # Orange Farbe
+
+    # Position des Quadrats anpassen
+    x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
+    y_pos = int(y * 15)
+
+    # Zeichnen der orangen Linien
+    for i in range(4):
+        for j in range(15):
+            # Obere und untere Linie des Quadrats
+            matrix.SetPixel(j + x_pos, i + y_pos, *orange)
+            matrix.SetPixel(j + x_pos, 3 + i + y_pos, *orange)
+            # Linke und rechte Linie des Quadrats
+            matrix.SetPixel(i + x_pos, j + y_pos, *orange)
+            matrix.SetPixel(3 + i + x_pos, j + y_pos, *orange)
 
     # Zeichnen der vertikalen Linie
     for row in range(32):
@@ -109,10 +121,43 @@ def draw_screen():
         for col in range(20, 22):
             matrix.SetPixel(row, col, *red)
 
+def update_orange_square_position(orange_square_position, joystick):
+    # Erhalte die Achsenpositionen des Joysticks
+    x_axis = joystick.get_axis(0)
+    y_axis = joystick.get_axis(1)
+
+    # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
+    if -0.2 < x_axis < 0.2 and y_axis < -0.8:
+        # Bewege nach oben
+        new_position = [max(0, min(1, orange_square_position[0])),
+                        max(0, min(1, orange_square_position[1] - 1))]
+        print("Bewege nach oben")
+    elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
+        # Bewege nach unten
+        new_position = [max(0, min(1, orange_square_position[0])),
+                        max(0, min(1, orange_square_position[1] + 1))]
+        print("Bewege nach unten")
+    elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
+        # Bewege nach rechts
+        new_position = [max(0, min(1, orange_square_position[0] + 1)),
+                        max(0, min(1, orange_square_position[1]))]
+        print("Bewege nach rechts")
+    elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
+        # Bewege nach links
+        new_position = [max(0, min(1, orange_square_position[0] - 1)),
+                        max(0, min(1, orange_square_position[1]))]
+        print("Bewege nach links")
+    else:
+        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
+        new_position = orange_square_position
+
+    # Rückgabe der neuen Position
+    return new_position
 
 
 def main():
-    # Pygame und COntrollerprüfung
+    global orange_square_positions
+    # Pygame und Controllerprüfung
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
@@ -124,73 +169,15 @@ def main():
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
-    # Anzeige bei Beginn
-    row = 0
-    col = 0
-    selection[row][col] = 1
 
     while True:
         clear_screen()
         draw_screen()
+        update_orange_square_position(orange_square_positions, joystick)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        # Überprüfen der Joystick Eingaben
-        # Verschieben nach rechts
-        if joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
-            if col < 1:
-                selection[row][col] = 0
-                col += 1
-                selection[row][col] = 1
-            elif col == 1:
-                selection[row][col] = 0
-                col = 0
-                selection[row][col] = 1
-        # Verschieben nach links
-        elif joystick.get_axis(0) < -0.8 and -0.2 < joystick.get_axis(1) < 0.2:
-            if col > 0:
-                selection[row][col] = 0
-                col -= 1
-                selection[row][col] = 1
-            elif col == 0:
-                selection[row][col] = 0
-                col = 1
-                selection[row][col] = 1
-        # Verschieben nach oben
-        elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) < -0.8:
-            if row < 1:
-                selection[row][col] = 0
-                row += 1
-                selection[row][col] = 1
-            elif row == 1:
-                selection[row][col] = 0
-                row = 0
-                selection[row][col] = 1
-        # Verschieben nach unten
-        elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) > 0.8:
-            if row > 0:
-                selection[row][col] = 0
-                row -= 1
-                selection[row][col] = 1
-            elif row == 0:
-                selection[row][col] = 0
-                row = 1
-                selection[row][col] = 1
-        elif joystick.get_button(8) == 1:
-            if selection[0][0] == 1:
-                # links oben ausgewählt
-                pass
-            elif selection[0][1] == 1:
-                # rechts oben ausgewählt
-                pass
-            elif selection[1][0] == 1:
-                # links unten ausgewählt
-                pass
-            elif selection[1][1]:
-                # Später hier den Aufruf für Tic-Tac-Toe hinzufügen
-                pass
 
         pygame.time.Clock().tick(10)
 
