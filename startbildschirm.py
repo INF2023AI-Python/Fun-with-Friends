@@ -2,7 +2,7 @@ import numpy as np
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-SIZE = 1  # Größe 2
+SIZE = 1  # Größe 1
 SIZE_FIELD = 16
 
 # Leeres Array für die Piktogramme
@@ -60,6 +60,14 @@ def draw_screen():
                     matrix.SetPixel(c, start_row, *red)  # obere Seite
                     matrix.SetPixel(c, end_row - 1, *red)  # untere Seite
 
+    # Zeichnen der Piktogramme innerhalb des ausgewählten Feldes
+    for row in range(SIZE * SIZE_FIELD):
+        for col in range(SIZE * SIZE_FIELD):
+            # Beispielzeichnungen im Feld (können entsprechend angepasst werden)
+            if row < 5 and col < 5:
+                matrix.SetPixel(col + SIZE_FIELD // 2, row + SIZE_FIELD // 2, *red)  # Rotes Quadrat
+            elif row > SIZE_FIELD - 6 and col < 5:
+                matrix.SetPixel(col + SIZE_FIELD // 2, row + SIZE_FIELD // 2, *blue)  # Blaues Quadrat
 
 def main():
     # Pygame und Controller-Initialisierung
@@ -89,7 +97,7 @@ def main():
 
         # Überprüfen der Joystick-Eingaben
         if joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
-            if col < 1:
+            if col < SIZE - 1:
                 selection[row][col] = 0
                 col += 1
                 selection[row][col] = 1
@@ -99,7 +107,7 @@ def main():
                 col -= 1
                 selection[row][col] = 1
         elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) < -0.8:
-            if row < 1:
+            if row < SIZE - 1:
                 selection[row][col] = 0
                 row += 1
                 selection[row][col] = 1
