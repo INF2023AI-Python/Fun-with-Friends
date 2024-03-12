@@ -80,12 +80,17 @@ def draw_screen():
     for row in range(11, 14):
         for col in range(18, 24):
             matrix.SetPixel(row, col, *blue)   
-    for row in range(11,14):
-        for col in range(25, 27):
+    for row in range(11, 14):
+        for col in range(24, 27):
             matrix.SetPixel(row, col, *red)
     for row in range(11,14):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *blue)  
+    
+    # ShutDown
+    for row in range(23, 24):
+        for col in range(18, 24):
+            matrix.SetPixel(row, col, *red)
     
     
 # Anzeige der Auswahl
