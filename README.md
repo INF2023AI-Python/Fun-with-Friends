@@ -12,4 +12,4 @@
 + Install Python3
   + https://github.com/hzeller/rpi-rgb-led-matrix/tree/master/bindings/python
 + Install Fun-with-Friends Repo
-  +
+  + https://github.com/INF2023AI-Python/Fun-with-Friends.git
