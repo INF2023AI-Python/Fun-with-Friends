@@ -1,13 +1,13 @@
 import numpy as np
 import pygame
-# importieren unserer Programme
+# Importieren unserer Programme
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-SIZE = 1 # Größe 2
+SIZE = 2  # Größe der Matrix
 SIZE_FIELD = 16
 
-# Leeres Array für die Pictogramme
-selection = np.zeros((SIZE,SIZE), dtype = int)
+# Leeres Array für die Piktogramme
+selection = np.zeros((SIZE, SIZE), dtype=int)
 
 # Konfiguration der Matrix
 options = RGBMatrixOptions()
@@ -30,13 +30,15 @@ def display_screen():
             color = (0, 0, 0)
             if selection[row][col] == 1:
                 color = (255, 255, 255)
-            for i in range(SIZE_FIELD - 1):
-                matrix.SetPixel(row * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
-                matrix.SetPixel((row + 1) * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
-                matrix.SetPixel(row * SIZE_FIELD + i, (col + 1) * SIZE_FIELD + i, *color)
+            # Vertikale Linien
+            matrix.SetPixel(row * SIZE_FIELD, col * SIZE_FIELD, *color)
+            matrix.SetPixel(row * SIZE_FIELD, (col + 1) * SIZE_FIELD - 1, *color)
+            # Horizontale Linien
+            matrix.SetPixel(col * SIZE_FIELD, row * SIZE_FIELD, *color)
+            matrix.SetPixel((col + 1) * SIZE_FIELD - 1, row * SIZE_FIELD, *color)
 
 def main():
-    # Pygame und COntrollerprüfung
+    # Pygame und Controllerprüfung
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
@@ -61,7 +63,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        # Überprüfen der Joystick Eingaben
+            # Überprüfen der Joystick Eingaben
             # Verschieben nach rechts
             if joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
                 if col < 1:
@@ -115,3 +117,5 @@ def main():
                 elif selection[1][1]:
                     return
                     # Später hier ausschalten des Pi
+
+main()
