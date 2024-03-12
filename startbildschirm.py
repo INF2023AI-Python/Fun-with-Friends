@@ -63,6 +63,7 @@ def main():
 
     while True:
         clear_screen()
+        draw_vertical_line()
         display_screen()
 
         for event in pygame.event.get():
@@ -123,5 +124,3 @@ def main():
                 elif selection[1][1]:
                     return
                     # Später hier ausschalten des Pi
-
-main()
