@@ -17,12 +17,11 @@ options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
-# Startposition des orangenen Quadrats
-orange_square_position = [0, 0]
-
+# Funktion zum Löschen des Bildschirms
 def clear_screen():
     matrix.Clear()
 
+# Funktion zum Zeichnen des Bildschirms
 def draw_screen():
     # Farbe der Linie (weiß)
     color = (255, 255, 255)
@@ -32,45 +31,101 @@ def draw_screen():
     # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
-    for row in range(32):
         matrix.SetPixel(15, row, *color)
-    for row in range(32):
         matrix.SetPixel(31, row, *color)
 
     # Zeichnen der horizontalen Linie
     for col in range(32):
         matrix.SetPixel(col, 0, *color)
-    for col in range(32):
         matrix.SetPixel(col, 15, *color)
-    for col in range(32):
         matrix.SetPixel(col, 31, *color)
 
-    # Zeichnen des orangefarbenen Rahmens um das ausgewählte Feld
+    # Zeichnen der Piktogramme
+    # Colorbattel
+    for row in range(2, 7):
+        for col in range(5, 10):
+            matrix.SetPixel(row, col, *red)
+    for row in range(9, 14):
+        for col in range(5, 10):
+            matrix.SetPixel(row, col, *blue)
+
+    # tictactoe
+    positionsX = [
+        (17, 4), (18, 5), (19, 6), (20, 7), (21, 6), (22, 5), (23, 4),
+        (19, 8), (21, 8), (18, 9), (22, 9), (17, 10), (23, 10)
+    ]
+    for pos in positionsX:
+        matrix.SetPixel(pos[0], pos[1], *red)
+    positionsO = [
+        (24, 6), (24, 7), (24, 8), (25, 5), (25, 9), (26, 4), (26, 10),
+        (27, 4), (27, 10), (28, 5), (28, 9), (29, 6), (29, 7), (29, 8)
+    ]
+    for pos in positionsO:
+        matrix.SetPixel(pos[0], pos[1], *blue)
+
+    # VierGewinnt
+    for row in range(2, 5):
+        for col in range(27, 30):
+            matrix.SetPixel(row, col, *red)
+    for row in range(5, 8):
+        for col in range(24, 30):
+            matrix.SetPixel(row, col, *blue)
+    for row in range(8, 11):
+        for col in range(21, 30):
+            matrix.SetPixel(row, col, *red)
+    for row in range(11, 14):
+        for col in range(18, 24):
+            matrix.SetPixel(row, col, *blue)
+    for row in range(11, 14):
+        for col in range(24, 27):
+            matrix.SetPixel(row, col, *red)
+    for row in range(11, 14):
+        for col in range(27, 30):
+            matrix.SetPixel(row, col, *blue)
+
+    # ShutDown
+    for row in range(23, 25):
+        for col in range(18, 24):
+            matrix.SetPixel(row, col, *red)
+    for row in range(22, 26):
+        for col in range(28, 30):
+            matrix.SetPixel(row, col, *red)
+    for row in range(20, 22):
+        for col in range(26, 28):
+            matrix.SetPixel(row, col, *red)
+    for row in range(26, 28):
+        for col in range(26, 28):
+            matrix.SetPixel(row, col, *red)
+    for row in range(18, 20):
+        for col in range(22, 26):
+            matrix.SetPixel(row, col, *red)
+    for row in range(28, 30):
+        for col in range(22, 26):
+            matrix.SetPixel(row, col, *red)
+    for row in range(20, 22):
+        for col in range(20, 22):
+            matrix.SetPixel(row, col, *red)
+    for row in range(26, 28):
+        for col in range(20, 22):
+            matrix.SetPixel(row, col, *red)
+
+
+# Anzeige der Auswahl
+def display_screen():
+    # Darstellung der Piktogramme
     for row in range(SIZE):
         for col in range(SIZE):
+            color = (0, 0, 0)
             if selection[row][col] == 1:
-                start_row = row * SIZE_FIELD
-                end_row = (row + 1) * SIZE_FIELD
-                start_col = col * SIZE_FIELD
-                end_col = (col + 1) * SIZE_FIELD
-                for r in range(start_row, end_row):
-                    matrix.SetPixel(start_col, r, *red)  # linke Seite
-                    matrix.SetPixel(end_col - 1, r, *red)  # rechte Seite
-                for c in range(start_col, end_col):
-                    matrix.SetPixel(c, start_row, *red)  # obere Seite
-                    matrix.SetPixel(c, end_row - 1, *red)  # untere Seite
+                color = (255, 255, 255)
+            for i in range(SIZE_FIELD - 1):
+                matrix.SetPixel(row * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel((row + 1) * SIZE_FIELD + i, col * SIZE_FIELD + i, *color)
+                matrix.SetPixel(row * SIZE_FIELD + i, (col + 1) * SIZE_FIELD + i, *color)
 
-    # Zeichnen der Piktogramme innerhalb des ausgewählten Feldes
-    for row in range(SIZE * SIZE_FIELD):
-        for col in range(SIZE * SIZE_FIELD):
-            # Beispielzeichnungen im Feld (können entsprechend angepasst werden)
-            if row < 5 and col < 5:
-                matrix.SetPixel(col + SIZE_FIELD // 2, row + SIZE_FIELD // 2, *red)  # Rotes Quadrat
-            elif row > SIZE_FIELD - 6 and col < 5:
-                matrix.SetPixel(col + SIZE_FIELD // 2, row + SIZE_FIELD // 2, *blue)  # Blaues Quadrat
 
 def main():
-    # Pygame und Controller-Initialisierung
+    # Pygame und COntrollerprüfung
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
@@ -78,11 +133,11 @@ def main():
         pygame.quit()
         quit()
 
-    # Wähle den ersten verfügbaren Joystick aus
+    # Wähle den ersten verfügbaren Joystick was
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
-    # Anfangsposition des orangefarbenen Quadrats
+    # Anzeige bei Beginn
     row = 0
     col = 0
     selection[row][col] = 1
@@ -90,31 +145,52 @@ def main():
     while True:
         clear_screen()
         draw_screen()
+        display_screen()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        # Überprüfen der Joystick-Eingaben
+        # Überprüfen der Joystick Eingaben
+        # Verschieben nach rechts
         if joystick.get_axis(0) > 0.8 and -0.2 < joystick.get_axis(1) < 0.2:
-            if col < SIZE - 1:
+            if col < 1:
                 selection[row][col] = 0
                 col += 1
                 selection[row][col] = 1
+            elif col == 1:
+                selection[row][col] = 0
+                col = 0
+                selection[row][col] = 1
+        # Verschieben nach links
         elif joystick.get_axis(0) < -0.8 and -0.2 < joystick.get_axis(1) < 0.2:
             if col > 0:
                 selection[row][col] = 0
                 col -= 1
                 selection[row][col] = 1
+            elif col == 0:
+                selection[row][col] = 0
+                col = 1
+                selection[row][col] = 1
+        # Verschieben nach oben
         elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) < -0.8:
-            if row < SIZE - 1:
+            if row < 1:
                 selection[row][col] = 0
                 row += 1
                 selection[row][col] = 1
+            elif row == 1:
+                selection[row][col] = 0
+                row = 0
+                selection[row][col] = 1
+        # Verschieben nach unten
         elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) > 0.8:
             if row > 0:
                 selection[row][col] = 0
                 row -= 1
+                selection[row][col] = 1
+            elif row == 0:
+                selection[row][col] = 0
+                row = 1
                 selection[row][col] = 1
         elif joystick.get_button(8) == 1:
             if selection[0][0] == 1:
@@ -126,12 +202,11 @@ def main():
             elif selection[1][0] == 1:
                 # links unten ausgewählt
                 pass
-            elif selection[1][1] == 1:
-                # rechts unten ausgewählt
-                return  # Hier kann der Pi heruntergefahren werden
+            elif selection[1][1]:
+                # Später hier den Aufruf für Tic-Tac-Toe hinzufügen
+                pass
 
         pygame.time.Clock().tick(10)
 
 
-if __name__ == "__main__":
-    main()
+main()
