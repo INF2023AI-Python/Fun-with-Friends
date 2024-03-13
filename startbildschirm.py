@@ -1,6 +1,7 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 #from tictactoe import tictactoe
+import tictactoe
 
 orange_square_position = [0, 0]
 
