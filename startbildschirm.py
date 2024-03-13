@@ -41,33 +41,34 @@ def draw_screen(x, y):
     y_pos = int(y * 15)
 
     # Zeichnen der orangefarbenen Linien
-   # Obere Linie
-    if x_pos % 2 == 0 and y_pos % 2 == 0:  # Wenn beide gerade sind
+    # Obere Linie
+    if x_pos % 16 == 0 and y_pos % 16 != 0:
         for i in range(16):
-            matrix.SetPixel(i, y_pos * 16, *orange)
-    elif x_pos % 2 == 1 and y_pos % 2 == 0:  # Wenn x_pos ungerade ist und y_pos gerade
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
         for i in range(16):
-            matrix.SetPixel(i + 16, y_pos * 16, *orange)
-    elif x_pos % 2 == 0 and y_pos % 2 == 1:  # Wenn x_pos gerade ist und y_pos ungerade
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 != 0:
         for i in range(16):
-            matrix.SetPixel(i, y_pos * 16 + 16, *orange)
-    else:  # Wenn beide ungerade sind
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    else:
         for i in range(16):
-            matrix.SetPixel(i + 16, y_pos * 16 + 16, *orange)
-    
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+
     # Untere Linie
     for i in range(16):
-        matrix.SetPixel(i, 15 + y_pos * 16, *orange)
-    
+        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
     # Linke Linie
     for i in range(16):
-        matrix.SetPixel(0, i + y_pos * 16, *orange)
-    
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
     # Rechte Linie
     for i in range(16):
-        matrix.SetPixel(15, i + y_pos * 16, *orange)
+        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
-       
+   
+
     # Zeichnen der Piktogramme
     # Colorbattel
     for row in range(2, 7):
