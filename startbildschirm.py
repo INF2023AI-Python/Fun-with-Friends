@@ -24,7 +24,25 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)  # Orange Farbe
 
-     # Zeichnen der vertikalen Linie
+    # Position des Quadrats anpassen
+    x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
+    y_pos = int(y * 15)
+
+    # Zeichnen der orangefarbenen Linien
+    # Obere Linie
+    for i in range(16):
+        matrix.SetPixel(i + x_pos, y_pos, *orange)
+    # Untere Linie
+    for i in range(16):
+        matrix.SetPixel(i + x_pos, 3 + y_pos, *orange)
+    # Linke Linie
+    for i in range(4):
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
+    # Rechte Linie
+    for i in range(4):
+        matrix.SetPixel(3 + x_pos, i + y_pos, *orange)
+
+    # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
         matrix.SetPixel(15, row, *color)
@@ -35,33 +53,6 @@ def draw_screen(x, y):
         matrix.SetPixel(col, 0, *color)
         matrix.SetPixel(col, 15, *color)
         matrix.SetPixel(col, 31, *color)
-
-    # Position des Quadrats anpassen
-    x_pos = int(x * 16)  # Skalierung der Joystick-Achsen auf 0-15
-    y_pos = int(y * 16)
-
-    # Zeichnen des orangefarbenen Quadrats
-    # Obere linke Ecke
-    if x_pos % 16 == 0 and y_pos % 16 == 0:
-        for i in range(16):
-            matrix.SetPixel(i, y_pos, *orange)  # Obere Linie
-            matrix.SetPixel(x_pos, i, *orange)  # Linke Linie
-    # Obere rechte Ecke
-    elif x_pos % 16 == 0 and y_pos % 16 != 0:
-        for i in range(16):
-            matrix.SetPixel(i, 16 + y_pos, *orange)  # Untere Linie
-            matrix.SetPixel(x_pos, 16 + i + y_pos, *orange)  # Linke Linie
-    # Untere linke Ecke
-    elif x_pos % 16 != 0 and y_pos % 16 == 0:
-        for i in range(16):
-            matrix.SetPixel(16 + x_pos, i + y_pos, *orange)  # Rechte Linie
-            matrix.SetPixel(x_pos, i, *orange)  # Linke Linie
-    # Untere rechte Ecke
-    else:
-        for i in range(16):
-            matrix.SetPixel(16 + x_pos, i + y_pos, *orange)  # Rechte Linie
-            matrix.SetPixel(i, 16 + y_pos, *orange)  # Untere Linie
-
 
     # Zeichnen der Piktogramme
     # Colorbattel
