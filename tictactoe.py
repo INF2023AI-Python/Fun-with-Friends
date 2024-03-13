@@ -65,40 +65,193 @@ def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
 
+    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
+    if joystick.get_button(1) == 1:
+        set_x_or_o(board_state)
+
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Speichern der vorherigen Position für den Vergleich
-    previous_position = orange_square_position.copy()
 
-    # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
-    if -0.2 < x_axis < 0.2 and -0.2 < y_axis < 0.2:
-        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
-        return
-
-    # Verfolge die Bewegungsrichtung separat
-    if y_axis < -0.8:
+    if -0.2 < x_axis < 0.2 and y_axis < -0.8:
         # Bewege nach oben
-        orange_square_position[1] = max(0, orange_square_position[1] - 1)
+        new_position = [max(0, min(2, orange_square_position[0])),
+                        max(0, min(2, orange_square_position[1] - 1))]
         print("Bewege nach oben")
-    elif y_axis > 0.8:
+    elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
         # Bewege nach unten
-        orange_square_position[1] = min(2, orange_square_position[1] + 1)
+        new_position = [max(0, min(2, orange_square_position[0])),
+                        max(0, min(2, orange_square_position[1] + 1))]
         print("Bewege nach unten")
-    elif x_axis > 0.8:
+    elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach rechts
-        orange_square_position[0] = min(2, orange_square_position[0] + 1)
+        new_position = [max(0, min(2, orange_square_position[0] + 1)),
+                        max(0, min(2, orange_square_position[1]))]
         print("Bewege nach rechts")
-    elif x_axis < -0.8:
+    elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach links
-        orange_square_position[0] = max(0, orange_square_position[0] - 1)
+        new_position = [max(0, min(2, orange_square_position[0] - 1)),
+                        max(0, min(2, orange_square_position[1]))]
         print("Bewege nach links")
+    else:
+        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
+        new_position = orange_square_position
 
-    # Überprüfe, ob sich die Position geändert hat
-    if orange_square_position != previous_position:
-        # Wenn die Position geändert wurde, zeichnen Sie das Tic-Tac-Toe-Board neu
-        draw_board(board_state)
+    # Überprüfe, ob die neue Position gültig ist
+    orange_square_position = new_position
+
+
+# Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
+def set_x_or_o(board_state):
+    global orange_square_position
+    global current_player
+
+    # Überprüfe, ob das ausgewählte Feld leer ist (' ')
+    if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
+        current_player = 'X' if current_player == 'O' else 'O'
+        board_state[orange_square_position[1]][orange_square_position[0]] = current_player
+
+class RunText:
+    def __init__(self, matrix, win_text, player_text, symbol_text):
+        self.matrix = matrix
+        self.win_text = win_text
+        self.player_text = player_text
+        self.symbol_text = symbol_text
+        self.text_color = self.determine_text_color()
+
+    def determine_text_color(self):
+        if self.symbol_text == 'X':
+            return graphics.Color(255, 0, 0)  # Rot für Spieler X
+        elif self.symbol_text == 'O':
+            return graphics.Color(0, 0, 255)  # Blau für Spieler O
+        else:
+            return graphics.Color(255, 255, 255)  # Weiß für Unentschieden
+
+    def run(self):
+        offscreen_canvas = self.matrix.CreateFrameCanvas()
+        font = graphics.Font()
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+
+        # Ersetze die Zeilen, die die Breite berechnen
+        win_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.win_text)
+        player_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.player_text)
+        symbol_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.symbol_text)
+
+        # Zentriere den Text horizontal
+        text_x = (offscreen_canvas.width - max(win_text_width, player_text_width, symbol_text_width)) // 2
+
+        # Zentriere den Text vertikal
+        text_y = (offscreen_canvas.height - font.height) // 2
+
+        # Verschiebe den Text, um ihn besser im Raster zu zentrieren
+        text_x += 2  # Beispielwert, passen Sie dies nach Bedarf an
+        text_y += 2  # Beispielwert, passen Sie dies nach Bedarf an
+
+        while True:
+            offscreen_canvas.Clear()
+
+            # Zeige den Win-Text an
+            graphics.DrawText(offscreen_canvas, font, 0, text_y, self.text_color, self.win_text)            
+            # Zeige den Player-Text an
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + font.height, self.text_color, self.player_text)
+            # Zeige den Symbol-Text an
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + 2 * font.height, self.text_color, self.symbol_text)
+
+            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+            time.sleep(5)
+            break
+
+
+# Funktion für die Hauptschleife des Spiels
+def tictactoe():
+    global current_player
+    global orange_square_position
+
+    # Tictactoe-Board initialisieren
+    board_state = [[' ' for _ in range(3)] for _ in range(3)]
+    current_player = 'O'  # Initialisieren Sie die Variable global
+
+    pygame.init()
+    pygame.joystick.init()
+
+    if pygame.joystick.get_count() == 0:
+        print("No joystick detected. Please connect a joystick and try again.")
+        pygame.quit()
+        sys.exit()
+
+    joystick = pygame.joystick.Joystick(0)
+    joystick.init()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+    # Überprüfe, ob die neue Position gültig ist
+    orange_square_position = new_position
+
+# Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
+def set_x_or_o(board_state):
+    global orange_square_position
+    global current_player
+
+    # Überprüfe, ob das ausgewählte Feld leer ist (' ')
+    if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
+        current_player = 'X' if current_player == 'O' else 'O'
+        board_state[orange_square_position[1]][orange_square_position[0]] = current_player
+
+class RunText:
+    def __init__(self, matrix, win_text, player_text, symbol_text):
+        self.matrix = matrix
+        self.win_text = win_text
+        self.player_text = player_text
+        self.symbol_text = symbol_text
+        self.text_color = self.determine_text_color()
+
+    def determine_text_color(self):
+        if self.symbol_text == 'X':
+            return graphics.Color(255, 0, 0)  # Rot für Spieler X
+        elif self.symbol_text == 'O':
+            return graphics.Color(0, 0, 255)  # Blau für Spieler O
+        else:
+            return graphics.Color(255, 255, 255)  # Weiß für Unentschieden
+
+    def run(self):
+        offscreen_canvas = self.matrix.CreateFrameCanvas()
+        font = graphics.Font()
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+
+        # Ersetze die Zeilen, die die Breite berechnen
+        win_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.win_text)
+        player_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.player_text)
+        symbol_text_width = graphics.DrawText(offscreen_canvas, font, 0, 0, self.text_color, self.symbol_text)
+
+        # Zentriere den Text horizontal
+        text_x = (offscreen_canvas.width - max(win_text_width, player_text_width, symbol_text_width)) // 2
+
+        # Zentriere den Text vertikal
+        text_y = (offscreen_canvas.height - font.height) // 2
+
+        # Verschiebe den Text, um ihn besser im Raster zu zentrieren
+        text_x += 2  # Beispielwert, passen Sie dies nach Bedarf an
+        text_y += 2  # Beispielwert, passen Sie dies nach Bedarf an
+
+        while True:
+            offscreen_canvas.Clear()
+
+            # Zeige den Win-Text an
+            graphics.DrawText(offscreen_canvas, font, 0, text_y, self.text_color, self.win_text)            
+            # Zeige den Player-Text an
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + font.height, self.text_color, self.player_text)
+            # Zeige den Symbol-Text an
+            graphics.DrawText(offscreen_canvas, font, 0, text_y + 2 * font.height, self.text_color, self.symbol_text)
+
+            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+            time.sleep(5)
+            break
+
 
 # Funktion für die Hauptschleife des Spiels
 def tictactoe():
@@ -133,10 +286,19 @@ def tictactoe():
         if check_winner(board_state):
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             print(f"Player {current_player} wins!")
+            # Zeige den Gewinnertext an
+            win_text = "WIN"
+            player_text = f"Player {current_player}"
+            symbol_text = current_player
+            run_text = RunText(matrix, win_text, player_text, symbol_text)
+            run_text.run()
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
             print("It's a draw!")
+            # Zeige den Unentschieden-Text an
+            draw_text = RunText(matrix, "DRAW", "", "")
+            draw_text.run()
             return
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
