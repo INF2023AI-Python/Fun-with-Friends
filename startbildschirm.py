@@ -44,23 +44,24 @@ def draw_screen(x, y):
     # Obere linke Ecke
     if x_pos % 16 == 0 and y_pos % 16 == 0:
         for i in range(16):
-            for j in range(16):
-                matrix.SetPixel(i, j, *orange)
+            matrix.SetPixel(i, y_pos, *orange)  # Obere Linie
+            matrix.SetPixel(x_pos, i, *orange)  # Linke Linie
     # Obere rechte Ecke
     elif x_pos % 16 == 0 and y_pos % 16 != 0:
         for i in range(16):
-            for j in range(16, 32):
-                matrix.SetPixel(i, j, *orange)
+            matrix.SetPixel(i, 16 + y_pos, *orange)  # Untere Linie
+            matrix.SetPixel(x_pos, 16 + i + y_pos, *orange)  # Linke Linie
     # Untere linke Ecke
     elif x_pos % 16 != 0 and y_pos % 16 == 0:
-        for i in range(16, 32):
-            for j in range(16):
-                matrix.SetPixel(i, j, *orange)
+        for i in range(16):
+            matrix.SetPixel(16 + x_pos, i + y_pos, *orange)  # Rechte Linie
+            matrix.SetPixel(x_pos, i, *orange)  # Linke Linie
     # Untere rechte Ecke
     else:
-        for i in range(16, 32):
-            for j in range(16, 32):
-                matrix.SetPixel(i, j, *orange)
+        for i in range(16):
+            matrix.SetPixel(16 + x_pos, i + y_pos, *orange)  # Rechte Linie
+            matrix.SetPixel(i, 16 + y_pos, *orange)  # Untere Linie
+
 
     # Zeichnen der Piktogramme
     # Colorbattel
