@@ -26,7 +26,10 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-     # Zeichnen der vertikalen Linie
+    # Lösche den Bildschirm
+    clear_screen()
+
+    # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
         matrix.SetPixel(15, row, *color)
@@ -112,7 +115,7 @@ def draw_screen(x, y):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *blue)
 
-   # ShutDown
+    # ShutDown
     for row in range(22, 24):  
         for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
@@ -204,7 +207,6 @@ def main():
 
     running = True
     while running:
-        clear_screen()
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
