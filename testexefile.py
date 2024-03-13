@@ -26,3 +26,6 @@ def draw_board(board_state):
             elif board_state[row][col] == 'X':
                 graphics.DrawLine(matrix, col * 10 + 1, row * 10 + 1, col * 10 + 9, row * 10 + 9, graphics.Color(255, 0, 0))
                 graphics.DrawLine(matrix, col * 10 + 9, row * 10 + 1, col * 10 + 1, row * 10 + 9, graphics.Color(255, 0, 0))
+
+while True:
+        draw_board(board_state)
