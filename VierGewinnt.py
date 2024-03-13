@@ -123,6 +123,8 @@ def vierGewinnt():
     pygame.joystick.init()
     joystick1 = pygame.joystick.Joystick(0)
     joystick2 = pygame.joystick.Joystick(1)
+    joystick1.init()
+    joystick2.init()
 
     #Anzeige des Chips vor Spielbeginn
     player = 1
