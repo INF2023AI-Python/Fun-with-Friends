@@ -112,32 +112,31 @@ def draw_screen(x, y):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *blue)
 
-    # ShutDown
-    for row in range(23, 25):
+   # ShutDown
+    for row in range(22, 24):  # Decrease starting and ending row values by 1
         for col in range(17, 23):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(22, 26):
+    for row in range(21, 25):  # Decrease starting and ending row values by 1
         for col in range(27, 29):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(20, 22):
+    for row in range(19, 21):  # Decrease starting and ending row values by 1
         for col in range(25, 27):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(26, 28):
+    for row in range(25, 27):  # Decrease starting and ending row values by 1
         for col in range(25, 27):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(18, 20):
+    for row in range(17, 19):  # Decrease starting and ending row values by 1
         for col in range(21, 25):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(28, 30):
+    for row in range(27, 29):  # Decrease starting and ending row values by 1
         for col in range(21, 25):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(20, 22):
+    for row in range(19, 21):  # Decrease starting and ending row values by 1
         for col in range(19, 21):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-    for row in range(26, 28):
+    for row in range(25, 27):  # Decrease starting and ending row values by 1
         for col in range(19, 21):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
-
 
 def update_orange_square_position(orange_square_position, joystick):
     # Erhalte die Achsenpositionen des Joysticks
