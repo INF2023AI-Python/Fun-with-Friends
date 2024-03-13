@@ -16,6 +16,9 @@ matrix = RGBMatrix(options=options)
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
 
+# Spieler 1 beginnt mit 'X'
+current_player = 'X'
+
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
     matrix.Clear()
@@ -61,8 +64,9 @@ def check_winner(board_state):
     return False
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
-def update_board_with_joystick(board_state, joystick, current_player):
+def update_board_with_joystick(board_state, joystick):
     global orange_square_position
+    global current_player
 
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
@@ -83,23 +87,23 @@ def update_board_with_joystick(board_state, joystick, current_player):
         orange_square_position[0] = max(0, orange_square_position[0] - 1)
 
     # Überprüfe, ob der Button mit der ID 0 gedrückt wurde
-    if joystick.get_button(0) == 1:
-        set_x_or_o(board_state, current_player)
+    if joystick.get_button(1) == 1:
+        set_x_or_o(board_state)
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
-def set_x_or_o(board_state, current_player):
+def set_x_or_o(board_state):
     global orange_square_position
+    global current_player
 
     # Überprüfe, ob das ausgewählte Feld leer ist (' ')
     if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
-        current_player = 'X' if current_player == 'O' else 'O'
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
+        current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler
 
 # Funktion für die Hauptschleife des Spiels
 def tictactoe():
     # Tictactoe-Board initialisieren
     board_state = [[' ' for _ in range(3)] for _ in range(3)]
-    current_player = 'X'  # Spieler 1 beginnt mit 'X'
 
     pygame.init()
     pygame.joystick.init()
@@ -119,7 +123,7 @@ def tictactoe():
                 sys.exit()
 
         draw_board(board_state)
-        update_board_with_joystick(board_state, joystick, current_player)
+        update_board_with_joystick(board_state, joystick)
 
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
