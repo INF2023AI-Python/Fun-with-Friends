@@ -20,7 +20,7 @@ def clear_screen():
 
 def run_game(game):
 
-    if game == "tictactoe"
+    if game == "tictactoe":
         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
         for proc in psutil.process_iter():
             if "tictactoe.py" in proc.cmdline():
@@ -29,7 +29,7 @@ def run_game(game):
         # Starte eine neue Instanz von tictactoe
         subprocess.call("sudo python tictactoe.py", shell=True)
 
-    if game == "viergewinnt"
+    if game == "viergewinnt":
         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
         for proc in psutil.process_iter():
             if "VierGewinnt.py" in proc.cmdline():
