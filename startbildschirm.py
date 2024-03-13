@@ -14,9 +14,6 @@ options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
-# Funktion zum Löschen des Bildschirms
-def clear_screen():
-    matrix.Clear()
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
@@ -25,9 +22,6 @@ def draw_screen(x, y):
     red = (255, 0, 0)
     blue = (0, 0, 255)
     orange = (255, 165, 0)
-
-    # Lösche den Bildschirm
-    clear_screen()
 
     # Zeichnen der vertikalen Linie
     for row in range(32):
@@ -145,6 +139,7 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
+        matrix.Clear()
         print("Tictactoe wurde ausgewählt")
         tictactoe.tictactoe()
     elif new_position[0] == 0 and new_position[1] == 1:
