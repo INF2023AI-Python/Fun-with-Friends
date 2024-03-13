@@ -23,17 +23,20 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
+    # Zwischenspeichern der Bildschirminhalte
+    screen = [[(0, 0, 0) for _ in range(32)] for _ in range(32)]
+
     # Zeichnen der vertikalen Linie
     for row in range(32):
-        matrix.SetPixel(0, row, *color)
-        matrix.SetPixel(15, row, *color)
-        matrix.SetPixel(31, row, *color)
+        screen[row][0] = color
+        screen[row][15] = color
+        screen[row][31] = color
 
     # Zeichnen der horizontalen Linie
     for col in range(32):
-        matrix.SetPixel(col, 0, *color)
-        matrix.SetPixel(col, 15, *color)
-        matrix.SetPixel(col, 31, *color)
+        screen[0][col] = color
+        screen[15][col] = color
+        screen[31][col] = color
 
     # Position des Quadrats anpassen
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
@@ -41,19 +44,19 @@ def draw_screen(x, y):
 
     # Zeichnen des orangefarbenen Quadrats
     for i in range(16):
-        matrix.SetPixel(i + x_pos, y_pos, *orange)
-        matrix.SetPixel(x_pos, i + y_pos, *orange)
-        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
-        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
+        screen[y_pos][i + x_pos] = orange
+        screen[i + y_pos][x_pos] = orange
+        screen[15 + y_pos][i + x_pos] = orange
+        screen[i + y_pos][15 + x_pos] = orange
 
     # Zeichnen der Piktogramme
     # Colorbattel
     for row in range(2, 7):
         for col in range(5, 10):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(9, 14):
         for col in range(5, 10):
-            matrix.SetPixel(row, col, *blue)
+            screen[row][col] = blue
 
     # tictactoe
     positionsX = [
@@ -61,59 +64,64 @@ def draw_screen(x, y):
         (19, 8), (21, 8), (18, 9), (22, 9), (17, 10), (23, 10)
     ]
     for pos in positionsX:
-        matrix.SetPixel(pos[0], pos[1], *red)
+        screen[pos[1]][pos[0]] = red
     positionsO = [
         (24, 6), (24, 7), (24, 8), (25, 5), (25, 9), (26, 4), (26, 10),
         (27, 4), (27, 10), (28, 5), (28, 9), (29, 6), (29, 7), (29, 8)
     ]
     for pos in positionsO:
-        matrix.SetPixel(pos[0], pos[1], *blue)
+        screen[pos[1]][pos[0]] = blue
 
     # VierGewinnt
     for row in range(2, 5):
         for col in range(27, 30):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(5, 8):
         for col in range(24, 30):
-            matrix.SetPixel(row, col, *blue)
+            screen[row][col] = blue
     for row in range(8, 11):
         for col in range(21, 30):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(11, 14):
         for col in range(18, 24):
-            matrix.SetPixel(row, col, *blue)
+            screen[row][col] = blue
     for row in range(11, 14):
         for col in range(24, 27):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(11, 14):
         for col in range(27, 30):
-            matrix.SetPixel(row, col, *blue)
+            screen[row][col] = blue
 
     # ShutDown
     for row in range(22, 24):
         for col in range(17, 23):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(21, 25):
         for col in range(27, 29):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(19, 21):
         for col in range(25, 27):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(25, 27):
         for col in range(25, 27):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(17, 19):
         for col in range(21, 25):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(27, 29):
         for col in range(21, 25):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(19, 21):
         for col in range(19, 21):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
     for row in range(25, 27):
         for col in range(19, 21):
-            matrix.SetPixel(row, col, *red)
+            screen[row][col] = red
+
+    # Aktualisieren (Refresh) der Anzeige
+    for row in range(32):
+        for col in range(32):
+            matrix.SetPixel(col, row, *screen[row][col])
 
 
 def select_option(new_position):
