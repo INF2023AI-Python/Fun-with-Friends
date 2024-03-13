@@ -30,17 +30,30 @@ def draw_screen(x, y):
 
     # Zeichnen der orangefarbenen Linien
     # Obere Linie
-    for i in range(16):
-        matrix.SetPixel(i + x_pos, y_pos, *orange)
+    if x_pos % 16 == 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
+        for i in range(16):
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    else:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+
     # Untere Linie
     for i in range(16):
-        matrix.SetPixel(i + x_pos, 3 + y_pos, *orange)
+        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
     # Linke Linie
-    for i in range(4):
+    for i in range(16):
         matrix.SetPixel(x_pos, i + y_pos, *orange)
     # Rechte Linie
-    for i in range(4):
-        matrix.SetPixel(3 + x_pos, i + y_pos, *orange)
+    for i in range(16):
+        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der vertikalen Linie
     for row in range(32):
