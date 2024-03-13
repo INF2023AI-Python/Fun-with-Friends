@@ -108,7 +108,7 @@ class RunText:
         text_y = (offscreen_canvas.height - 3 * font.height) // 2
 
         # Verschiebe den Text, um ihn besser im Raster zu zentrieren
-        text_x += 3  # Beispielwert, passen Sie dies nach Bedarf an
+        text_x += 5  # Beispielwert, passen Sie dies nach Bedarf an
         text_y += 2  # Beispielwert, passen Sie dies nach Bedarf an
 
         while True:
