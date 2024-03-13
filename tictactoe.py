@@ -65,42 +65,36 @@ def update_board_with_joystick(board_state, joystick):
     global current_player
     global orange_square_position
 
-    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
-    if joystick.get_button(1) == 1:
-        set_x_or_o(board_state)
-
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
     # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
+    if -0.2 < x_axis < 0.2 and -0.2 < y_axis < 0.2:
+        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
+        return
+
+    new_position = orange_square_position.copy()
+
     if -0.2 < x_axis < 0.2 and y_axis < -0.8:
         # Bewege nach oben
-        new_position = [max(0, min(2, orange_square_position[0])),
-                        max(0, min(2, orange_square_position[1] - 1))]
+        new_position[1] = max(0, min(2, orange_square_position[1] - 1))
         print("Bewege nach oben")
     elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
         # Bewege nach unten
-        new_position = [max(0, min(2, orange_square_position[0])),
-                        max(0, min(2, orange_square_position[1] + 1))]
+        new_position[1] = max(0, min(2, orange_square_position[1] + 1))
         print("Bewege nach unten")
     elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach rechts
-        new_position = [max(0, min(2, orange_square_position[0] + 1)),
-                        max(0, min(2, orange_square_position[1]))]
+        new_position[0] = max(0, min(2, orange_square_position[0] + 1))
         print("Bewege nach rechts")
     elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
         # Bewege nach links
-        new_position = [max(0, min(2, orange_square_position[0] - 1)),
-                        max(0, min(2, orange_square_position[1]))]
+        new_position[0] = max(0, min(2, orange_square_position[0] - 1))
         print("Bewege nach links")
-    else:
-        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
-        new_position = orange_square_position
 
     # Überprüfe, ob die neue Position gültig ist
     orange_square_position = new_position
-
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
 def set_x_or_o(board_state):
