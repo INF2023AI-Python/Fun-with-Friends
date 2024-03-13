@@ -137,6 +137,14 @@ def draw_screen(x, y):
             matrix.SetPixel(row, col, *red)
 
 def select_option(new_position):
+    if new_position[0] == 0 and new_position[1] == 0:
+        print("Colorbattle wurde ausgewählt")
+    elif new_position[0] == 1 and new_position[1] == 0:
+        print("Tictactoe wurde ausgewählt")
+    elif new_position[0] == 2 and new_position[1] == 0:
+        print("VierGewinnt wurde ausgewählt")
+    elif new_position[0] == 3 and new_position[1] == 0:
+        print("ShutDown wurde ausgewählt")
     print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
 
 
