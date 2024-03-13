@@ -1,7 +1,5 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-import VierGewinnt
-import tictactoe
 
 orange_square_position = [0, 0]
 
@@ -14,25 +12,25 @@ options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
+# Funktion zum Löschen des Bildschirms
+def clear_screen():
+    matrix.Clear()
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
     # Farbe der Linien
-    color = (255, 255, 255)  # weiß
+    color = (255, 255, 255) #weiß
     red = (255, 0, 0)
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-    # Lösche die Matrix
-   # matrix.Clear()
-
-    # Zeichnen der vertikalen Linien
+     # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
         matrix.SetPixel(15, row, *color)
         matrix.SetPixel(31, row, *color)
 
-    # Zeichnen der horizontalen Linien
+    # Zeichnen der horizontalen Linie
     for col in range(32):
         matrix.SetPixel(col, 0, *color)
         matrix.SetPixel(col, 15, *color)
@@ -42,15 +40,35 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen des orangefarbenen Quadrats
+    # Zeichnen der orangefarbenen Linien
+    # Obere Linie
+    if x_pos % 16 == 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
+        for i in range(16):
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    else:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+
+    # Untere Linie
     for i in range(16):
-        matrix.SetPixel(y_pos, i + x_pos, *orange)
-        matrix.SetPixel(i + y_pos, x_pos, *orange)
-        matrix.SetPixel(15 + y_pos, i + x_pos, *orange)
-        matrix.SetPixel(i + y_pos, 15 + x_pos, *orange)
+        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
+    # Linke Linie
+    for i in range(16):
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
+    # Rechte Linie
+    for i in range(16):
+        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der Piktogramme
-    # Colorbattle
+    # Colorbattel
     for row in range(2, 7):
         for col in range(5, 10):
             matrix.SetPixel(row, col, *red)
@@ -92,45 +110,42 @@ def draw_screen(x, y):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *blue)
 
-    # ShutDown
-    for row in range(22, 24):
+   # ShutDown
+    for row in range(22, 24):  
         for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
-    for row in range(21, 25):
+    for row in range(21, 25):   
         for col in range(27, 29):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):
+    for row in range(19, 21):  
         for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):
+    for row in range(25, 27):   
         for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(17, 19):
+    for row in range(17, 19):   
         for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(27, 29):
+    for row in range(27, 29):   
         for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):
+    for row in range(19, 21):   
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):
+    for row in range(25, 27):   
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
-
 
 def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
         print("Tictactoe wurde ausgewählt")
-       # tictactoe.tictactoe()
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
-       # VierGewinnt.vierGewinnt()
     elif new_position[0] == 1 and new_position[1] == 1:
         print("ShutDown wurde ausgewählt")
-    # print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
+    print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
 
 
 def update_orange_square_position(orange_square_position, joystick):
@@ -171,6 +186,7 @@ def update_orange_square_position(orange_square_position, joystick):
     return new_position
 
 
+
 def main():
     global orange_square_position
     # Pygame und Controllerprüfung
@@ -187,6 +203,7 @@ def main():
 
     running = True
     while running:
+        clear_screen()
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
