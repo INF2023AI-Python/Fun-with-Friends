@@ -29,14 +29,12 @@ def draw_screen(x, y):
     y_pos = int(y * 15)
 
     # Zeichnen der orangen Linien
-    for i in range(4):
-        for j in range(15):
-            # Obere und untere Linie des Quadrats
-            matrix.SetPixel(j + x_pos, i + y_pos, *orange)
-            matrix.SetPixel(j + x_pos, 3 + i + y_pos, *orange)
-            # Linke und rechte Linie des Quadrats
-            matrix.SetPixel(i + x_pos, j + y_pos, *orange)
-            matrix.SetPixel(3 + i + x_pos, j + y_pos, *orange)
+    for i in range(15):
+        matrix.SetPixel(i + x_pos, y_pos, *orange)  # Obere Linie
+        matrix.SetPixel(i + x_pos, 3 + y_pos, *orange)  # Untere Linie
+        matrix.SetPixel(x_pos, i + y_pos, *orange)  # Linke Linie
+        matrix.SetPixel(3 + x_pos, i + y_pos, *orange)  # Rechte Linie
+
 
     # Zeichnen der vertikalen Linie
     for row in range(32):
