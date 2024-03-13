@@ -35,13 +35,14 @@ def run_game():
 # Funktion zum Zeichnen des Bildschirms im Menü-Modus
 def draw_menu_screen():
     global orange_square_position
+    clear_screen()
     # Zeichne das Menü hier...
-    draw_screen()
+    matrix.SetPixel(orange_square_position[0], orange_square_position[1], 255, 165, 0)
 
 # Funktion zum Zeichnen des Bildschirms im Spielmodus
 def draw_game_screen():
+    clear_screen()
     # Zeichne das Spiel hier...
-    draw_screen()
     
 # Funktion zum Überprüfen des Modus und Zeichnen des entsprechenden Bildschirms
 def draw_screen():
@@ -84,8 +85,6 @@ def main():
 
     running = True
     while running:
-        clear_screen()
-        
         # Zeichne den aktuellen Bildschirm basierend auf dem aktuellen Modus
         draw_screen()
 
