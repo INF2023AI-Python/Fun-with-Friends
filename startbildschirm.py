@@ -40,33 +40,27 @@ def draw_screen(x, y):
     x_pos = int(x * 16)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 16)
 
-    # Zeichnen der orangefarbenen Linien
-    # Obere Linie
-    if x_pos == 0 and y_pos != 0:
+    # Zeichnen des orangefarbenen Quadrats
+    # Obere linke Ecke
+    if x_pos % 16 == 0 and y_pos % 16 == 0:
         for i in range(16):
-            matrix.SetPixel(i, y_pos, *orange)
-    elif x_pos != 0 and y_pos == 0:
+            for j in range(16):
+                matrix.SetPixel(i, j, *orange)
+    # Obere rechte Ecke
+    elif x_pos % 16 == 0 and y_pos % 16 != 0:
         for i in range(16):
-            matrix.SetPixel(x_pos, i, *orange)
-    elif x_pos != 0 and y_pos != 0:
-        for i in range(16):
-            matrix.SetPixel(i, y_pos, *orange)
-            matrix.SetPixel(x_pos, i, *orange)
+            for j in range(16, 32):
+                matrix.SetPixel(i, j, *orange)
+    # Untere linke Ecke
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
+        for i in range(16, 32):
+            for j in range(16):
+                matrix.SetPixel(i, j, *orange)
+    # Untere rechte Ecke
     else:
-        for i in range(16):
-            matrix.SetPixel(i, y_pos, *orange)
-            matrix.SetPixel(x_pos, i, *orange)
-
-    # Untere Linie
-    for i in range(16):
-        matrix.SetPixel(i, 16 + y_pos, *orange)
-    # Linke Linie
-    for i in range(16):
-        matrix.SetPixel(x_pos, i + 16, *orange)
-    # Rechte Linie
-    for i in range(16):
-        matrix.SetPixel(16 + x_pos, i, *orange)
-
+        for i in range(16, 32):
+            for j in range(16, 32):
+                matrix.SetPixel(i, j, *orange)
 
     # Zeichnen der Piktogramme
     # Colorbattel
