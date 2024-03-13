@@ -153,6 +153,10 @@ def select_option(new_position):
     elif new_position[0] == 1 and new_position[1] == 0:       
         run_game()
         print("Tictactoe wurde ausgewählt")
+        while True:  # Warte, bis das Tic Tac Toe-Spiel beendet ist
+            for proc in psutil.process_iter():
+                if "tictactoe.py" not in proc.cmdline():
+                    return  # Kehre zur Auswahl zurück
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 1:
