@@ -108,7 +108,7 @@ class RunText:
         text_y = (offscreen_canvas.height - 3 * font.height) // 2
 
         # Verschiebe den Text, um ihn besser im Raster zu zentrieren
-        text_x += 2  # Beispielwert, passen Sie dies nach Bedarf an
+        text_x += 3  # Beispielwert, passen Sie dies nach Bedarf an
         text_y += 2  # Beispielwert, passen Sie dies nach Bedarf an
 
         while True:
@@ -136,7 +136,11 @@ def display_winner(player):
         run_text.run()
         time.sleep(5)
     if player == 2:
-        matrix.Fill(0, 0, 255)
+        win_text = "WIN"
+        player_text = f"Player {player}"
+        symbol_text = player
+        run_text = RunText(matrix, win_text, player_text, symbol_text)
+        run_text.run()
         time.sleep(5)
 
 def vierGewinnt():
