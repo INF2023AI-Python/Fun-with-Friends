@@ -1,7 +1,6 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from tictactoe.tictactoe import tictactoe
-
+import subprocess
 
 orange_square_position = [0, 0]
 
@@ -148,6 +147,7 @@ def select_option(new_position):
         print("VierGewinnt wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 1:
         print("ShutDown wurde ausgewählt")
+        subprocess.call("sudo shutdown -h now", shell=True)
 
 
 def update_orange_square_position(orange_square_position, joystick):
