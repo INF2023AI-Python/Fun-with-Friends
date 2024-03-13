@@ -104,6 +104,7 @@ def display_winner(player):
 def display_draw():
     color = (255, 255, 255)
     display_text(["DRAW", " ", " "], color)
+    time.sleep(5)
 
 def vierGewinnt():
     # Pygame und COntrollerprüfung
@@ -161,6 +162,11 @@ def vierGewinnt():
                 for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
                         if row > 1:
+                            for move in range(2, row):
+                                board[move - 1][col] = 0
+                                board[move][col] = player
+                                time.sleep(0.5)
+                                display_board()
                             board[row][col] = player
                             break
                         else:
