@@ -1,9 +1,7 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from tictactoe import tictactoe
-from VierGewinnt import vierGewinnt
-#import VierGewinnt
-#import tictactoe
+import VierGewinnt
+import tictactoe
 
 orange_square_position = [0, 0]
 
@@ -20,7 +18,7 @@ matrix = RGBMatrix(options=options)
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
     # Farbe der Linien
-    color = (255, 255, 255) #weiß
+    color = (255, 255, 255)  # weiß
     red = (255, 0, 0)
     blue = (0, 0, 255)
     orange = (255, 165, 0)
@@ -41,31 +39,11 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen der orangefarbenen Linien
-    # Obere Linie
-    if x_pos % 16 == 0 and y_pos % 16 != 0:
-        for i in range(16):
-            matrix.SetPixel(i + x_pos, y_pos, *orange)
-    elif x_pos % 16 != 0 and y_pos % 16 == 0:
-        for i in range(16):
-            matrix.SetPixel(x_pos, i + y_pos, *orange)
-    elif x_pos % 16 != 0 and y_pos % 16 != 0:
-        for i in range(16):
-            matrix.SetPixel(i + x_pos, y_pos, *orange)
-            matrix.SetPixel(x_pos, i + y_pos, *orange)
-    else:
-        for i in range(16):
-            matrix.SetPixel(i + x_pos, y_pos, *orange)
-            matrix.SetPixel(x_pos, i + y_pos, *orange)
-
-    # Untere Linie
+    # Zeichnen des orangefarbenen Quadrats
     for i in range(16):
-        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
-    # Linke Linie
-    for i in range(16):
+        matrix.SetPixel(i + x_pos, y_pos, *orange)
         matrix.SetPixel(x_pos, i + y_pos, *orange)
-    # Rechte Linie
-    for i in range(16):
+        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
         matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der Piktogramme
@@ -112,43 +90,45 @@ def draw_screen(x, y):
             matrix.SetPixel(row, col, *blue)
 
     # ShutDown
-    for row in range(22, 24):  
+    for row in range(22, 24):
         for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
-    for row in range(21, 25):   
+    for row in range(21, 25):
         for col in range(27, 29):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):  
+    for row in range(19, 21):
         for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):   
+    for row in range(25, 27):
         for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(17, 19):   
+    for row in range(17, 19):
         for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(27, 29):   
+    for row in range(27, 29):
         for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):   
+    for row in range(19, 21):
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):   
+    for row in range(25, 27):
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
+
 
 def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
         print("Tictactoe wurde ausgewählt")
-        tictactoe()
+        tictactoe.tictactoe()
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
-        vierGewinnt()
+        VierGewinnt.vierGewinnt()
     elif new_position[0] == 1 and new_position[1] == 1:
         print("ShutDown wurde ausgewählt")
-    #print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
+    # print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
+
 
 def update_orange_square_position(orange_square_position, joystick):
     # Erhalte die Achsenpositionen des Joysticks
@@ -182,11 +162,11 @@ def update_orange_square_position(orange_square_position, joystick):
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
-        matrix.Clear()
         select_option(new_position)
 
     # Rückgabe der neuen Position
     return new_position
+
 
 def main():
     global orange_square_position
@@ -206,15 +186,17 @@ def main():
     while running:
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
+        # Lösche die Matrix, um das Quadrat neu zu zeichnen
+        matrix.Clear()
         # Übergebe die aktualisierte Position an draw_screen
         draw_screen(orange_square_position[0], orange_square_position[1])
-        update_orange_square_position(orange_square_position, joystick)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         pygame.time.Clock().tick(10)
+
 
 if __name__ == "__main__":
     main()
