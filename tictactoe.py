@@ -183,7 +183,9 @@ def tictactoe():
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
-    while True:
+    game_over = False  # Variable, um den Spielstatus zu verfolgen
+
+    while not game_over:  # Schleife läuft, bis das Spiel beendet ist
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -202,16 +204,17 @@ def tictactoe():
             symbol_text = current_player
             run_text = RunText(matrix, win_text, player_text, symbol_text)
             run_text.run()
-            return
+            game_over = True  # Spiel beendet, setzen Sie die Variable auf True
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
             print("It's a draw!")
             # Zeige den Unentschieden-Text an
             draw_text = RunText(matrix, "DRAW", "", "")
             draw_text.run()
-            return
+            game_over = True  # Spiel beendet, setzen Sie die Variable auf True
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
+
 
 # Hauptausführung des Programms
 if __name__ == "__main__":
