@@ -35,13 +35,6 @@ def draw_board(board_state):
                 graphics.DrawLine(matrix, x1, y1, x2, y2, graphics.Color(255, 0, 0))
                 graphics.DrawLine(matrix, x2, y1, x1, y2, graphics.Color(255, 0, 0))
 
-    # Zeichne das orangene Quadrat
-    x1, y1, x2, y2 = orange_square_position[0] * 10, orange_square_position[1] * 10, (orange_square_position[0] + 1) * 10, (orange_square_position[1] + 1) * 10
-    graphics.DrawLine(matrix, x1, y1, x2, y1, graphics.Color(255, 165, 0))
-    graphics.DrawLine(matrix, x2, y1, x2, y2, graphics.Color(255, 165, 0))
-    graphics.DrawLine(matrix, x2, y2, x1, y2, graphics.Color(255, 165, 0))
-    graphics.DrawLine(matrix, x1, y2, x1, y1, graphics.Color(255, 165, 0))
-
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner(board_state):
     for row in range(3):
@@ -61,12 +54,12 @@ def check_winner(board_state):
     return False
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
-def update_board_with_joystick(board_state, joystick):
+def update_board_with_joystick(board_state, joystick, current_player):
     global orange_square_position
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
-        set_x_or_o(board_state)
+        set_x_or_o(board_state, current_player)
 
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
@@ -87,12 +80,12 @@ def update_board_with_joystick(board_state, joystick):
         orange_square_position[0] = max(0, orange_square_position[0] - 1)
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
-def set_x_or_o(board_state):
+def set_x_or_o(board_state, current_player):
     global orange_square_position
 
     # Überprüfe, ob das ausgewählte Feld leer ist (' ')
     if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
-        board_state[orange_square_position[1]][orange_square_position[0]] = 'X'
+        board_state[orange_square_position[1]][orange_square_position[0]] = current_player
 
 # Funktion für die Hauptschleife des Spiels
 def tictactoe():
@@ -109,6 +102,8 @@ def tictactoe():
 
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
+    
+    current_player = 'X'  # Starten Sie mit Spieler 1 (X)
 
     while True:
         for event in pygame.event.get():
@@ -117,15 +112,18 @@ def tictactoe():
                 sys.exit()
 
         draw_board(board_state)
-        update_board_with_joystick(board_state, joystick)
-
+        update_board_with_joystick(board_state, joystick, current_player)
+        
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
-            print("Spieler X gewinnt!")
+            print(f"Spieler {current_player} gewinnt!")
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             print("Unentschieden!")
             return
+        
+        # Wechseln Sie den Spieler nach jedem Zug
+        current_player = 'O' if current_player == 'X' else 'X'
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
 
