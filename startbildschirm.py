@@ -1,9 +1,7 @@
-import numpy as np
 import pygame
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
-
-orange_square_positions = [0,0]
+orange_square_position = [0, 0]
 
 # Konfiguration der Matrix
 options = RGBMatrixOptions()
@@ -154,9 +152,8 @@ def update_orange_square_position(orange_square_position, joystick):
     # Rückgabe der neuen Position
     return new_position
 
-
 def main():
-    global orange_square_positions
+    global orange_square_position
     # Pygame und Controllerprüfung
     pygame.init()
     pygame.joystick.init()
@@ -169,11 +166,13 @@ def main():
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
-
-    while True:
+    running = True
+    while running:
         clear_screen()
-        draw_screen()
-        update_orange_square_position(orange_square_positions, joystick)
+        # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
+        orange_square_position = update_orange_square_position(orange_square_position, joystick)
+        # Übergebe die aktualisierte Position an draw_screen
+        draw_screen(orange_square_position[0], orange_square_position[1])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -182,4 +181,5 @@ def main():
         pygame.time.Clock().tick(10)
 
 
-main()
+if __name__ == "__main__":
+    main()
