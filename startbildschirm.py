@@ -174,6 +174,7 @@ def update_orange_square_position(orange_square_position, joystick, button_id):
     return new_position
 
 
+
 def main():
     global orange_square_position
     # Pygame und Controllerprüfung
