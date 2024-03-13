@@ -141,7 +141,8 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:       
-        subprocess.call("sudo python tictactoe.py", shell=True)
+        tictactoe_process = subprocess.Popen(["sudo", "python", "tictactoe.py"])
+        tictactoe_process.wait()
         print("Tictactoe wurde ausgewählt")
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
