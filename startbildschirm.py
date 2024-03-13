@@ -153,9 +153,6 @@ def select_option(new_position):
     elif new_position[0] == 1 and new_position[1] == 0:       
         run_game()
         print("Tictactoe wurde ausgewählt")
-        # Nach der Spielwahl wird die Position des orangefarbenen Quadrats zurückgesetzt
-        global orange_square_position
-        orange_square_position = [0, 0]
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 1:
