@@ -141,9 +141,9 @@ def select_option(new_position):
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
         print("Tictactoe wurde ausgewählt")
-    elif new_position[0] == 2 and new_position[1] == 0:
+    elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
-    elif new_position[0] == 3 and new_position[1] == 0:
+    elif new_position[0] == 1 and new_position[1] == 1:
         print("ShutDown wurde ausgewählt")
     print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
 
