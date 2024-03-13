@@ -160,8 +160,11 @@ def vierGewinnt():
                 # Finden der nächsten freien Zeile
                 for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
-                        if row > 2:
+                        if row > 1:
                             board[row][col] = player
+                            break
+                        else:
+                            player = 2 if player == 1 else 1
                             break
 
                 # Überprüfen auf Gewinn
