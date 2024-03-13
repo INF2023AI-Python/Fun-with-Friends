@@ -1,5 +1,6 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
+import testexefile
 import subprocess
 
 orange_square_position = [0, 0]
@@ -141,7 +142,7 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
-        exec(open(testexefile.py).read())
+        draw_board()        
         # tictactoe()
         print("Tictactoe wurde ausgewählt")
     elif new_position[0] == 0 and new_position[1] == 1:
