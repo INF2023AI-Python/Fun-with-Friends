@@ -10,7 +10,7 @@ options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
-def draw_board(board_state):
+def draw_board():
     matrix.Clear()
     for row in range(32):
         for col in range(32):
@@ -28,4 +28,4 @@ def draw_board(board_state):
                 graphics.DrawLine(matrix, col * 10 + 9, row * 10 + 1, col * 10 + 1, row * 10 + 9, graphics.Color(255, 0, 0))
 
 while True:
-        draw_board(board_state)
+        draw_board()
