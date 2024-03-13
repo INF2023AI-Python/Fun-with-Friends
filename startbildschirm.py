@@ -141,8 +141,8 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
-        execfile('testexefile.py')
-       # tictactoe()
+        exec(open(testexefile.py).read())
+        # tictactoe()
         print("Tictactoe wurde ausgewählt")
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
