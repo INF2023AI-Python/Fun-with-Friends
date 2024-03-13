@@ -115,9 +115,14 @@ def vierGewinnt():
         pygame.quit()
         quit()
 
-    # Wähle den ersten verfügbaren Joystick was
-    joystick = pygame.joystick.Joystick(0)
-    joystick.init()
+    # Wähle den ersten verfügbaren Joystick aus
+    #joystick = pygame.joystick.Joystick(0)
+    #joystick.init()
+
+    # Für mehrere Joysticks
+    pygame.joystick.init()
+    joystick1 = pygame.joystick.Joystick(0)
+    joystick2 = pygame.joystick.Joystick(1)
 
     #Anzeige des Chips vor Spielbeginn
     player = 1
@@ -134,6 +139,10 @@ def vierGewinnt():
 
         # x_axis = joystick.get_axis(0)
         #y_axis = joystick.get_axis(1)
+            if player == 1:
+                joystick = joystick1
+            elif player == 2:
+                joystick = joystick2
 
         # Überprüfen der Joystick Eingaben
             # Verschieben nach rechts
