@@ -108,23 +108,20 @@ class RunText:
         text_y = (offscreen_canvas.height - 3 * font.height) // 2
 
         # Verschiebe den Text, um ihn besser im Raster zu zentrieren
-        text_x += 5  # Beispielwert, passen Sie dies nach Bedarf an
+        text_x += 3  # Beispielwert, passen Sie dies nach Bedarf an
         text_y += 2  # Beispielwert, passen Sie dies nach Bedarf an
 
-        while True:
-            offscreen_canvas.Clear()
+        offscreen_canvas.Clear()
 
-            # Zeige den Win-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, text_y, self.text_color, self.win_text)            
-            # Zeige den Player-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, text_y + font.height, self.text_color, self.player_text)
-            # Zeige den Symbol-Text an
-            graphics.DrawText(offscreen_canvas, font, text_x, text_y + 2 * font.height, self.text_color, str(self.symbol_text))
+        # Zeige den Win-Text an
+        graphics.DrawText(offscreen_canvas, font, text_x, text_y, self.text_color, self.win_text)            
+        # Zeige den Player-Text an
+        graphics.DrawText(offscreen_canvas, font, text_x, text_y + font.height, self.text_color, self.player_text)
+        # Zeige den Symbol-Text an
+        graphics.DrawText(offscreen_canvas, font, text_x, text_y + 2 * font.height, self.text_color, str(self.symbol_text))
 
-            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            time.sleep(5)
-            break
-
+        #offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+        time.sleep(5)
 
 
 def display_winner(player):
