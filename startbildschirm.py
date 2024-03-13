@@ -3,6 +3,8 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 import psutil
 
+orange_square_position = [0, 0]
+
 # Konfiguration der Matrix
 options = RGBMatrixOptions()
 options.cols = 32
@@ -33,7 +35,7 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-    # Zeichnen der vertikalen Linie
+     # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
         matrix.SetPixel(15, row, *color)
@@ -49,15 +51,35 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen des orangefarbenen Quadrats
+    # Zeichnen der orangefarbenen Linien
+    # Obere Linie
+    if x_pos % 16 == 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
+        for i in range(16):
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    else:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+
+    # Untere Linie
     for i in range(16):
-        matrix.SetPixel(i + x_pos, y_pos, *orange)
-        matrix.SetPixel(x_pos, i + y_pos, *orange)
         matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
+    # Linke Linie
+    for i in range(16):
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
+    # Rechte Linie
+    for i in range(16):
         matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der Piktogramme
-    # Colorbattle
+    # Colorbattel
     for row in range(2, 7):
         for col in range(5, 10):
             matrix.SetPixel(row, col, *red)
@@ -137,7 +159,47 @@ def select_option(new_position):
         print("ShutDown wurde ausgewählt")
         subprocess.call("sudo shutdown -h now", shell=True)
 
+
+def update_orange_square_position(orange_square_position, joystick):
+    # Erhalte die Achsenpositionen des Joysticks
+    x_axis = joystick.get_axis(0)
+    y_axis = joystick.get_axis(1)
+
+    # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
+    if -0.2 < x_axis < 0.2 and y_axis < -0.8:
+        # Bewege nach oben
+        new_position = [max(0, min(1, orange_square_position[0])),
+                        max(0, min(1, orange_square_position[1] - 1))]
+        print("Bewege nach oben")
+    elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
+        # Bewege nach unten
+        new_position = [max(0, min(1, orange_square_position[0])),
+                        max(0, min(1, orange_square_position[1] + 1))]
+        print("Bewege nach unten")
+    elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
+        # Bewege nach rechts
+        new_position = [max(0, min(1, orange_square_position[0] + 1)),
+                        max(0, min(1, orange_square_position[1]))]
+        print("Bewege nach rechts")
+    elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
+        # Bewege nach links
+        new_position = [max(0, min(1, orange_square_position[0] - 1)),
+                        max(0, min(1, orange_square_position[1]))]
+        print("Bewege nach links")
+    else:
+        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
+        new_position = orange_square_position
+
+    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
+    if joystick.get_button(1) == 1:
+        select_option(new_position)
+
+    # Rückgabe der neuen Position
+    return new_position
+
+
 def main():
+    global orange_square_position
     # Pygame und Controllerprüfung
     pygame.init()
     pygame.joystick.init()
@@ -153,24 +215,17 @@ def main():
     running = True
     while running:
         clear_screen()
-        orange_square_position = [0, 0]  # Setze die Startposition für das orangefarbene Quadrat zurück
-        while orange_square_position == [0, 0]:  # Startschleife, bis eine Option ausgewählt wird
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                    break  # Beende die Schleife, wenn das Programm beendet wird
-            if not running:
-                break  # Beende die äußere Schleife, wenn das Programm beendet wird
-            orange_square_position = update_orange_square_position(orange_square_position, joystick)
-            draw_screen(orange_square_position[0], orange_square_position[1])
-            pygame.time.Clock().tick(10)
-
-        if not running:
-            break  # Beende das Programm, wenn das Programm beendet wird
-
-        clear_screen()
-        run_game()  # Starte das Spiel
+        # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
+        orange_square_position = update_orange_square_position(orange_square_position, joystick)
+        # Übergebe die aktualisierte Position an draw_screen
         draw_screen(orange_square_position[0], orange_square_position[1])
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        pygame.time.Clock().tick(10)
+
 
 if __name__ == "__main__":
     main()
