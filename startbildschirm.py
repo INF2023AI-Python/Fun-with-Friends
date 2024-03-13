@@ -24,6 +24,18 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)  # Orange Farbe
 
+     # Zeichnen der vertikalen Linie
+    for row in range(32):
+        matrix.SetPixel(0, row, *color)
+        matrix.SetPixel(15, row, *color)
+        matrix.SetPixel(31, row, *color)
+
+    # Zeichnen der horizontalen Linie
+    for col in range(32):
+        matrix.SetPixel(col, 0, *color)
+        matrix.SetPixel(col, 15, *color)
+        matrix.SetPixel(col, 31, *color)
+
     # Position des Quadrats anpassen
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
@@ -55,17 +67,7 @@ def draw_screen(x, y):
     for i in range(16):
         matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
-    # Zeichnen der vertikalen Linie
-    for row in range(32):
-        matrix.SetPixel(0, row, *color)
-        matrix.SetPixel(15, row, *color)
-        matrix.SetPixel(31, row, *color)
-
-    # Zeichnen der horizontalen Linie
-    for col in range(32):
-        matrix.SetPixel(col, 0, *color)
-        matrix.SetPixel(col, 15, *color)
-        matrix.SetPixel(col, 31, *color)
+   
 
     # Zeichnen der Piktogramme
     # Colorbattel
