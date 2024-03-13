@@ -18,11 +18,11 @@ def clear_screen():
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
-    # Farbe der Linie (weiß)
-    color = (255, 255, 255)
+    # Farbe der Linien
+    color = (255, 255, 255) #weiß
     red = (255, 0, 0)
     blue = (0, 0, 255)
-    orange = (255, 165, 0)  # Orange Farbe
+    orange = (255, 165, 0)
 
      # Zeichnen der vertikalen Linie
     for row in range(32):
@@ -66,8 +66,6 @@ def draw_screen(x, y):
     # Rechte Linie
     for i in range(16):
         matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
-
-   
 
     # Zeichnen der Piktogramme
     # Colorbattel
@@ -113,32 +111,32 @@ def draw_screen(x, y):
             matrix.SetPixel(row, col, *blue)
 
    # ShutDown
-    for row in range(22, 24):  # Decrease starting and ending row values by 1
-        for col in range(17, 23):  # Shift left by one pixel
+    for row in range(22, 24):  
+        for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
-    for row in range(21, 25):  # Decrease starting and ending row values by 1
-        for col in range(27, 29):  # Shift left by one pixel
+    for row in range(21, 25):   
+        for col in range(27, 29):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):  # Decrease starting and ending row values by 1
-        for col in range(25, 27):  # Shift left by one pixel
+    for row in range(19, 21):  
+        for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):  # Decrease starting and ending row values by 1
-        for col in range(25, 27):  # Shift left by one pixel
+    for row in range(25, 27):   
+        for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(17, 19):  # Decrease starting and ending row values by 1
-        for col in range(21, 25):  # Shift left by one pixel
+    for row in range(17, 19):   
+        for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(27, 29):  # Decrease starting and ending row values by 1
-        for col in range(21, 25):  # Shift left by one pixel
+    for row in range(27, 29):   
+        for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):  # Decrease starting and ending row values by 1
-        for col in range(19, 21):  # Shift left by one pixel
+    for row in range(19, 21):   
+        for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):  # Decrease starting and ending row values by 1
-        for col in range(19, 21):  # Shift left by one pixel
+    for row in range(25, 27):   
+        for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
 
-def update_orange_square_position(orange_square_position, joystick):
+def update_orange_square_position(orange_square_position, joystick, button_id):
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
@@ -168,8 +166,13 @@ def update_orange_square_position(orange_square_position, joystick):
         # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
         new_position = orange_square_position
 
+    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
+    if button_id == 1:
+        print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
+
     # Rückgabe der neuen Position
     return new_position
+
 
 def main():
     global orange_square_position
