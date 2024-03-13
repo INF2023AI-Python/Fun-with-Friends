@@ -78,7 +78,7 @@ def display_text(text):
     offscreen_canvas = matrix.CreateFrameCanvas()
     font = graphics.Font()
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
-    textColor = (255, 255, 255)
+    textColor = graphics.Color(255, 255, 255)
 
     # Zeige den Text auf dem Canvas an
     graphics.DrawText(offscreen_canvas, font, 2, 10, textColor, text)
