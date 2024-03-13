@@ -165,7 +165,7 @@ def vierGewinnt():
                             for move in range(2, row +1):
                                 board[move - 1][col] = 0
                                 board[move][col] = player
-                                time.sleep(0.5)
+                                time.sleep(0.25)
                                 display_board()
                             break
                         else:
