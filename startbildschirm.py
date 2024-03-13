@@ -114,29 +114,30 @@ def draw_screen(x, y):
 
     # ShutDown
     for row in range(23, 25):
-        for col in range(18, 24):
+        for col in range(17, 23):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(22, 26):
-        for col in range(28, 30):
+        for col in range(27, 29):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(20, 22):
-        for col in range(26, 28):
+        for col in range(25, 27):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(26, 28):
-        for col in range(26, 28):
+        for col in range(25, 27):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(18, 20):
-        for col in range(22, 26):
+        for col in range(21, 25):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(28, 30):
-        for col in range(22, 26):
+        for col in range(21, 25):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(20, 22):
-        for col in range(20, 22):
+        for col in range(19, 21):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
     for row in range(26, 28):
-        for col in range(20, 22):
+        for col in range(19, 21):  # Shift left by one pixel
             matrix.SetPixel(row, col, *red)
+
 
 def update_orange_square_position(orange_square_position, joystick):
     # Erhalte die Achsenpositionen des Joysticks
