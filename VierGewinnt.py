@@ -42,8 +42,8 @@ def display_board():
 def check_win(player):
     # Horizontale Linie
     for r in range(ROWS):
-        for c in range(COLS - 4): 
-            if all(board[r][c + i] == player for i in range(4)):
+        for c in range(COLS - 3): 
+            if all(board[r][c + i] == player for i in range(3)):
                 return True
             
     # Vertikale Linie
@@ -53,15 +53,15 @@ def check_win(player):
                 return True
         
     # Diagonal nach oben rechts
-    for r in range(ROWS - 3):
-        for c in range(COLS - 3):
-            if all(board[r + i][c + i] == player for i in range(3)):
+    for r in range(ROWS - 4):
+        for c in range(COLS - 4):
+            if all(board[r + i][c + i] == player for i in range(4)):
                 return True
             
     # Diagonale nach unten rechts
-    for r in range(3, ROWS):
-        for c in range(COLS - 3):
-            if all(board[r - i][c + i] == player for i in range(3)):
+    for r in range(4, ROWS):
+        for c in range(COLS - 4):
+            if all(board[r - i][c + i] == player for i in range(4)):
                 return True
             
     return False
@@ -80,24 +80,30 @@ def display_text(text, color):
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
     textColor = graphics.Color(*color)
 
-    # Zeige den Text der ersten Zeile auf dem Canvas an
+    # Zeige den Text der ersten Zeile an
     graphics.DrawText(offscreen_canvas, font, 2, 10, textColor, text[0])
-    # Zeige den Text der zweiten Zeile auf dem Canvas an
+    # Zeige den Text der zweiten an
     graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[1])
-    
-    # Zeige den Canvas auf der Matrix an
+    # Zeige den Text der zweiten an
+    graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[2])
+
     matrix.SwapOnVSync(offscreen_canvas)
 
-
+# Darstellung Gewinnbildschirm
 def display_winner(player):
     if player == 1:
         color = (255, 0, 0)
-        display_text(["WIN", "Player1"], color)
+        display_text(["WIN", "Player", "1"], color)
         time.sleep(5)
     if player == 2:
         color = (0, 0, 255)
-        display_text(["WIN", "Player2"], color)
+        display_text(["WIN", "Player2", "2"], color)
         time.sleep(5)
+
+# Darstellung bei unentschieden
+def display_draw():
+    color = (255, 255, 255)
+    display_text(["DRAW", " ", " "], color)
 
 def vierGewinnt():
     # Pygame und COntrollerprüfung
@@ -166,7 +172,7 @@ def vierGewinnt():
                 player = 2 if player == 1 else 1
                 if check_draw():
                     clear_screen()
-                    #display_draw()
+                    display_draw()
                     return
         pygame.time.Clock().tick(7)
 
