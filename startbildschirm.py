@@ -14,17 +14,11 @@ options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 
-# Funktion zum Löschen des Bildschirms
-def clear_screen():
-    matrix.Clear()
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
-    # Lösche den Bildschirm
-    clear_screen()
-
     # Farbe der Linien
-    color = (255, 255, 255)  # weiß
+    color = (255, 255, 255) #weiß
     red = (255, 0, 0)
     blue = (0, 0, 255)
     orange = (255, 165, 0)
@@ -45,10 +39,32 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen des orangefarbenen Quadrats
+    # Zeichnen der orangefarbenen Linien
+    # Obere Linie
+    if x_pos % 16 == 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
+        for i in range(16):
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    else:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+
+    # Untere Linie
     for i in range(16):
-        for j in range(16):
-            matrix.SetPixel(x_pos + i, y_pos + j, *orange)
+        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
+    # Linke Linie
+    for i in range(16):
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
+    # Rechte Linie
+    for i in range(16):
+        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der Piktogramme
     # Colorbattel
@@ -94,28 +110,28 @@ def draw_screen(x, y):
             matrix.SetPixel(row, col, *blue)
 
     # ShutDown
-    for row in range(22, 24):
+    for row in range(22, 24):  
         for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
-    for row in range(21, 25):
+    for row in range(21, 25):   
         for col in range(27, 29):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):
+    for row in range(19, 21):  
         for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):
+    for row in range(25, 27):   
         for col in range(25, 27):
             matrix.SetPixel(row, col, *red)
-    for row in range(17, 19):
+    for row in range(17, 19):   
         for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(27, 29):
+    for row in range(27, 29):   
         for col in range(21, 25):
             matrix.SetPixel(row, col, *red)
-    for row in range(19, 21):
+    for row in range(19, 21):   
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
-    for row in range(25, 27):
+    for row in range(25, 27):   
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
 
@@ -123,7 +139,6 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
-        clear_screen()
         print("Tictactoe wurde ausgewählt")
         tictactoe.tictactoe()
     elif new_position[0] == 0 and new_position[1] == 1:
@@ -165,6 +180,7 @@ def update_orange_square_position(orange_square_position, joystick):
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
+        matrix.Clear()
         select_option(new_position)
 
     # Rückgabe der neuen Position
@@ -190,6 +206,7 @@ def main():
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
         draw_screen(orange_square_position[0], orange_square_position[1])
+        update_orange_square_position(orange_square_position, joystick)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
