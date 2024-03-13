@@ -82,9 +82,9 @@ def display_text(text, color):
 
     # Zeige den Text der ersten Zeile an
     graphics.DrawText(offscreen_canvas, font, 2, 10, textColor, text[0])
-    # Zeige den Text der zweiten an
+    # Zeige den Text der zweiten Zeile an
     graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[1])
-    # Zeige den Text der zweiten an
+    # Zeige den Text der dritte Zeile an
     graphics.DrawText(offscreen_canvas, font, 2, 30, textColor, text[2])
 
     matrix.SwapOnVSync(offscreen_canvas)
@@ -125,6 +125,10 @@ def vierGewinnt():
 
     while True:
         clear_screen()
+
+        # Ändern der Spielerfarbe
+        player_color = (255, 0, 0) if player == 1 else (0, 0, 255)
+        
         display_board()
 
         for event in pygame.event.get():
