@@ -1,6 +1,7 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
+import psutil
 
 orange_square_position = [0, 0]
 
@@ -16,6 +17,15 @@ matrix = RGBMatrix(options=options)
 # Funktion zum Löschen des Bildschirms
 def clear_screen():
     matrix.Clear()
+
+def run_game():
+    # Überprüfen, ob bereits eine Instanz von tictactoe läuft
+    for proc in psutil.process_iter():
+        if "tictactoe.py" in proc.cmdline():
+            proc.kill()  # Beende die vorherige Instanz
+
+    # Starte eine neue Instanz von tictactoe
+    subprocess.call("sudo python tictactoe.py", shell=True)
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
@@ -141,8 +151,7 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:       
-        tictactoe_process = subprocess.Popen(["sudo", "python", "tictactoe.py"])
-        tictactoe_process.wait()
+        run_game()
         print("Tictactoe wurde ausgewählt")
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
