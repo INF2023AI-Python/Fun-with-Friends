@@ -29,7 +29,7 @@ def run_game(game):
         # Starte eine neue Instanz von tictactoe
         subprocess.call("sudo python tictactoe.py", shell=True)
 
-    elseif game == "viergewinnt"
+    if game == "viergewinnt"
         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
         for proc in psutil.process_iter():
             if "VierGewinnt.py" in proc.cmdline():
