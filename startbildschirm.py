@@ -28,13 +28,19 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen der orangen Linien
-    for i in range(15):
-        matrix.SetPixel(i + x_pos, y_pos, *orange)  # Obere Linie
-        matrix.SetPixel(i + x_pos, 3 + y_pos, *orange)  # Untere Linie
-        matrix.SetPixel(x_pos, i + y_pos, *orange)  # Linke Linie
-        matrix.SetPixel(3 + x_pos, i + y_pos, *orange)  # Rechte Linie
-
+    # Zeichnen der orangefarbenen Linien
+    # Obere Linie
+    for i in range(16):
+        matrix.SetPixel(i + x_pos, y_pos, *orange)
+    # Untere Linie
+    for i in range(16):
+        matrix.SetPixel(i + x_pos, 3 + y_pos, *orange)
+    # Linke Linie
+    for i in range(4):
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
+    # Rechte Linie
+    for i in range(4):
+        matrix.SetPixel(3 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der vertikalen Linie
     for row in range(32):
