@@ -197,7 +197,7 @@ def main():
     while running:
         clear_screen()
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
-        orange_square_position = update_orange_square_position(orange_square_position, joystick, button_id=1)
+        orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
         draw_screen(orange_square_position[0], orange_square_position[1])
 
