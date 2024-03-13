@@ -153,6 +153,8 @@ def select_option(new_position):
     elif new_position[0] == 1 and new_position[1] == 0:       
         run_game()
         print("Tictactoe wurde ausgewählt")
+        # Nach dem Spiel zu Spielauswahl zurückkehren
+        main()
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 1:
@@ -198,7 +200,6 @@ def update_orange_square_position(orange_square_position, joystick):
     return new_position
 
 
-
 def main():
     global orange_square_position
     # Pygame und Controllerprüfung
@@ -209,7 +210,7 @@ def main():
         pygame.quit()
         quit()
 
-    # Wähle den ersten verfügbaren Joystick was
+    # Wähle den ersten verfügbaren Joystick
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
