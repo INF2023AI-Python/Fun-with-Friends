@@ -162,12 +162,11 @@ def vierGewinnt():
                 for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
                         if row > 1:
-                            for move in range(2, row):
+                            for move in range(2, row +1):
                                 board[move - 1][col] = 0
                                 board[move][col] = player
                                 time.sleep(0.5)
                                 display_board()
-                            board[row][col] = player
                             break
                         else:
                             player = 2 if player == 1 else 1
