@@ -1,7 +1,7 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-#from tictactoe import tictactoe
-import tictactoe
+from tictactoe.tictactoe import tictactoe
+
 
 orange_square_position = [0, 0]
 
@@ -148,7 +148,6 @@ def select_option(new_position):
         print("VierGewinnt wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 1:
         print("ShutDown wurde ausgewählt")
-    #print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
 
 
 def update_orange_square_position(orange_square_position, joystick):
