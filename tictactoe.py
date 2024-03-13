@@ -123,14 +123,13 @@ def tictactoe():
         
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
-            print(f"Spieler {current_player} gewinnt!")
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            print(f"Player {current_player} wins!")
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
-            print("Unentschieden!")
+            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            print("Es ist ein Unentschieden!")
             return
-        
-        # Wechseln Sie den Spieler nach jedem Zug
-        current_player = 'O' if current_player == 'X' else 'X'
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
 
