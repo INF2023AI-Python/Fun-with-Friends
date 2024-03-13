@@ -36,7 +36,7 @@ def display_board():
             for i in range(CHIP_SIZE):
                 for j in range(CHIP_SIZE):
                     matrix.SetPixel(col * CHIP_SIZE + j + 4, row * CHIP_SIZE + i + 6, *color)
-
+                    # Test: Tauschen von col und row
 # Funktion zum Prüfen auf Gewinn
 def check_win(player):
     # Horizontale Linie
@@ -73,7 +73,7 @@ def display_winner(player):
         matrix.Fill(0, 0, 255)
         time.sleep(5)
 
-def main():
+def vierGewinnt():
     # Pygame und COntrollerprüfung
     pygame.init()
     pygame.joystick.init()
@@ -123,8 +123,8 @@ def main():
                     board[0][col] = 0
                     col = 6
                     board[0][col] = player
-            #Bestätigen der Eingabe
-            elif -0.2 < joystick.get_axis(0) < 0.2 and joystick.get_axis(1) > 0.8:
+            #Bestätigen der Eingabe, Umstellen auf anderen Button, um zweifach Eingabe zu verhindern
+            elif joystick.get_button(8) == 1:
                 # Finden der nächsten freien Zeile
                 for row in range(ROWS - 1, 0, -1):
                     if board[row][col] == 0:
@@ -143,4 +143,4 @@ def main():
         pygame.time.Clock().tick(7)
 
 if __name__ == "__main__":
-    main()
+    vierGewinnt()
