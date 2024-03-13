@@ -143,14 +143,13 @@ def select_option(new_position):
         print("Colorbattle wurde ausgewählt")
     elif new_position[0] == 1 and new_position[1] == 0:
         print("Tictactoe wurde ausgewählt")
-        tictactoe()
+        tictactoe.tictactoe()
     elif new_position[0] == 0 and new_position[1] == 1:
         print("VierGewinnt wurde ausgewählt")
-        VierGewinnt()
+        VierGewinnt.vierGewinnt()
     elif new_position[0] == 1 and new_position[1] == 1:
         print("ShutDown wurde ausgewählt")
     #print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
-
 
 def update_orange_square_position(orange_square_position, joystick):
     # Erhalte die Achsenpositionen des Joysticks
@@ -189,8 +188,6 @@ def update_orange_square_position(orange_square_position, joystick):
     # Rückgabe der neuen Position
     return new_position
 
-
-
 def main():
     global orange_square_position
     # Pygame und Controllerprüfung
@@ -218,7 +215,6 @@ def main():
                 running = False
 
         pygame.time.Clock().tick(10)
-
 
 if __name__ == "__main__":
     main()
