@@ -136,6 +136,10 @@ def draw_screen(x, y):
         for col in range(19, 21):
             matrix.SetPixel(row, col, *red)
 
+def select_option(orange_square_position, joystick, button_id):
+    print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
+
+
 def update_orange_square_position(orange_square_position, joystick, button_id):
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
@@ -168,7 +172,7 @@ def update_orange_square_position(orange_square_position, joystick, button_id):
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
-        print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
+        select_option(orange_square_position, joystick, button_id)
 
     # Rückgabe der neuen Position
     return new_position
