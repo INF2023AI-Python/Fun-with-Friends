@@ -35,13 +35,13 @@ def display_board():
                 color = (0, 0, 255) # Spieler 2: Blau
             for i in range(CHIP_SIZE):
                 for j in range(CHIP_SIZE):
-                    matrix.SetPixel(col * CHIP_SIZE + j + 4, row * CHIP_SIZE + i + 6, *color)
+                    matrix.SetPixel(row * CHIP_SIZE + j + 4, col * CHIP_SIZE + i + 6, *color)
                     # Test: Tauschen von col und row
 # Funktion zum Prüfen auf Gewinn
 def check_win(player):
     # Horizontale Linie
     for r in range(ROWS):
-        for c in range(COLS - 4): #sollte es hier nicht vielleicht ligischer -4 sein?
+        for c in range(COLS - 4): 
             if all(board[r][c + i] == player for i in range(4)):
                 return True
             
