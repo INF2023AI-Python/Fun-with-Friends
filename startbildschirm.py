@@ -18,14 +18,25 @@ matrix = RGBMatrix(options=options)
 def clear_screen():
     matrix.Clear()
 
-def run_game():
-    # Überprüfen, ob bereits eine Instanz von tictactoe läuft
-    for proc in psutil.process_iter():
-        if "tictactoe.py" in proc.cmdline():
-            proc.kill()  # Beende die vorherige Instanz
+def run_game(game):
 
-    # Starte eine neue Instanz von tictactoe
-    subprocess.call("sudo python tictactoe.py", shell=True)
+    if(game == "tictactoe")
+        # Überprüfen, ob bereits eine Instanz von tictactoe läuft
+        for proc in psutil.process_iter():
+            if "tictactoe.py" in proc.cmdline():
+                proc.kill()  # Beende die vorherige Instanz
+    
+        # Starte eine neue Instanz von tictactoe
+        subprocess.call("sudo python tictactoe.py", shell=True)
+
+    elseif(game == "viergewinnt")
+        # Überprüfen, ob bereits eine Instanz von tictactoe läuft
+        for proc in psutil.process_iter():
+            if "VierGewinnt.py" in proc.cmdline():
+                proc.kill()  # Beende die vorherige Instanz
+    
+        # Starte eine neue Instanz von tictactoe
+        subprocess.call("sudo python VierGewinnt.py", shell=True)
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
