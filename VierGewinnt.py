@@ -48,8 +48,8 @@ def check_win(player):
             
     # Vertikale Linie
     for c in range(COLS):
-        for r in range(ROWS - 3):
-            if all(board[r + i][c] == player for i in range(3)):
+        for r in range(ROWS - 4):
+            if all(board[r + i][c] == player for i in range(4)):
                 return True
         
     # Diagonal nach oben rechts
