@@ -73,35 +73,37 @@ def update_board_with_joystick(board_state, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
+    # Speichern der vorherigen Position für den Vergleich
+    previous_position = orange_square_position.copy()
 
-    if -0.2 < x_axis < 0.2 and y_axis < -0.8:
-        # Bewege nach oben
-        new_position = [max(0, min(2, orange_square_position[0])),
-                        max(0, min(2, orange_square_position[1] - 1))]
-        print("Bewege nach oben")
-    elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
-        # Bewege nach unten
-        new_position = [max(0, min(2, orange_square_position[0])),
-                        max(0, min(2, orange_square_position[1] + 1))]
-        print("Bewege nach unten")
-    elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
-        # Bewege nach rechts
-        new_position = [max(0, min(2, orange_square_position[0] + 1)),
-                        max(0, min(2, orange_square_position[1]))]
-        print("Bewege nach rechts")
-    elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
-        # Bewege nach links
-        new_position = [max(0, min(2, orange_square_position[0] - 1)),
-                        max(0, min(2, orange_square_position[1]))]
-        print("Bewege nach links")
-    else:
+    # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
+    if -0.2 < x_axis < 0.2 and -0.2 < y_axis < 0.2:
         # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
-        new_position = orange_square_position
+        return
 
-    # Überprüfe, ob die neue Position gültig ist
-    orange_square_position = new_position
+    # Verfolge die Bewegungsrichtung separat
+    if y_axis < -0.8:
+        # Bewege nach oben
+        orange_square_position[1] = max(0, orange_square_position[1] - 1)
+        print("Bewege nach oben")
+    elif y_axis > 0.8:
+        # Bewege nach unten
+        orange_square_position[1] = min(2, orange_square_position[1] + 1)
+        print("Bewege nach unten")
+    elif x_axis > 0.8:
+        # Bewege nach rechts
+        orange_square_position[0] = min(2, orange_square_position[0] + 1)
+        print("Bewege nach rechts")
+    elif x_axis < -0.8:
+        # Bewege nach links
+        orange_square_position[0] = max(0, orange_square_position[0] - 1)
+        print("Bewege nach links")
 
-
+    # Überprüfe, ob sich die Position geändert hat
+    if orange_square_position != previous_position:
+        # Wenn die Position geändert wurde, zeichnen Sie das Tic-Tac-Toe-Board neu
+        draw_board(board_state)
+        
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
 def set_x_or_o(board_state):
     global orange_square_position
