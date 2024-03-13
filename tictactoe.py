@@ -17,7 +17,7 @@ matrix = RGBMatrix(options=options)
 orange_square_position = [1, 1]
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
-def draw_board(board_state):
+def draw_board(board_state, current_player):
     matrix.Clear()
     for row in range(32):
         for col in range(32):
@@ -41,6 +41,14 @@ def draw_board(board_state):
     graphics.DrawLine(matrix, x2, y1, x2, y2, graphics.Color(255, 165, 0))
     graphics.DrawLine(matrix, x2, y2, x1, y2, graphics.Color(255, 165, 0))
     graphics.DrawLine(matrix, x1, y2, x1, y1, graphics.Color(255, 165, 0))
+
+    # Anzeige des aktuellen Spielers
+    font = graphics.Font()
+    font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+    if current_player == 'X':
+        graphics.DrawText(matrix, font, 0, 0, graphics.Color(255, 0, 0), "Current Player: X")
+    else:
+        graphics.DrawText(matrix, font, 0, 0, graphics.Color(0, 0, 255), "Current Player: O")
 
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner(board_state):
@@ -109,7 +117,7 @@ def tictactoe():
 
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
-    
+
     current_player = 'X'  # Starten Sie mit Spieler 1 (X)
 
     while True:
@@ -118,17 +126,15 @@ def tictactoe():
                 pygame.quit()
                 sys.exit()
 
-        draw_board(board_state)
+        draw_board(board_state, current_player)
         update_board_with_joystick(board_state, joystick, current_player)
-        
+
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
-            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             print(f"Player {current_player} wins!")
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
-            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-            print("Es ist ein Unentschieden!")
+            print("Unentschieden!")
             return
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
