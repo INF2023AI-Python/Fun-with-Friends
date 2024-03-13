@@ -35,6 +35,13 @@ def draw_board(board_state):
                 graphics.DrawLine(matrix, x1, y1, x2, y2, graphics.Color(255, 0, 0))
                 graphics.DrawLine(matrix, x2, y1, x1, y2, graphics.Color(255, 0, 0))
 
+    # Zeichne das orangene Quadrat
+    x1, y1, x2, y2 = orange_square_position[0] * 10, orange_square_position[1] * 10, (orange_square_position[0] + 1) * 10, (orange_square_position[1] + 1) * 10
+    graphics.DrawLine(matrix, x1, y1, x2, y1, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x2, y1, x2, y2, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x2, y2, x1, y2, graphics.Color(255, 165, 0))
+    graphics.DrawLine(matrix, x1, y2, x1, y1, graphics.Color(255, 165, 0))
+
 # Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
 def check_winner(board_state):
     for row in range(3):
@@ -58,7 +65,7 @@ def update_board_with_joystick(board_state, joystick, current_player):
     global orange_square_position
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
-    if joystick.get_button(1) == 1:
+    if joystick.get_button(0) == 1:
         set_x_or_o(board_state, current_player)
 
     # Erhalte die Achsenpositionen des Joysticks
