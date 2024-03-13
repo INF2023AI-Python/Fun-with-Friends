@@ -125,10 +125,6 @@ def vierGewinnt():
 
     while True:
         clear_screen()
-
-        # Ändern der Spielerfarbe
-        player_color = (255, 0, 0) if player == 1 else (0, 0, 255)
-        
         display_board()
 
         for event in pygame.event.get():
@@ -167,17 +163,24 @@ def vierGewinnt():
                         if row > 2:
                             board[row][col] = player
                             break
+
                 # Überprüfen auf Gewinn
                 if check_win(player):
                     clear_screen()
                     display_winner(player)
                     return
-                # Spielerwechsel
-                player = 2 if player == 1 else 1
+                
+                # Überprüfen auf Untentschieden
                 if check_draw():
                     clear_screen()
                     display_draw()
                     return
+                
+                # Spielerwechsel
+                player = 2 if player == 1 else 1
+                clear_screen()
+                display_board()
+                
         pygame.time.Clock().tick(7)
 
 if __name__ == "__main__":
