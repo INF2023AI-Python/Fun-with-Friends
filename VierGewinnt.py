@@ -85,7 +85,7 @@ def display_text(text, color):
     # Zeige den Text der zweiten an
     graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[1])
     # Zeige den Text der zweiten an
-    graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[2])
+    graphics.DrawText(offscreen_canvas, font, 2, 30, textColor, text[2])
 
     matrix.SwapOnVSync(offscreen_canvas)
 
