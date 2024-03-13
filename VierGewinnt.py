@@ -74,11 +74,11 @@ def check_draw():
     return True
 
 # Funktion zum Erstellen eines Canvas und Anzeigen des Texts
-def display_text(text):
+def display_text(text, color):
     offscreen_canvas = matrix.CreateFrameCanvas()
     font = graphics.Font()
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
-    textColor = graphics.Color(255, 255, 255)
+    textColor = graphics.Color(*color)
 
     # Zeige den Text auf dem Canvas an
     graphics.DrawText(offscreen_canvas, font, 2, 10, textColor, text)
@@ -89,10 +89,14 @@ def display_text(text):
 
 def display_winner(player):
     if player == 1:
-        display_text("WIN\n Player 1")
+        color = (255, 0, 0)
+        display_text("WIN", color)
+        display_text("Player 1", color)
         time.sleep(5)
     if player == 2:
-        display_text("WIN\n Player 2")
+        color = (0, 0, 255)
+        display_text("WIN", color)
+        display_text("Player 2", color)
         time.sleep(5)
 
 def vierGewinnt():
