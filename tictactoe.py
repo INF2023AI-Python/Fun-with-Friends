@@ -83,7 +83,7 @@ def update_board_with_joystick(board_state, joystick, current_player):
         orange_square_position[0] = max(0, orange_square_position[0] - 1)
 
     # Überprüfe, ob der Button mit der ID 0 gedrückt wurde
-    if joystick.get_button(1) == 1:
+    if joystick.get_button(0) == 1:
         set_x_or_o(board_state, current_player)
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
