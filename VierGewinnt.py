@@ -69,9 +69,9 @@ def check_win(player):
 # AUf Unentschieden Prüfen
 def check_draw():
     for c in range(COLS):
-        if all(board[2][c] != 0):
-            return True
-    return False
+        if board[2][c] == 0:
+            return False
+    return True
 
 
 
