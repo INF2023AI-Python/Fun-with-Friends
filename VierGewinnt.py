@@ -178,8 +178,7 @@ def vierGewinnt():
                 
                 # Spielerwechsel
                 player = 2 if player == 1 else 1
-                clear_screen()
-                display_board()
+                board[0][col] = player
                 
         pygame.time.Clock().tick(7)
 
