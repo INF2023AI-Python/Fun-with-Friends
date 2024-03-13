@@ -167,7 +167,7 @@ def update_orange_square_position(orange_square_position, joystick, button_id):
         new_position = orange_square_position
 
     # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
-    if button_id == 1:
+    if joystick.get_button(1) == 1:
         print("Ausgewählte Position des orangefarbenen Quadrats:", new_position)
 
     # Rückgabe der neuen Position
