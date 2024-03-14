@@ -87,7 +87,7 @@ def update_board_with_joystick(board_state, joystick):
         orange_square_position[0] = max(0, orange_square_position[0] - 1)
 
     # Überprüfe, ob der Button mit der ID 0 gedrückt wurde
-    if joystick.get_button(1) == 1:
+    if joystick.get_button(0) == 1:
         set_x_or_o(board_state)
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
@@ -100,6 +100,39 @@ def set_x_or_o(board_state):
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
         current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler
 
+# Funktion zum Erstellen eines Canvas und Anzeigen des Texts
+def display_text(text, color):
+    offscreen_canvas = matrix.CreateFrameCanvas()
+    font = graphics.Font()
+    font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+    textColor = graphics.Color(*color)
+
+    # Zeige den Text der ersten Zeile an
+    graphics.DrawText(offscreen_canvas, font, 2, 10, textColor, text[0])
+    # Zeige den Text der zweiten Zeile an
+    graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[1])
+    # Zeige den Text der dritten Zeile an
+    graphics.DrawText(offscreen_canvas, font, 2, 30, textColor, text[2])
+
+    matrix.SwapOnVSync(offscreen_canvas)
+
+# Darstellung Gewinnbildschirm
+def display_winner(player):
+    if player == 'X':
+        color = (255, 0, 0)  # Rot für Spieler X
+        display_text(["WIN", "Player", "X"], color)
+        time.sleep(5)
+    elif player == 'O':
+        color = (0, 0, 255)  # Blau für Spieler O
+        display_text(["WIN", "Player", "O"], color)
+        time.sleep(5)
+
+# Darstellung bei unentschieden
+def display_draw():
+    color = (255, 255, 255)  # Weiß für Unentschieden
+    display_text(["DRAW", "", ""], color)
+    time.sleep(5)
+
 # Funktion für die Hauptschleife des Spiels
 def tictactoe():
     # Tictactoe-Board initialisieren
@@ -109,7 +142,7 @@ def tictactoe():
     pygame.joystick.init()
 
     if pygame.joystick.get_count() == 0:
-        print("No joystick detected. Please connect a joystick and try again.")
+        print("Kein Joystick erkannt. Bitte verbinden Sie einen Joystick und versuchen Sie es erneut.")
         pygame.quit()
         sys.exit()
 
@@ -128,11 +161,13 @@ def tictactoe():
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-            print(f"Player {current_player} wins!")
+            print(f"Spieler {current_player} gewinnt!")
+            display_winner(current_player)  # Zeige Gewinnmeldung auf der LED-Matrix an
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-            print("It's a draw!")
+            print("Unentschieden!")
+            display_draw()  # Zeige Unentschiedenmeldung auf der LED-Matrix an
             return
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
