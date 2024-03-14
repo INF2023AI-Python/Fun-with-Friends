@@ -119,6 +119,8 @@ def display_text(text, color):
 
 # Darstellung Gewinnbildschirm
 def display_winner(player):
+    global current_player
+    current_player = 'X' if player == 'O' else 'O'  # Wechsle den aktuellen Spieler
     if player == 'X':
         color = (255, 0, 0)  # Rot für Spieler X
         display_text(["WIN", "Player", "X"], color)
