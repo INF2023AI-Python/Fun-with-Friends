@@ -121,12 +121,12 @@ def display_text(text, color):
 def display_winner(player):
     global current_player
     if player == 'X':
-        current_player = 'O'  # Wechsle den aktuellen Spieler
+        #current_player = 'O'  # Wechsle den aktuellen Spieler
         color = (255, 0, 0)  # Rot für Spieler X
         display_text(["WIN", "Player", "X"], color)
         time.sleep(5)
     elif player == 'O':
-        current_player = 'X'  # Wechsle den aktuellen Spieler
+        #current_player = 'X'  # Wechsle den aktuellen Spieler
         color = (0, 0, 255)  # Blau für Spieler O
         display_text(["WIN", "Player", "O"], color)
         time.sleep(5)
