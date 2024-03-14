@@ -98,6 +98,8 @@ def set_x_or_o(board_state):
     # Überprüfe, ob das ausgewählte Feld leer ist (' ')
     if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
+        if check_winner(board_state):
+            display_winner(current_player)  # Anzeigen des Gewinners, bevor der Spieler geändert wird
         current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler
         print(f"Spieler {current_player}")
 
@@ -119,14 +121,11 @@ def display_text(text, color):
 
 # Darstellung Gewinnbildschirm
 def display_winner(player):
-    global current_player
     if player == 'X':
-        current_player = 'O'  # Wechsle den aktuellen Spieler
         color = (255, 0, 0)  # Rot für Spieler X
         display_text(["WIN", "Player", "X"], color)
         time.sleep(5)
     elif player == 'O':
-        current_player = 'X'  # Wechsle den aktuellen Spieler
         color = (0, 0, 255)  # Blau für Spieler O
         display_text(["WIN", "Player", "O"], color)
         time.sleep(5)
@@ -166,7 +165,6 @@ def tictactoe():
         if check_winner(board_state):
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             print(f"Spieler {current_player} gewinnt!")
-            display_winner(current_player)  # Zeige Gewinnmeldung auf der LED-Matrix an
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
