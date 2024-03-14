@@ -19,7 +19,6 @@ def clear_screen():
     matrix.Clear()
 
 def run_game(game):
-
     if game == "tictactoe":
         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
         for proc in psutil.process_iter():
@@ -46,7 +45,7 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-     # Zeichnen der vertikalen Linie
+    # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
         matrix.SetPixel(15, row, *color)
@@ -241,7 +240,10 @@ def main():
                 running = False
 
         pygame.time.Clock().tick(10)
-
+        
+        # Überprüfe, ob ein Spiel abgeschlossen wurde
+        if not any("tictactoe.py" in proc.cmdline() or "VierGewinnt.py" in proc.cmdline() for proc in psutil.process_iter()):
+            running = True
 
 if __name__ == "__main__":
     main()
