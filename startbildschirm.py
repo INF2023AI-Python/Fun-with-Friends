@@ -114,7 +114,7 @@ def draw_screen(x, y):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *blue)
 
-   # ShutDown
+    # ShutDown
     for row in range(22, 24):  
         for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
@@ -209,10 +209,10 @@ def main():
 
     running = True
     while running:
-        # Übergebe die aktualisierte Position an draw_screen
-        draw_screen(orange_square_position[0], orange_square_position[1])
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
+        # Übergebe die aktualisierte Position an draw_screen
+        draw_screen(orange_square_position[0], orange_square_position[1])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
