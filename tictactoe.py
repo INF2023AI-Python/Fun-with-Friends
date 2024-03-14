@@ -99,6 +99,7 @@ def set_x_or_o(board_state):
     if board_state[orange_square_position[1]][orange_square_position[0]] == ' ':
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
         current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler
+        print(f"Spieler {current_player}")
 
 # Funktion zum Erstellen eines Canvas und Anzeigen des Texts
 def display_text(text, color):
