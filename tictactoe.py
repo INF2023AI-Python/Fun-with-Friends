@@ -16,8 +16,8 @@ matrix = RGBMatrix(options=options)
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
 
-# Spieler 1 beginnt mit 'O'
-current_player = 'O'
+# Spieler 1 beginnt mit 'X'
+current_player = 'X'
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
