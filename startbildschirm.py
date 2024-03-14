@@ -64,7 +64,7 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen der orangefarbenen Linien
+    # Zeichnen des orangefarbenen Quadrats
     for i in range(16):
         matrix.SetPixel(i + x_pos, y_pos, *orange)  # Obere Linie
         matrix.SetPixel(x_pos, i + y_pos, *orange)  # Linke Linie
@@ -156,7 +156,6 @@ def select_option(new_position):
         print("ShutDown wurde ausgewählt")
         subprocess.call("sudo shutdown -h now", shell=True)
 
-
 def update_orange_square_position(orange_square_position, joystick):
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
@@ -194,8 +193,6 @@ def update_orange_square_position(orange_square_position, joystick):
     # Rückgabe der neuen Position
     return new_position
 
-
-
 def main():
     global orange_square_position
     # Pygame und Controllerprüfung
@@ -212,10 +209,10 @@ def main():
 
     running = True
     while running:
-        # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
-        orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
         draw_screen(orange_square_position[0], orange_square_position[1])
+        # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
+        orange_square_position = update_orange_square_position(orange_square_position, joystick)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
