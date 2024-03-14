@@ -16,8 +16,8 @@ matrix = RGBMatrix(options=options)
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
 
-# Spieler 1 beginnt mit 'X'
-current_player = 'X'
+# Spieler 1 beginnt mit 'O'
+current_player = 'O'
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state):
@@ -87,7 +87,7 @@ def update_board_with_joystick(board_state, joystick):
         orange_square_position[0] = max(0, orange_square_position[0] - 1)
 
     # Überprüfe, ob der Button mit der ID 0 gedrückt wurde
-    if joystick.get_button(0) == 1:
+    if joystick.get_button(1) == 1:
         set_x_or_o(board_state)
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
