@@ -19,6 +19,7 @@ def clear_screen():
     matrix.Clear()
 
 def run_game(game):
+
     if game == "tictactoe":
         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
         for proc in psutil.process_iter():
@@ -26,16 +27,16 @@ def run_game(game):
                 proc.kill()  # Beende die vorherige Instanz
     
         # Starte eine neue Instanz von tictactoe
-        subprocess.Popen(["python", "tictactoe.py"])
+        subprocess.call("sudo python tictactoe.py", shell=True)
 
     if game == "viergewinnt":
-        # Überprüfen, ob bereits eine Instanz von VierGewinnt läuft
+        # Überprüfen, ob bereits eine Instanz von tictactoe läuft
         for proc in psutil.process_iter():
             if "VierGewinnt.py" in proc.cmdline():
                 proc.kill()  # Beende die vorherige Instanz
     
-        # Starte eine neue Instanz von VierGewinnt
-        subprocess.Popen(["python", "VierGewinnt.py"])
+        # Starte eine neue Instanz von tictactoe
+        subprocess.call("sudo python VierGewinnt.py", shell=True)
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
@@ -45,16 +46,13 @@ def draw_screen(x, y):
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-    # Lösche den Bildschirm
-    clear_screen()
-
-    # Zeichnen der vertikalen Linien
+     # Zeichnen der vertikalen Linie
     for row in range(32):
         matrix.SetPixel(0, row, *color)
         matrix.SetPixel(15, row, *color)
         matrix.SetPixel(31, row, *color)
 
-    # Zeichnen der horizontalen Linien
+    # Zeichnen der horizontalen Linie
     for col in range(32):
         matrix.SetPixel(col, 0, *color)
         matrix.SetPixel(col, 15, *color)
@@ -64,12 +62,32 @@ def draw_screen(x, y):
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
 
-    # Zeichnen des orangefarbenen Quadrats
+    # Zeichnen der orangefarbenen Linien
+    # Obere Linie
+    if x_pos % 16 == 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 == 0:
+        for i in range(16):
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    elif x_pos % 16 != 0 and y_pos % 16 != 0:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+    else:
+        for i in range(16):
+            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            matrix.SetPixel(x_pos, i + y_pos, *orange)
+
+    # Untere Linie
     for i in range(16):
-        matrix.SetPixel(i + x_pos, y_pos, *orange)  # Obere Linie
-        matrix.SetPixel(x_pos, i + y_pos, *orange)  # Linke Linie
-        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)  # Rechte Linie
-        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)  # Untere Linie
+        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
+    # Linke Linie
+    for i in range(16):
+        matrix.SetPixel(x_pos, i + y_pos, *orange)
+    # Rechte Linie
+    for i in range(16):
+        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der Piktogramme
     # Colorbattel
@@ -114,7 +132,7 @@ def draw_screen(x, y):
         for col in range(27, 30):
             matrix.SetPixel(row, col, *blue)
 
-    # ShutDown
+   # ShutDown
     for row in range(22, 24):  
         for col in range(17, 23):
             matrix.SetPixel(row, col, *red)
@@ -156,6 +174,7 @@ def select_option(new_position):
         print("ShutDown wurde ausgewählt")
         subprocess.call("sudo shutdown -h now", shell=True)
 
+
 def update_orange_square_position(orange_square_position, joystick):
     # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
@@ -193,6 +212,8 @@ def update_orange_square_position(orange_square_position, joystick):
     # Rückgabe der neuen Position
     return new_position
 
+
+
 def main():
     global orange_square_position
     # Pygame und Controllerprüfung
@@ -203,12 +224,13 @@ def main():
         pygame.quit()
         quit()
 
-    # Wähle den ersten verfügbaren Joystick
+    # Wähle den ersten verfügbaren Joystick was
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
     running = True
     while running:
+        clear_screen()
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
@@ -219,11 +241,7 @@ def main():
                 running = False
 
         pygame.time.Clock().tick(10)
-        
-        # Überprüfe, ob ein Spiel abgeschlossen wurde
-        if not any("tictactoe.py" in proc.cmdline() or "VierGewinnt.py" in proc.cmdline() for proc in psutil.process_iter()):
-            # Zurück zum Startbildschirm
-            orange_square_position = [0, 0]
+
 
 if __name__ == "__main__":
     main()
