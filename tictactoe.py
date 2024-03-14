@@ -167,6 +167,7 @@ def tictactoe():
             print(f"Player {current_player} wins!")
             draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             display_winner(current_player)  # Zeige Gewinnmeldung auf der LED-Matrix an
+            print(f"Player {current_player} am Zug")
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             print("It's a draw!")
