@@ -32,7 +32,7 @@ def run_game():
 
     # Initialize the game area and maze pattern
     game_area = [[0 for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
-    maze_pattern = obstacle(game_area, emulator.matrix)  # You need to modify your 'obstacle' function to return the maze pattern
+    maze_pattern = obstacle(game_area, emulator.matrix)
 
     # Get the start time
     start_ticks = pygame.time.get_ticks()
