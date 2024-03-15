@@ -1,4 +1,4 @@
-
+from obstacle import *
 
 PLAY_HEIGHT = 28
 PLAY_WIDTH = 32
