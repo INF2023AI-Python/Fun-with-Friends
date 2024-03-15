@@ -1,6 +1,10 @@
 import RGBMatrixEmulator
 
 
+ROWS = 32
+COLS = 32
+
+
 class Emulator:
     def __init__(self, rows, cols, hardware_mapping='adafruit-hat-pwm'):
         # Initialize RGBMatrix options
@@ -13,13 +17,15 @@ class Emulator:
         self.matrix = RGBMatrixEmulator.RGBMatrix(options)
         self.canvas = self.matrix.CreateFrameCanvas()
 
-    def update_canvas(self, player1_x, player1_y, player2_x, player2_y):
+    def update_canvas(self, grid):
         # Clear the canvas
         self.canvas.Clear()
 
-        # Draw players
-        self.canvas.SetPixel(player1_x, player1_y, 255, 0, 0)  # Red color for Player 1
-        self.canvas.SetPixel(player2_x, player2_y, 0, 0, 255)  # Blue color for Player 2
+        # Draw the game state
+        for i in range(ROWS):
+            for j in range(COLS):
+                color = grid[i][j]
+                self.canvas.SetPixel(i, j, *color)
 
         # Update the display
-        self.canvas = self.canvas.SwapOnVSync()
+        self.matrix.SwapOnVSync(self.canvas)
