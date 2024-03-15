@@ -29,13 +29,17 @@ class Player:
                 self.x = new_x
 
     def paint(self, grid):
-        if grid[self.y][self.x] != self.color:
-            grid[self.y][self.x] = self.color
-            self.cells_painted += 1
+        # Check if the indices are within the range of the grid dimensions
+        if self.y < len(grid) and self.x < len(grid[0]):
+            if grid[self.y][self.x] != self.color:
+                grid[self.y][self.x] = self.color
+                self.cells_painted += 1
 
     def repaint_trail(self, grid):
-        if grid[self.y][self.x] != self.color:
-            grid[self.y][self.x] = self.color
+        # Check if the indices are within the range of the grid dimensions
+        if self.y < len(grid) and self.x < len(grid[0]):
+            if grid[self.y][self.x] != self.color:
+                grid[self.y][self.x] = self.color
 
     def is_collision(self, y, x, maze_pattern, game_area):
         # Check if the indices are within the range of the grid dimensions
