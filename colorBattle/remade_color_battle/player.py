@@ -36,8 +36,10 @@ class Player:
             grid[self.y][self.x] = self.color
 
     def is_collision(self, y, x, maze_pattern, game_area):
-        if maze_pattern[y][x] == "#":
-            return True
-        if game_area[y][x] == 1:
-            return True
+        # Check if the indices are within the range of the grid dimensions
+        if y < len(maze_pattern) and x < len(maze_pattern[0]):
+            if maze_pattern[y][x] == "#":
+                return True
+            if game_area[y][x] == 1:
+                return True
         return False
