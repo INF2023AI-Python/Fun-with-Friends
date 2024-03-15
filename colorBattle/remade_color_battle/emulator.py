@@ -2,7 +2,7 @@ import RGBMatrixEmulator
 
 
 class Emulator:
-    def __init__(self, rows, cols, hardware_mapping='adafruit-hat'):
+    def __init__(self, rows, cols, hardware_mapping='adafruit-hat-pwm'):
         # Initialize RGBMatrix options
         options = RGBMatrixEmulator.RGBMatrixOptions()
         options.hardware_mapping = hardware_mapping
