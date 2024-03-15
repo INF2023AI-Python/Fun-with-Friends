@@ -51,8 +51,7 @@ def run_game():
             break
 
         # Player controls
-        controllers(joysticks, player1, player2, maze_pattern, game_area)  # You need to modify your 'controllers' function to accept 'maze_pattern' and 'game_area' as arguments
-
+        controllers(joysticks, player1, player2, maze_pattern, game_area)
         # Painting
         player1.paint(grid)
         player2.paint(grid)
