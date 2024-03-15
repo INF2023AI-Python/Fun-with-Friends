@@ -1,4 +1,5 @@
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from RGBMatrix import RGBMatrix, RGBMatrixOptions
 import pygame
 import obstacle  # Import the obstacle module
 #pip install numpy
