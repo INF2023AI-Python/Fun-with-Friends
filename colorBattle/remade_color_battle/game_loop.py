@@ -2,6 +2,7 @@ import pygame
 from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 
 def count_points(grid, player1_color, player2_color):
