@@ -1,4 +1,4 @@
-ROWS = 32
+ROWS = 28
 COLS = 32
 
 
@@ -8,15 +8,23 @@ class Player:
         self.x, self.y = start_pos
         self.cells_painted = 0
 
-    def move(self, direction):
+    def move(self, direction, maze_pattern, game_area):
         if direction == 'UP':
-            self.y = (self.y - 1) % ROWS
+            new_y = (self.y - 1) % ROWS
+            if not self.is_collision(new_y, self.x, maze_pattern, game_area):
+                self.y = new_y
         elif direction == 'DOWN':
-            self.y = (self.y + 1) % ROWS
+            new_y = (self.y + 1) % ROWS
+            if not self.is_collision(new_y, self.x, maze_pattern, game_area):
+                self.y = new_y
         elif direction == 'LEFT':
-            self.x = (self.x - 1) % COLS
+            new_x = (self.x - 1) % COLS
+            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
+                self.x = new_x
         elif direction == 'RIGHT':
-            self.x = (self.x + 1) % COLS
+            new_x = (self.x + 1) % COLS
+            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
+                self.x = new_x
 
     def paint(self, grid):
         if grid[self.y][self.x] != self.color:
@@ -26,3 +34,10 @@ class Player:
     def repaint_trail(self, grid):
         if grid[self.y][self.x] != self.color:
             grid[self.y][self.x] = self.color
+
+    def is_collision(self, y, x, maze_pattern, game_area):
+        if maze_pattern[y][x] == "#":
+            return True
+        if game_area[y][x] == 1:
+            return True
+        return False
