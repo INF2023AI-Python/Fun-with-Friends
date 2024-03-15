@@ -28,7 +28,8 @@ def obstacle(offset_canvas, matrix):
             game_area[y + i][x] = 1
 
     # Clear
-    offset_canvas.Clear()
+    for canvas in offset_canvas:
+        canvas.Clear()
 
     # Draw
     for y in range(PLAY_HEIGHT):
