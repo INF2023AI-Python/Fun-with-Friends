@@ -2,7 +2,6 @@ import pygame
 from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
-from obstacle import *
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 
