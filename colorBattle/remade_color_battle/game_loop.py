@@ -24,10 +24,14 @@ def run_game():
     player2 = Player((0, 255, 0), (31, 31))  # Green player starting at (31, 31)
 
     # Initialize the game grid
-    grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]  # Black background
+    grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
 
     # Initialize the emulator
     emulator = Emulator(PLAY_WIDTH, PLAY_HEIGHT)
+
+    # Initialize the game area and maze pattern
+    game_area = [[0 for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
+    maze_pattern = obstacle(game_area, emulator.matrix)  # You need to modify your 'obstacle' function to return the maze pattern
 
     # Get the start time
     start_ticks = pygame.time.get_ticks()
@@ -41,12 +45,12 @@ def run_game():
                 running = False
 
         # Check if 60 seconds have passed
-        seconds = (pygame.time.get_ticks() - start_ticks) / 1000  # calculate how many seconds
+        seconds = (pygame.time.get_ticks() - start_ticks) / 1000
         if seconds > 60:  # if more than 60 seconds close the game
             break
 
         # Player controls
-        controllers(joysticks, player1, player2)
+        controllers(joysticks, player1, player2, maze_pattern, game_area)  # You need to modify your 'controllers' function to accept 'maze_pattern' and 'game_area' as arguments
 
         # Painting
         player1.paint(grid)
@@ -69,6 +73,7 @@ def run_game():
 
     # Quit Pygame
     pygame.quit()
+
 
 
 if __name__ == "__main__":
