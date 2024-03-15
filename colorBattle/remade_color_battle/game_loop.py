@@ -1,5 +1,5 @@
 import pygame
-from player import Player, ROWS, COLS
+from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
 
@@ -23,10 +23,10 @@ def run_game():
     player2 = Player((0, 255, 0), (31, 31))  # Green player starting at (31, 31)
 
     # Initialize the game grid
-    grid = [[(0, 0, 0) for _ in range(COLS)] for _ in range(ROWS)]  # Black background
+    grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]  # Black background
 
     # Initialize the emulator
-    emulator = Emulator(ROWS, COLS)
+    emulator = Emulator(PLAY_WIDTH, PLAY_HEIGHT)
 
     # Get the start time
     start_ticks = pygame.time.get_ticks()
