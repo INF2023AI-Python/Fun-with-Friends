@@ -2,6 +2,8 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
 import obstacle
+import player
+from scoreboard import Scoreboard
 #pip install numpy
 
 # Constants and Configurations
@@ -27,6 +29,8 @@ pygame.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
+scoreboard = Scoreboard(offset_canvas)
+
 def main():
     running = True
     clock = pygame.time.Clock()
@@ -40,14 +44,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        # Read input, keep players in the area
-        # wrapping()
-        # input(joysticks)
+        # Update the scoreboard
+        scoreboard.update(GAME_DURATION)
 
-        
+        # Draw the updated scoreboard
+        scoreboard.draw()
 
         clock.tick(60)
+        # Update the display
         matrix.SwapOnVSync(offset_canvas)
+
+        # Delay to control frame rate
+        # pygame.time.delay(1000)  # Delay for 1 second (1000 milliseconds)
 
     pygame.quit()
 
