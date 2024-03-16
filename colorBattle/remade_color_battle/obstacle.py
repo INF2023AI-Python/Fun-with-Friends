@@ -1,4 +1,5 @@
 import random
+import pygame
 
 # Constants in setting
 PLAY_WIDTH = 32
