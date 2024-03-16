@@ -32,9 +32,9 @@ def main():
     clock = pygame.time.Clock()
     # Draw obstacle
         # Easy mode
-    #obstacle.obstacle(offset_canvas, matrix)
+    obstacle.obstacle(offset_canvas, matrix)
         # Hard mode: maze
-    obstacle.maze(offset_canvas, matrix)
+    #obstacle.maze(offset_canvas, matrix)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
