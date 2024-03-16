@@ -37,7 +37,7 @@ def main():
         # Easy mode
     #obstacle.obstacle(offset_canvas, matrix)
         # Hard mode: maze
-    obstacle.maze(offset_canvas, matrix)
+   
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -49,6 +49,7 @@ def main():
         # Draw the updated scoreboard
         scoreboard.draw(offset_canvas)
 
+        obstacle.maze(offset_canvas, matrix)
         clock.tick(300)
         # Update the display
         matrix.SwapOnVSync(offset_canvas)
