@@ -1,6 +1,9 @@
 # from game_loop import player1_points, player2_points
 from rgbmatrix import graphics
 
+PLAY_WIDTH = 32
+PLAY_HEIGHT = 28
+
 class Scoreboard:
     def __init__(self, canvas):
         self.canvas = canvas
