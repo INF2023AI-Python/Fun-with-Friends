@@ -47,3 +47,50 @@ def obstacle(offset_canvas, matrix):
 
     # Return the game area
     return game_area
+
+
+def maze(offset_canvas, matrix):
+    # Clear
+    offset_canvas.Clear()
+
+    # Draw maze pattern
+    maze_pattern = [
+        "################################",
+        "#                              #",
+        "######## ##### #################",
+        "#                 #            #",
+        "##### ################ #########",
+        "#       #                      #",
+        "########### ##### ########### ##",
+        "                                ",
+        "######## ######## ######## #####",
+        "#                 #            #",
+        "# ######### ############# #### #",
+        "#       #                      #",
+        "########### ##### ########### ##",
+        "                                ",
+        "# ######### ############# #### #",
+        "    #           #           #   ",
+        "#       #             #         #",
+        "######## ######## ######## #####",
+        "#                 #            #",
+        "# ######### ############# #### #",
+        "#                              #",
+        "######## ######## ######## #####",
+        "#                 #            #",
+        "########### ##### ########### ##",
+        "#                              #",
+        "######## ######## ######## #####",
+        "#                              #",
+        "################################",
+    ]
+
+    # offset_canvas to refresh the screen, already in main
+    offset_canvas = matrix.SwapOnVSync(offset_canvas)
+    for y, row in enumerate(maze_pattern):
+        for x, cell in enumerate(row):
+            if cell == "#":
+                offset_canvas.SetPixel(x, y, obstacle_color[0], obstacle_color[1], obstacle_color[2])
+
+    # Update the matrix
+    matrix.SwapOnVSync(offset_canvas)

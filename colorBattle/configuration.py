@@ -1,7 +1,7 @@
 import os
 import pygame
 from pygame.locals import *
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 # This makes it so that gamepad input can be used even if the window is not in focus
 os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"

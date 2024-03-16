@@ -1,16 +1,17 @@
 import pygame
-import RGBMatrixEmulator
+from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from colorBattle.remade_color_battle.new import update_canvas
 from players_init import players_init
 
 # Global variables
 global player1_speed, player2_speed, player_size
 
 # Constants
-PLAY_WIDTH = 32
-PLAY_HEIGHT = 28
+ROWS = 32
+COLS = 28
 
 
-def input(joysticks, player1_x, player1_y, player2_x, player2_y):
+def controllers(joysticks, player1_x, player1_y, player2_x, player2_y):
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(0)
         axis_y = joystick.get_axis(1)
@@ -23,42 +24,42 @@ def input(joysticks, player1_x, player1_y, player2_x, player2_y):
             player2_y += int(axis_y * player2_speed)
 
         if player1_x < 0:
-            player1_x = PLAY_WIDTH - player_size
-        elif player1_x >= PLAY_WIDTH:
+            player1_x = ROWS - player_size
+        elif player1_x >= ROWS:
             player1_x = 0
         if player1_y < 0:
-            player1_y = PLAY_HEIGHT - player_size
-        elif player1_y >= PLAY_HEIGHT:
+            player1_y = COLS - player_size
+        elif player1_y >= COLS:
             player1_y = 0
 
         if player2_x < 0:
-            player2_x = PLAY_WIDTH - player_size
-        elif player2_x >= PLAY_WIDTH:
+            player2_x = ROWS - player_size
+        elif player2_x >= ROWS:
             player2_x = 0
         if player2_y < 0:
-            player2_y = PLAY_HEIGHT - player_size
-        elif player2_y >= PLAY_HEIGHT:
+            player2_y = COLS - player_size
+        elif player2_y >= COLS:
             player2_y = 0
 
-        player1_x = max(0, min(PLAY_WIDTH - player_size, player1_x))
-        player1_y = max(0, min(PLAY_HEIGHT - player_size, player1_y))
+        player1_x = max(0, min(ROWS - player_size, player1_x))
+        player1_y = max(0, min(COLS - player_size, player1_y))
 
-        player2_x = max(0, min(PLAY_WIDTH - player_size, player2_x))
-        player2_y = max(0, min(PLAY_HEIGHT - player_size, player2_y))
+        player2_x = max(0, min(ROWS - player_size, player2_x))
+        player2_y = max(0, min(COLS - player_size, player2_y))
 
     return player1_x, player1_y, player2_x, player2_y
 
 
-def update_canvas(canvas, player1_x, player1_y, player2_x, player2_y):
-    # Clear the canvas
-    canvas.Clear()
-
-    # Draw players
-    canvas.SetPixel(player1_x, player1_y, 255, 0, 0)  # Red color for Player 1
-    canvas.SetPixel(player2_x, player2_y, 0, 0, 255)  # Blue color for Player 2
-
-    # Update the display
-    canvas = canvas.SwapOnVSync()
+# def update_canvas(canvas, player1_x, player1_y, player2_x, player2_y):
+#     # Clear the canvas
+#     canvas.Clear()
+#
+#     # Draw players
+#     canvas.SetPixel(player1_x, player1_y, 255, 0, 0)  # Red color for Player 1
+#     canvas.SetPixel(player2_x, player2_y, 0, 0, 255)  # Blue color for Player 2
+#
+#     # Update the display
+#     canvas = matrix.SwapOnVSync()  # Use SwapOnVSync to update the display
 
 
 # Main function
@@ -67,11 +68,11 @@ def main():
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
     # Initialize the RGBMatrixEmulator
-    options = RGBMatrixEmulator.RGBMatrixOptions()
+    options = RGBMatrixOptions()
     options.hardware_mapping = 'adafruit-hat'
-    options.rows = PLAY_HEIGHT
-    options.cols = PLAY_WIDTH
-    matrix = RGBMatrixEmulator.RGBMatrix(options)
+    options.rows = COLS
+    options.cols = ROWS
+    matrix = RGBMatrix(options)
     canvas = matrix.CreateFrameCanvas()
 
     player_positions = players_init()
@@ -83,7 +84,7 @@ def main():
                 pygame.quit()
                 return
 
-        player1_x, player1_y, player2_x, player2_y = input(joysticks, player1_x, player1_y, player2_x, player2_y)
+        player1_x, player1_y, player2_x, player2_y = controllers(joysticks, player1_x, player1_y, player2_x, player2_y)
 
         update_canvas(canvas, player1_x, player1_y, player2_x, player2_y)
 

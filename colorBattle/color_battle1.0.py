@@ -4,26 +4,26 @@ from time import time
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 
-def generate_bonus_points(game_area, bonus_points):
-    for _ in range(bonus_points):
-        x = random.randint(0, len(game_area[0]) - 1)
-        y = random.randint(0, len(game_area) - 1)
-        # Ensure bonus points don't overlap with player positions
-        while game_area[y][x] != 0:
-            x = random.randint(0, len(game_area[0]) - 1)
-            y = random.randint(0, len(game_area) - 1)
-        game_area[y][x] = 'B'  # Mark bonus points on the game area
+# def generate_bonus_points(game_area, bonus_points):
+#     for _ in range(bonus_points):
+#         x = random.randint(0, len(game_area[0]) - 1)
+#         y = random.randint(0, len(game_area) - 1)
+#         # Ensure bonus points don't overlap with player positions
+#         while game_area[y][x] != 0:
+#             x = random.randint(0, len(game_area[0]) - 1)
+#             y = random.randint(0, len(game_area) - 1)
+#         game_area[y][x] = 'B'  # Mark bonus points on the game area
 
 
-def draw_bonus_points(canvas, game_area, player_size, blink_state, offset_x, offset_y):
-    for y in range(len(game_area)):
-        for x in range(len(game_area[0])):
-            if game_area[y][x] == 'B':
-                if blink_state:
-                    canvas.SetPixel((x + offset_x) * player_size, (y + offset_y) * player_size, 255, 255, 255)
-                else:
-                    canvas.SetPixel((x + offset_x) * player_size, (y + offset_y) * player_size, 0, 0, 0)
-
+# def draw_bonus_points(canvas, game_area, player_size, blink_state, offset_x, offset_y):
+#     for y in range(len(game_area)):
+#         for x in range(len(game_area[0])):
+#             if game_area[y][x] == 'B':
+#                 if blink_state:
+#                     canvas.SetPixel((x + offset_x) * player_size, (y + offset_y) * player_size, 255, 255, 255)
+#                 else:
+#                     canvas.SetPixel((x + offset_x) * player_size, (y + offset_y) * player_size, 0, 0, 0)
+#
 
 def count_points(game_area):
     player1_count = sum(row.count(1) for row in game_area)  # Count cells occupied by player 1
