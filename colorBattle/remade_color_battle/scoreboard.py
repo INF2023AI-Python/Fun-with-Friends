@@ -22,7 +22,7 @@ class Scoreboard:
         if self.remaining_time < 0:
             self.remaining_time = 0
 
-    def draw(self):
+    def draw(self, offset_canvas):
         # Clear the scoreboard area
         self.canvas.Clear()
 
@@ -39,10 +39,10 @@ class Scoreboard:
 
 
         # Draw player 1's points on the left side
-        graphics.DrawText(offscreen_canvas, font, 1, SCREEN_HEIGHT, pointsColor, str(self.player1_points))
+        graphics.DrawText(offset_canvas, font, 1, SCREEN_HEIGHT, pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, pointsColor, str(self.player2_points))
+        graphics.DrawText(offset_canvas, font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, pointsColor, str(self.player2_points))
 
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
