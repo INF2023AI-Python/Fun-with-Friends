@@ -1,6 +1,7 @@
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
-import obstacle  # Import the obstacle module
+import obstacle
 #pip install numpy
 
 # Constants and Configurations
@@ -31,9 +32,9 @@ def main():
     clock = pygame.time.Clock()
     # Draw obstacle
         # Easy mode
-    #obstacle.obstacle(offset_canvas, matrix)
+    obstacle.obstacle(offset_canvas, matrix)
         # Hard mode: maze
-    obstacle.maze(offset_canvas, matrix)
+    #obstacle.maze(offset_canvas, matrix)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
