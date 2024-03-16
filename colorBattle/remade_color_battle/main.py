@@ -43,11 +43,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        # Update the scoreboard
-        scoreboard.update(GAME_DURATION)
+        # # Update the scoreboard
+        # scoreboard.update(GAME_DURATION)
 
-        # Draw the updated scoreboard
-        scoreboard.draw()
+        # # Draw the updated scoreboard
+        # scoreboard.draw()
 
         clock.tick(300)
         # Update the display
