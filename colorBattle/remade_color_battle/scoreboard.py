@@ -1,8 +1,8 @@
 # from game_loop import player1_points, player2_points
 from rgbmatrix import graphics
 
-PLAY_WIDTH = 32
-PLAY_HEIGHT = 28
+SCREEN_WIDTH = 32
+SCREEN_HEIGHT = 32
 
 class Scoreboard:
     def __init__(self, canvas):
@@ -29,7 +29,7 @@ class Scoreboard:
         # Create graphics context
         offscreen_canvas = self.canvas
         font = graphics.Font()
-        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/4x6.bdf")
 
         points_color = (0,255,255)
         time_color = (0,0,255)
@@ -39,15 +39,15 @@ class Scoreboard:
 
 
         # Draw player 1's points on the left side
-        graphics.DrawText(offscreen_canvas, font, 1, PLAY_HEIGHT + 1, pointsColor, str(self.player1_points))
+        graphics.DrawText(offscreen_canvas, font, 1, SCREEN_HEIGHT - 8, pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH - 9, PLAY_HEIGHT + 1, pointsColor, str(self.player2_points))
+        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH - 9, SCREEN_HEIGHT - 8, pointsColor, str(self.player2_points))
 
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
         time_text = f"{remaining_seconds:02d}"
-        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, timeColor, time_text)
+        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH // 2 - len(time_text) // 2, SCREEN_HEIGHT - 8, timeColor, time_text)
 
     # def draw(self):
     #     # Clear the scoreboard area
