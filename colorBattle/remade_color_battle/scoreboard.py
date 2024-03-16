@@ -22,16 +22,36 @@ class Scoreboard:
         # Clear the scoreboard area
         self.canvas.Clear()
 
+        # Create graphics context
+        offscreen_canvas = self.canvas
+        font = graphics.Font()
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+
         # Draw player 1's points on the left side
-        self.canvas.DrawText(1, PLAY_HEIGHT + 1, self.player1_points, (0,255,255))
+        graphics.DrawText(offscreen_canvas, font, 1, PLAY_HEIGHT + 1, (0,255,255), str(self.player1_points))
 
         # Draw player 2's points on the right side
-        self.canvas.DrawText(PLAY_WIDTH - 9, PLAY_HEIGHT + 1, self.player2_points, (0,255,255))
+        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH - 9, PLAY_HEIGHT + 1, (0,255,255), str(self.player2_points))
 
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
         time_text = f"{remaining_seconds:02d}"
-        self.canvas.DrawText(PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, time_text, (0,0,255))
+        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, (0,0,255), time_text)
+
+    # def draw(self):
+    #     # Clear the scoreboard area
+    #     self.canvas.Clear()
+
+    #     # Draw player 1's points on the left side
+    #     graphics.DrawText(1, PLAY_HEIGHT + 1, self.player1_points, (0,255,255))
+
+    #     # Draw player 2's points on the right side
+    #     graphics.DrawText(PLAY_WIDTH - 9, PLAY_HEIGHT + 1, self.player2_points, (0,255,255))
+
+    #     # Draw remaining time in the middle
+    #     remaining_seconds = self.remaining_time % 60
+    #     time_text = f"{remaining_seconds:02d}"
+    #     self.canvas.DrawText(PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, time_text, (0,0,255))
 
 
 # scoreboard = Scoreboard(offset_canvas)

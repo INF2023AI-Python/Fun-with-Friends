@@ -1,5 +1,5 @@
 #from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import obstacle
 from scoreboard import Scoreboard
