@@ -2,7 +2,7 @@ import random
 
 # Constants in setting
 PLAY_WIDTH = 32
-PLAY_HEIGHT = 28
+PLAY_HEIGHT = 26
 LINE_LENGTH = 2  # Adjust the length of the lines as needed
 LINE_SPACING = 4  # Adjust the spacing between lines as needed
 obstacle_color = (255, 255, 255)
@@ -54,7 +54,7 @@ def maze(offset_canvas, matrix):
 
     # Draw maze pattern
     maze_pattern = [
-        "################################",
+        # "################################",
         "#                              #",
         "######## ##### #################",
         "#                 #            #",
@@ -81,7 +81,7 @@ def maze(offset_canvas, matrix):
         "#                              #",
         "######## ######## ######## #####",
         "#                              #",
-        "################################",
+        # "################################",
     ]
 
     for y, row in enumerate(maze_pattern):
