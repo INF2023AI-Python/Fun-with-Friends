@@ -3,7 +3,7 @@ from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-import obstacle
+from obstacle import maze, obstacle
 
 
 def count_points(grid, player1_color, player2_color):
@@ -30,9 +30,10 @@ def run_game():
     # Initialize the emulator
     emulator = Emulator(PLAY_WIDTH, PLAY_HEIGHT)
 
-    # Initialize the game area and maze pattern
-    game_area = obstacle.obstacle(emulator.canvas, emulator.matrix)
-    maze_pattern = obstacle.maze(emulator.canvas, emulator.matrix)
+    # Easy mode
+    game_area = obstacle(emulator.canvas, emulator.matrix)
+    # Hard mode: maze
+    maze_pattern = maze(emulator.canvas, emulator.matrix)
 
     # Get the start time
     start_ticks = pygame.time.get_ticks()
