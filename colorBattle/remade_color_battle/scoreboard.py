@@ -47,7 +47,7 @@ class Scoreboard:
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
         time_text = f"{remaining_seconds:02d}"
-        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH // 2 - len(time_text) -1 // 2, SCREEN_HEIGHT, timeColor, time_text)
+        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH // 2 - len(time_text) -3 // 2, SCREEN_HEIGHT, timeColor, time_text)
 
     # def draw(self):
     #     # Clear the scoreboard area
