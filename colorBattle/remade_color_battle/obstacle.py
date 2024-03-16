@@ -7,7 +7,6 @@ LINE_LENGTH = 2  # Adjust the length of the lines as needed
 LINE_SPACING = 4  # Adjust the spacing between lines as needed
 obstacle_color = (255, 255, 255)
 
-
 def obstacle(offset_canvas, matrix):
     game_area = [[0 for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
 
@@ -26,7 +25,7 @@ def obstacle(offset_canvas, matrix):
 
         for i in range(LINE_LENGTH):
             game_area[y + i][x] = 1
-
+    
     # Clear
     offset_canvas.clear()
 
@@ -47,7 +46,6 @@ def obstacle(offset_canvas, matrix):
 
     # Return the game area
     return game_area
-
 
 def maze(offset_canvas, matrix):
     # Clear
@@ -94,3 +92,5 @@ def maze(offset_canvas, matrix):
 
     # Update the matrix
     matrix.SwapOnVSync(offset_canvas)
+
+    return maze_pattern
