@@ -1,5 +1,4 @@
 import random
-import pygame
 
 # Constants in setting
 PLAY_WIDTH = 32
@@ -10,19 +9,6 @@ obstacle_color = (255, 255, 255)
 
 def obstacle(offset_canvas, matrix):
     game_area = [[0 for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
-    obstacle_color = (255, 255, 255)
-    # set the position for the obstacles, can change the number in needs
-    line_y = 15
-    line_x = 10
-    for x in range(1, 5):
-        game_area[line_y][x] = 1
-    for x in range(7, 9):
-        game_area[line_y][x] = 1
-    for y in range(10, 20):
-        game_area[y][line_x] = 1
-
-    # clear
-    # obstacle_color = (255, 255, 255)
 
     # Create parallel horizontal lines
     for y in range(2, PLAY_HEIGHT, LINE_SPACING):
@@ -41,14 +27,12 @@ def obstacle(offset_canvas, matrix):
             game_area[y + i][x] = 1
     
     # Clear
-    offset_canvas.Clear()
+    offset_canvas.clear()
 
-    # draw
     # Draw
     for y in range(PLAY_HEIGHT):
         for x in range(PLAY_WIDTH):
             if game_area[y][x] == 1:
-                pygame.draw.rect(offset_canvas, obstacle_color, (x, y, 1, 1))
                 # Draw a horizontal or vertical line
                 if y + LINE_LENGTH <= PLAY_HEIGHT:
                     for i in range(LINE_LENGTH):
@@ -59,7 +43,9 @@ def obstacle(offset_canvas, matrix):
 
     # Update the matrix
     matrix.SwapOnVSync(offset_canvas)
-    #or offset_canvas = matrix.SwapOnVSync(offset_canvas)
+
+    # Return the game area
+    #return game_area
 
 def maze(offset_canvas, matrix):
     # Clear
@@ -107,4 +93,4 @@ def maze(offset_canvas, matrix):
     # Update the matrix
     matrix.SwapOnVSync(offset_canvas)
 
-    return maze_pattern
+    #return maze_pattern
