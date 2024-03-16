@@ -47,6 +47,7 @@ def obstacle(offset_canvas, matrix):
     #or offset_canvas = matrix.SwapOnVSync(offset_canvas)
     return game_area
 
+
 def maze(offset_canvas, matrix):
     # Clear
     offset_canvas.Clear()
