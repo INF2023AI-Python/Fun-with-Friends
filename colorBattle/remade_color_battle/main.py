@@ -49,7 +49,7 @@ def main():
         # Draw the updated scoreboard
         scoreboard.draw()
 
-        clock.tick(200)
+        clock.tick(300)
         # Update the display
         matrix.SwapOnVSync(offset_canvas)
 
