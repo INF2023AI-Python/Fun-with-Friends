@@ -2,7 +2,6 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
 import obstacle
-import player
 from scoreboard import Scoreboard
 #pip install numpy
 

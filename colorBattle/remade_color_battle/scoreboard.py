@@ -1,4 +1,4 @@
-from player import player1_points, player2_points
+from game_loop import player1_points, player2_points
 
 class Scoreboard:
     def __init__(self, canvas):
