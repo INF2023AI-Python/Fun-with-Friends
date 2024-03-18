@@ -88,7 +88,7 @@ def select_level(matrix, offset_canvas, joysticks):
                     draw_level(matrix, offset_canvas, selected_level)
                       # Draw maze for hard level
                 if event.button == 1:
-                    if select_level == "hard":
+                    if selected_level == "hard":
                         return maze(offset_canvas, matrix)
                     if selected_level == "easy":
                         return obstacle(offset_canvas, matrix)
