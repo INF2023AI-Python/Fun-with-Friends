@@ -5,7 +5,7 @@ import pygame
 from scoreboard import Scoreboard
 from levelSelection import select_level
 from game_loop import run_game
-from game_loop import player1_points, player2_points
+# from game_loop import player1_points, player2_points
 #pip install numpy
 
 # Constants and Configurations
