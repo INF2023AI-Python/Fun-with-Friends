@@ -3,6 +3,7 @@ from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from obstacle import maze, obstacle
 
 
 def count_points(grid, player1_color, player2_color):
@@ -20,14 +21,20 @@ def run_game():
     joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 
     # Initialize the players
-    player1 = Player((255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))  # Red player starting at center-left
-    player2 = Player((0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 15))  # Green player starting at center-right
+    # Initialize the players
+    player1 = Player((255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))
+    player2 = Player((0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 15))
 
     # Initialize the game grid
     grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
 
     # Initialize the emulator
     emulator = Emulator(PLAY_WIDTH, PLAY_HEIGHT)
+
+    # Easy mode
+    game_area = obstacle(emulator.canvas, emulator.matrix)
+    # Hard mode: maze
+    maze_pattern = maze(emulator.canvas, emulator.matrix)
 
     # Get the start time
     start_ticks = pygame.time.get_ticks()
@@ -46,7 +53,7 @@ def run_game():
             break
 
         # Player controls
-        controllers(joysticks, player1, player2)
+        controllers(joysticks, player1, player2, maze_pattern, game_area)
         # Painting
         player1.paint(grid)
         player2.paint(grid)
