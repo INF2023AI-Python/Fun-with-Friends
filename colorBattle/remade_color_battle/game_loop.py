@@ -22,10 +22,8 @@ def run_game():
 
     # Initialize the players
     # Initialize the players
-    player1 = Player((255, 255, 0), (255, 0, 0),
-                     (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))  # Yellow player with red trail starting at center-left
-    player2 = Player((0, 0, 255), (0, 255, 0),
-                     (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 15))  # Blue player with green trail starting at center-right
+    player1 = Player((255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))
+    player2 = Player((0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 15))
 
     # Initialize the game grid
     grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
