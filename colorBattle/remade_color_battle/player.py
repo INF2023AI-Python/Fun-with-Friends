@@ -1,4 +1,4 @@
-PLAY_HEIGHT = 28
+PLAY_HEIGHT = 26
 PLAY_WIDTH = 32
 
 # TODO: make the color for every player

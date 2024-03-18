@@ -1,5 +1,5 @@
 def controllers(joysticks, player1, player2, maze_pattern, game_area):
-    DEAD_ZONE = 0.15  # Adjust this value to increase or decrease the dead zone
+    DEAD_ZONE = 0.1  # Adjust this value to increase or decrease the dead zone
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(1)  # Swap the axes
         axis_y = joystick.get_axis(0)  # Swap the axes
