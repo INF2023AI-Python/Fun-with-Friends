@@ -66,7 +66,7 @@ def select_level(matrix, offset_canvas, joysticks):
                 # Check if button 9 (button start) is pressed
                 if event.button == 1:
                     # Return the selected level
-                    offset_canvas.Clear()
+                    # offset_canvas.Clear()
                     return selected_level
         
         pygame.time.Clock().tick(10)
