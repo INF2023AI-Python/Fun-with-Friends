@@ -47,7 +47,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        run_game()
+        # run_game()
 
         # Update the scoreboard
         scoreboard.update(GAME_DURATION)
