@@ -21,9 +21,8 @@ def run_game():
     joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 
     # Initialize the players
-    # Initialize the players
-    player1 = Player((255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 25))
-    player2 = Player((0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 25))
+    player1 = Player((255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))
+    player2 = Player((0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 15))
 
     # Initialize the game grid
     grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
@@ -62,7 +61,7 @@ def run_game():
         emulator.update_canvas(grid)
 
         # Frame rate (e.g., 60 FPS)
-        pygame.time.delay(int(1000 / 60))
+        pygame.time.delay(int(1000 / 30))
 
     # Count points and determine the winner
     player1_points, player2_points = count_points(grid, player1.color, player2.color)
