@@ -4,6 +4,7 @@ import pygame
 # from obstacle import obstacle, maze
 from scoreboard import Scoreboard
 from levelSelection import select_level
+from game_loop import run_game
 #pip install numpy
 
 # Constants and Configurations
@@ -50,11 +51,14 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        run_game()
+        
         # Update the scoreboard
         scoreboard.update(GAME_DURATION)
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
         scoreboard.draw(offset_canvas)
+
 
         clock.tick(300)
         # Update the display
