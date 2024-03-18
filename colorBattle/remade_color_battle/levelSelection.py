@@ -50,9 +50,6 @@ def draw_level(matrix, offset_canvas, selected_level):
     matrix.SwapOnVSync(offset_canvas)
 
 def select_level(matrix, offset_canvas, joysticks):
-    # Draw the level selection screen
-    draw_level(matrix, offset_canvas)
-
     # Wait for the player to make a selection
     selected_level = None
     while selected_level is None:
