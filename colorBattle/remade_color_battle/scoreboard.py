@@ -11,6 +11,7 @@ class Scoreboard:
         self.canvas = canvas
         self.player1_points = 0
         self.player2_points = 0
+        self.start_time = pygame.time.get_ticks()
 
     def update(self, duration):
         # self.player1_points = player1_points
