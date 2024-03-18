@@ -1,4 +1,4 @@
-from game_loop import player1_points, player2_points
+# from game_loop import player1_points, player2_points
 from rgbmatrix import graphics
 import pygame
 
@@ -13,8 +13,8 @@ class Scoreboard:
         self.player2_points = 0
 
     def update(self, duration):
-        self.player1_points = player1_points
-        self.player2_points = player2_points
+        # self.player1_points = player1_points
+        # self.player2_points = player2_points
         self.remaining_time = duration
         
         # Calculate the elapsed time since the start of the game
