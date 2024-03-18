@@ -5,12 +5,17 @@ from controllers import controllers
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from obstacle import maze, obstacle
 
+# TODO: create Game class with grid, player1_points, player2_points
+
 
 def count_points(grid, player1_color, player2_color):
     player1_points = sum(row.count(player1_color) for row in grid)  # Count cells occupied by player 1
     player2_points = sum(row.count(player2_color) for row in grid)  # Count cells occupied by player 2
 
-    return player1_points, player2_points
+    return {
+        "player1_points": player1_points,
+        "player2_points": player2_points
+    }
 
 
 def run_game():
