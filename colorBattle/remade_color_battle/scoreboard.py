@@ -23,11 +23,7 @@ class Scoreboard:
             self.remaining_time = 0
 
     def draw(self, offset_canvas):
-        # Clear the scoreboard area
-        self.canvas.Clear()
-
-        # Create graphics context
-        offscreen_canvas = self.canvas
+        
         font = graphics.Font()
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/4x6.bdf")
         blau = (0,255,255)
@@ -44,7 +40,7 @@ class Scoreboard:
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
         time_text = f"{remaining_seconds:02d}"
-        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH // 2 - len(time_text) -2 // 2, SCREEN_HEIGHT, timeColor, time_text)
+        graphics.DrawText(offset_canvas, font, SCREEN_WIDTH // 2 - len(time_text) -2 // 2, SCREEN_HEIGHT, timeColor, time_text)
 
     # def draw(self):
     #     # Clear the scoreboard area
