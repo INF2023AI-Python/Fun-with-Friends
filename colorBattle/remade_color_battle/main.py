@@ -1,5 +1,5 @@
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-# from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+# from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import obstacle
 from scoreboard import Scoreboard
@@ -29,6 +29,7 @@ pygame.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
+#create a instance for scoreboard
 scoreboard = Scoreboard(offset_canvas)
 
 def main():
