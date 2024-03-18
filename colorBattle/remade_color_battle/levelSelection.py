@@ -5,10 +5,6 @@ from rgbmatrix import graphics
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 
-# Coordinates for the square areas representing easy and hard options
-EASY_SQUARE = [(5, 10), (15, 10), (5, 18), (15, 18)]
-HARD_SQUARE = [(5, 18), (15, 18), (5, 26), (15, 26)]
-
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
     offset_canvas.Clear()
@@ -17,29 +13,38 @@ def draw_level(matrix, offset_canvas, selected_level):
     font = graphics.Font()
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
 
+    # Calculate the center of the screen
+    center_x = SCREEN_WIDTH // 2
+    center_y = SCREEN_HEIGHT // 2
+
+    # Calculate the positions for centering the text options
+    x_position_easy = center_x - 10
+    y_position_easy = center_y - 1
+
+    # Add vertical spacing if necessary for additional options
+    y_spacing = 4
+
+    # Calculate the position for the "Hard" option
+    x_position_hard = center_x - 10
+    y_position_hard = y_spacing + y_position_easy + 4  # 4 is the height of one option, so adjust accordingly
+    
     # Set the default color
     default_color = graphics.Color(255, 255, 255)
 
     # Set the selected color to red
     selected_color = graphics.Color(255, 0, 0)
 
-    # Draw "Easy" square
-    for x, y in EASY_SQUARE:
-        graphics.DrawLine(offset_canvas, x, y, x + 8, y, default_color)
-        graphics.DrawLine(offset_canvas, x + 8, y, x + 8, y + 8, default_color)
-        graphics.DrawLine(offset_canvas, x + 8, y + 8, x, y + 8, default_color)
-        graphics.DrawLine(offset_canvas, x, y + 8, x, y, default_color)
+    # Draw "Easy" option
+    if selected_level == "easy":
+        graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, selected_color, "Easy")
+    else:
+        graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, default_color, "Easy")
     
-    # Draw "Hard" square
-    for x, y in HARD_SQUARE:
-        graphics.DrawLine(offset_canvas, x, y, x + 8, y, default_color)
-        graphics.DrawLine(offset_canvas, x + 8, y, x + 8, y + 8, default_color)
-        graphics.DrawLine(offset_canvas, x + 8, y + 8, x, y + 8, default_color)
-        graphics.DrawLine(offset_canvas, x, y + 8, x, y, default_color)
-
-    # Draw "Easy" and "Hard" texts
-    graphics.DrawText(offset_canvas, font, 7, 12, selected_color if selected_level == "easy" else default_color, "Easy")
-    graphics.DrawText(offset_canvas, font, 7, 20, selected_color if selected_level == "hard" else default_color, "Hard")
+    # Draw "Hard" option
+    if selected_level == "hard":
+        graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, selected_color, "Hard")
+    else:
+        graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, default_color, "Hard")
 
     # Update the display
     matrix.SwapOnVSync(offset_canvas)
@@ -47,6 +52,10 @@ def draw_level(matrix, offset_canvas, selected_level):
 def select_level(matrix, offset_canvas, joysticks):
     # Initialize the selected level as None
     selected_level = None
+
+    # Initialize the previous joystick position
+    prev_x_axis = 0
+    prev_y_axis = 0
 
     while selected_level is None:
         for event in pygame.event.get():
@@ -68,8 +77,13 @@ def select_level(matrix, offset_canvas, joysticks):
             elif -0.8 < x_axis < -0.2 and 0.2 < y_axis < 0.8:
                 selected_level = "hard"
             
-        # Redraw the screen to highlight the selected option
-        draw_level(matrix, offset_canvas, selected_level)
+            # Redraw the screen to highlight the selected option only if the joystick position has changed
+            if x_axis != prev_x_axis or y_axis != prev_y_axis:
+                draw_level(matrix, offset_canvas, selected_level)
+
+            # Update previous joystick position
+            prev_x_axis = x_axis
+            prev_y_axis = y_axis
         
         pygame.time.Clock().tick(10)
 
