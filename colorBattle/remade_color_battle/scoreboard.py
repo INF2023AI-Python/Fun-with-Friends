@@ -1,8 +1,8 @@
 # from game_loop import player1_points, player2_points
 from rgbmatrix import graphics
 # from RGBMatrixEmulator import graphics
-PLAY_WIDTH = 32
-PLAY_HEIGHT = 28
+SCREEN_WIDTH = 32
+SCREEN_HEIGHT = 32
 
 class Scoreboard:
     def __init__(self, canvas):
@@ -22,7 +22,7 @@ class Scoreboard:
         if self.remaining_time < 0:
             self.remaining_time = 0
 
-    def draw(self):
+    def draw(self, offset_canvas):
         # Clear the scoreboard area
         self.canvas.Clear()
 
@@ -32,10 +32,10 @@ class Scoreboard:
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/4x6.bdf")
         blau = (0,255,255)
         turquoise = (0,0,255)
-        points_color = graphics.Color(*blau)
-        time_color = graphics.Color(*turquoise)
+        pointsColor = graphics.Color(*blau)
+        timeColor = graphics.Color(*turquoise)
 
-        # Draw player 1's points on the left side
+       # Draw player 1's points on the left side
         graphics.DrawText(offset_canvas, font, 1, SCREEN_HEIGHT, pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
