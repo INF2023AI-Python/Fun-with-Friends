@@ -4,7 +4,7 @@ from rgbmatrix import graphics
 # Constants for screen dimensions and options
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
-clock = pygame.time.Clock()
+
 
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
@@ -72,7 +72,7 @@ def select_level(matrix, offset_canvas, joysticks):
                     # Redraw the screen to highlight the selected option
                     draw_level(matrix, offset_canvas, selected_level)
         
-        clock.tick(300)
+        pygame.time.delay(100)
 
     return selected_level
 
