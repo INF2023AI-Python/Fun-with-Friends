@@ -35,7 +35,7 @@ scoreboard = Scoreboard(offset_canvas)
 def main():
     running = True
     clock = pygame.time.Clock()
-    
+
     if select_level(matrix, offset_canvas, joysticks) == "easy":
         # Easy mode: Draw obstacle
         offset_canvas.Clear()
@@ -54,7 +54,7 @@ def main():
         scoreboard.update(GAME_DURATION)
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
-        scoreboard.draw()
+        scoreboard.draw(offset_canvas)
 
         clock.tick(300)
         # Update the display
