@@ -51,10 +51,10 @@ def main():
                 running = False
 
         # Update the scoreboard
-        # scoreboard.update(GAME_DURATION)
+        scoreboard.update(GAME_DURATION)
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
-        # scoreboard.draw(offset_canvas)
+        scoreboard.draw(offset_canvas)
 
         clock.tick(300)
         # Update the display
