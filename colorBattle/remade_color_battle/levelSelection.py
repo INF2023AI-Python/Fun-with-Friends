@@ -5,9 +5,9 @@ from rgbmatrix import graphics
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 
-# Define the coordinates for the easy and hard options
-EASY_OPTION = [(6, 12), (15, 12), (6, 20), (15, 20)]
-HARD_OPTION = [(6, 20), (15, 20), (6, 28), (15, 28)]
+# Coordinates for the square areas representing easy and hard options
+EASY_SQUARE = [(5, 10), (15, 10), (5, 18), (15, 18)]
+HARD_SQUARE = [(5, 18), (15, 18), (5, 26), (15, 26)]
 
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
@@ -23,19 +23,23 @@ def draw_level(matrix, offset_canvas, selected_level):
     # Set the selected color to red
     selected_color = graphics.Color(255, 0, 0)
 
-    # Draw "Easy" option
-    for x, y in EASY_OPTION:
-        if selected_level == "easy":
-            graphics.DrawText(offset_canvas, font, x, y, selected_color, "Easy")
-        else:
-            graphics.DrawText(offset_canvas, font, x, y, default_color, "Easy")
+    # Draw "Easy" square
+    for x, y in EASY_SQUARE:
+        graphics.DrawLine(offset_canvas, x, y, x + 8, y, default_color)
+        graphics.DrawLine(offset_canvas, x + 8, y, x + 8, y + 8, default_color)
+        graphics.DrawLine(offset_canvas, x + 8, y + 8, x, y + 8, default_color)
+        graphics.DrawLine(offset_canvas, x, y + 8, x, y, default_color)
     
-    # Draw "Hard" option
-    for x, y in HARD_OPTION:
-        if selected_level == "hard":
-            graphics.DrawText(offset_canvas, font, x, y, selected_color, "Hard")
-        else:
-            graphics.DrawText(offset_canvas, font, x, y, default_color, "Hard")
+    # Draw "Hard" square
+    for x, y in HARD_SQUARE:
+        graphics.DrawLine(offset_canvas, x, y, x + 8, y, default_color)
+        graphics.DrawLine(offset_canvas, x + 8, y, x + 8, y + 8, default_color)
+        graphics.DrawLine(offset_canvas, x + 8, y + 8, x, y + 8, default_color)
+        graphics.DrawLine(offset_canvas, x, y + 8, x, y, default_color)
+
+    # Draw "Easy" and "Hard" texts
+    graphics.DrawText(offset_canvas, font, 7, 12, selected_color if selected_level == "easy" else default_color, "Easy")
+    graphics.DrawText(offset_canvas, font, 7, 20, selected_color if selected_level == "hard" else default_color, "Hard")
 
     # Update the display
     matrix.SwapOnVSync(offset_canvas)
