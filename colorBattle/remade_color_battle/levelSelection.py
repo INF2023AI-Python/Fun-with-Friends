@@ -70,8 +70,5 @@ def select_level(matrix, offset_canvas, joysticks):
                 if event.button == 1:
                     # Return the selected level
                     return selected_level
-
-            # Update previous joystick position
-            prev_y_axis = y_axis
         
         pygame.time.Clock().tick(10)
