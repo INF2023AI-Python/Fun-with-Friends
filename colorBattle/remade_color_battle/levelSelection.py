@@ -19,14 +19,14 @@ def draw_level(matrix, offset_canvas):
     center_y = SCREEN_HEIGHT // 2
 
     # Calculate the positions for centering the text options
-    x_position_easy = center_x - 2
+    x_position_easy = center_x - 10
     y_position_easy = center_y - 1
 
     # Add vertical spacing if necessary for additional options
     y_spacing = 4
 
     # Calculate the position for the "Hard" option
-    x_position_hard = center_x - 2
+    x_position_hard = center_x - 10
     y_position_hard = y_spacing + y_position_easy + 4  # 4 is the height of one option, so adjust accordingly
     
     turquoise = (0,0,255)
