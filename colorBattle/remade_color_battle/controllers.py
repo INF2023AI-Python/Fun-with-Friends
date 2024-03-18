@@ -1,7 +1,13 @@
 def controllers(joysticks, player1, player2, maze_pattern, game_area):
+    DEAD_ZONE = 0.2  # Adjust this value to increase or decrease the dead zone
     for i, joystick in enumerate(joysticks):
         axis_x = joystick.get_axis(0)
         axis_y = joystick.get_axis(1)
+
+        if abs(axis_x) < DEAD_ZONE:
+            axis_x = 0
+        if abs(axis_y) < DEAD_ZONE:
+            axis_y = 0
 
         if i == 0:  # Player 1 controls (First gamepad)
             if axis_x < -0.7:
@@ -22,4 +28,3 @@ def controllers(joysticks, player1, player2, maze_pattern, game_area):
                 player2.move('UP', maze_pattern, game_area)
             elif axis_y > 0.7:
                 player2.move('DOWN', maze_pattern, game_area)
-
