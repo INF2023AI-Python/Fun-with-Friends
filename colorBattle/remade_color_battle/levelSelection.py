@@ -4,6 +4,7 @@ from rgbmatrix import graphics
 # Constants for screen dimensions and options
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
+clock = pygame.time.Clock()
 
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
@@ -61,14 +62,17 @@ def select_level(matrix, offset_canvas, joysticks):
                     # Return the selected level
                     return selected_level
                 
-                # Check joystick position to determine the selection
-                # Adjust x and y thresholds according to your setup
-                if 0.2 < joysticks.get_axis(0) < 0.8 and 0.2 < joysticks.get_axis(1) < 0.8:
-                    selected_level = "easy"
-                elif -0.8 < joysticks.get_axis(0) < -0.2 and 0.2 < joysticks.get_axis(1) < 0.8:
-                    selected_level = "hard"
-                # Redraw the screen to highlight the selected option
-                draw_level(matrix, offset_canvas, selected_level)
+                for joystick in joysticks:
+                    # Check joystick position to determine the selection
+                    # Adjust x and y thresholds according to your setup
+                    if 0.2 < joystick.get_axis(0) < 0.8 and 0.2 < joystick.get_axis(1) < 0.8:
+                        selected_level = "easy"
+                    elif -0.8 < joystick.get_axis(0) < -0.2 and 0.2 < joystick.get_axis(1) < 0.8:
+                        selected_level = "hard"
+                    # Redraw the screen to highlight the selected option
+                    draw_level(matrix, offset_canvas, selected_level)
+        
+        clock.tick(300)
 
     return selected_level
 
