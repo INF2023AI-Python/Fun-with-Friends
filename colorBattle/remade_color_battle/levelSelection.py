@@ -82,12 +82,15 @@ def select_level(matrix, offset_canvas, joysticks):
                 if event.button == 0:
                     selected_level = "easy"
                     draw_level(matrix, offset_canvas, selected_level)
-                    return obstacle(offset_canvas, matrix)  # Draw obstacles for easy level
+                    # return obstacle(offset_canvas, matrix)  # Draw obstacles for easy level
                 if event.button == 2:
                     selected_level = "hard"
                     draw_level(matrix, offset_canvas, selected_level)
-                    return maze(offset_canvas, matrix)  # Draw maze for hard level
+                      # Draw maze for hard level
                 if event.button == 1:
-                    return selected_level
+                    if select_level == "hard":
+                        return maze(offset_canvas, matrix)
+                    if selected_level == "easy":
+                        return obstacle(offset_canvas, matrix)
 
         pygame.time.Clock().tick(10)
