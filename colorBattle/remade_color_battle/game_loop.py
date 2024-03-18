@@ -61,7 +61,7 @@ def run_game():
         emulator.update_canvas(grid)
 
         # Frame rate (e.g., 60 FPS)
-        pygame.time.delay(int(1000 / 35))
+        pygame.time.delay(int(1000 / 30))
 
     # Count points and determine the winner
     player1_points, player2_points = count_points(grid, player1.color, player2.color)
