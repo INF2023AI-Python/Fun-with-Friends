@@ -30,18 +30,21 @@ class Scoreboard:
         offscreen_canvas = self.canvas
         font = graphics.Font()
         font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/4x6.bdf")
-        points_color = (0,255,255)
-        time_color = (0,0,255)
+        blau = (0,255,255)
+        turquoise = (0,0,255)
+        points_color = graphics.Color(*blau)
+        time_color = graphics.Color(*turquoise)
+
         # Draw player 1's points on the left side
-        graphics.DrawText(offscreen_canvas, font, 1, PLAY_HEIGHT + 1, (0,255,255), str(self.player1_points))
+        graphics.DrawText(offscreen_canvas, font, 1, PLAY_HEIGHT + 1, points_color, str(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH - 9, PLAY_HEIGHT + 1, (0,255,255), str(self.player2_points))
+        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH - 9, PLAY_HEIGHT + 1, points_color, str(self.player2_points))
 
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
         time_text = f"{remaining_seconds:02d}"
-        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, (0,0,255), time_text)
+        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, time_color, time_text)
 
     # def draw(self):
     #     # Clear the scoreboard area

@@ -28,11 +28,14 @@ def draw_level(matrix, offset_canvas):
     # Calculate the position for the "Hard" option
     x_position_hard = center_x - 2
     y_position_hard = y_spacing + y_position_easy + 4  # 4 is the height of one option, so adjust accordingly
+    
+    turquoise = (0,0,255)
+    select_color = graphics.Color(*turquoise)
 
     # Draw "Easy" option
-    graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, (255, 255, 255), "Easy")
+    graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, select_color, "Easy")
     # Draw "Hard" option
-    graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, (255, 255, 255), "Hard")
+    graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, select_color, "Hard")
 
     # Update the display
     matrix.SwapOnVSync(offset_canvas)
