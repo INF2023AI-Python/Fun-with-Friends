@@ -21,6 +21,7 @@ def run_game():
     joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 
     # Initialize the players
+    # Initialize the players
     player1 = Player((255, 255, 0), (255, 0, 0),
                      (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))  # Yellow player with red trail starting at center-left
     player2 = Player((0, 0, 255), (0, 255, 0),
