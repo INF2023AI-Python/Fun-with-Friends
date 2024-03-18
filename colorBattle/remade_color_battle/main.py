@@ -1,9 +1,9 @@
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
-from obstacle import obstacle, maze
+# from obstacle import obstacle, maze
 from scoreboard import Scoreboard
-from levelSelection import draw_level, select_level
+from levelSelection import select_level
 #pip install numpy
 
 # Constants and Configurations
@@ -36,13 +36,14 @@ def main():
     running = True
     clock = pygame.time.Clock()
 
+    select_level(matrix, offset_canvas, joysticks)
     # square(offset_canvas, matrix)
-    if select_level(matrix, offset_canvas, joysticks) == "easy":
-        # Easy mode: Draw obstacle
-        obstacle(offset_canvas, matrix)
-    if select_level(matrix, offset_canvas, joysticks) == "hard":
-        # Hard mode: maze
-        maze(offset_canvas, matrix)
+    # if select_level(matrix, offset_canvas, joysticks) == "easy":
+    #     # Easy mode: Draw obstacle
+    #     obstacle(offset_canvas, matrix)
+    # if select_level(matrix, offset_canvas, joysticks) == "hard":
+    #     # Hard mode: maze
+    #     maze(offset_canvas, matrix)
     
     while running:
         for event in pygame.event.get():
