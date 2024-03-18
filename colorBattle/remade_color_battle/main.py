@@ -38,11 +38,9 @@ def main():
 
     if select_level(matrix, offset_canvas, joysticks) == "easy":
         # Easy mode: Draw obstacle
-        matrix.Clear()
         obstacle.obstacle(offset_canvas, matrix)
     if select_level(matrix, offset_canvas, joysticks) == "hard":
         # Hard mode: maze
-        matrix.Clear()
         obstacle.maze(offset_canvas, matrix)
     
     while running:
