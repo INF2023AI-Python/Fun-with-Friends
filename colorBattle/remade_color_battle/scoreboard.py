@@ -36,15 +36,15 @@ class Scoreboard:
         time_color = graphics.Color(*turquoise)
 
         # Draw player 1's points on the left side
-        graphics.DrawText(offscreen_canvas, font, 1, PLAY_HEIGHT + 1, points_color, str(self.player1_points))
+        graphics.DrawText(offset_canvas, font, 1, SCREEN_HEIGHT, pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH - 9, PLAY_HEIGHT + 1, points_color, str(self.player2_points))
+        graphics.DrawText(offset_canvas, font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, pointsColor, str(self.player2_points))
 
         # Draw remaining time in the middle
         remaining_seconds = self.remaining_time % 60
         time_text = f"{remaining_seconds:02d}"
-        graphics.DrawText(offscreen_canvas, font, PLAY_WIDTH // 2 - len(time_text) // 2, PLAY_HEIGHT + 1, time_color, time_text)
+        graphics.DrawText(offscreen_canvas, font, SCREEN_WIDTH // 2 - len(time_text) -2 // 2, SCREEN_HEIGHT, timeColor, time_text)
 
     # def draw(self):
     #     # Clear the scoreboard area
