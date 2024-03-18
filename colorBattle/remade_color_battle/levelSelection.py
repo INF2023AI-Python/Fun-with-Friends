@@ -5,7 +5,6 @@ from rgbmatrix import graphics
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 
-
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
     offset_canvas.Clear()
@@ -54,7 +53,6 @@ def select_level(matrix, offset_canvas, joysticks):
     # Wait for the player to make a selection
     selected_level = None
     while selected_level is None:
-        draw_level(matrix, offset_canvas, selected_level)
         for event in pygame.event.get():
             if event.type == pygame.JOYBUTTONDOWN:
                 # Check if button 0 (button A) is pressed
@@ -69,9 +67,9 @@ def select_level(matrix, offset_canvas, joysticks):
                         selected_level = "easy"
                     elif -0.8 < joystick.get_axis(0) < -0.2 and 0.2 < joystick.get_axis(1) < 0.8:
                         selected_level = "hard"
-                    # Redraw the screen to highlight the selected option
-                    draw_level(matrix, offset_canvas, selected_level)
-        
+                    
+        # Redraw the screen to highlight the selected option
+        draw_level(matrix, offset_canvas, selected_level)
         pygame.time.delay(100)
 
     return selected_level
