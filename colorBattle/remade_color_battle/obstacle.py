@@ -7,7 +7,7 @@ LINE_LENGTH = 2  # Adjust the length of the lines as needed
 LINE_SPACING = 4  # Adjust the spacing between lines as needed
 obstacle_color = (255, 255, 255)
 
-def square(offset_canvas, matrix):
+def obstacle(offset_canvas, matrix):
     game_area = [[0 for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
     # obstacle_color = (255, 255, 255)
 
