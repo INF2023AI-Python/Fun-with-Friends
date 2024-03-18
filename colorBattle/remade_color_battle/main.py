@@ -5,13 +5,14 @@ import pygame
 from scoreboard import Scoreboard
 from levelSelection import select_level
 from game_loop import run_game
+from game_loop import player1_points, player2_points
 #pip install numpy
 
 # Constants and Configurations
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 PLAY_WIDTH = 32
-PLAY_HEIGHT = 28
+PLAY_HEIGHT = 26
 GAME_DURATION = 60
 
 options = RGBMatrixOptions()
@@ -37,14 +38,9 @@ def main():
     running = True
     clock = pygame.time.Clock()
 
+    #select rhe level, easy or hard
+
     select_level(matrix, offset_canvas, joysticks)
-    # square(offset_canvas, matrix)
-    # if select_level(matrix, offset_canvas, joysticks) == "easy":
-    #     # Easy mode: Draw obstacle
-    #     obstacle(offset_canvas, matrix)
-    # if select_level(matrix, offset_canvas, joysticks) == "hard":
-    #     # Hard mode: maze
-    #     maze(offset_canvas, matrix)
     
     while running:
         for event in pygame.event.get():
@@ -52,7 +48,7 @@ def main():
                 running = False
 
         run_game()
-        
+
         # Update the scoreboard
         scoreboard.update(GAME_DURATION)
 
