@@ -1,7 +1,7 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 ROWS = 32
-COLS = 28
+COLS = 26
 
 
 class Emulator:
