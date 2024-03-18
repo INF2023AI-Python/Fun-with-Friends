@@ -83,4 +83,4 @@ def select_level(matrix, offset_canvas, joysticks):
             # Update previous joystick position
             prev_y_axis = y_axis
         
-        pygame.time.Clock().tick(10)
+        pygame.time.Clock().tick(30)
