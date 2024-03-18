@@ -36,12 +36,14 @@ def main():
     running = True
     clock = pygame.time.Clock()
 
-    if select_level(matrix, offset_canvas, joysticks) == "easy":
+    obstacle.obstacle(offset_canvas, matrix)
+
+    # if select_level(matrix, offset_canvas, joysticks) == "easy":
         # Easy mode: Draw obstacle
-        obstacle.obstacle(offset_canvas, matrix)
-    if select_level(matrix, offset_canvas, joysticks) == "hard":
+        # obstacle.obstacle(offset_canvas, matrix)
+    # if select_level(matrix, offset_canvas, joysticks) == "hard":
         # Hard mode: maze
-        obstacle.maze(offset_canvas, matrix)
+        # obstacle.maze(offset_canvas, matrix)
     
     while running:
         for event in pygame.event.get():
