@@ -5,8 +5,7 @@ from rgbmatrix import graphics
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 
-
-def draw_level(matrix, offset_canvas):
+def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
     offset_canvas.Clear()
 
@@ -29,26 +28,39 @@ def draw_level(matrix, offset_canvas):
     x_position_hard = center_x - 10
     y_position_hard = y_spacing + y_position_easy + 4  # 4 is the height of one option, so adjust accordingly
     
-    turquoise = (0,0,255)
-    select_color = graphics.Color(*turquoise)
+    # Set the default color
+    default_color = graphics.Color(255, 255, 255)
+
+    # Set the selected color to red
+    selected_color = graphics.Color(255, 0, 0)
 
     # Draw "Easy" option
-    graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, select_color, "Easy")
+    if selected_level == "easy":
+        graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, selected_color, "Easy")
+    else:
+        graphics.DrawText(offset_canvas, font, x_position_easy, y_position_easy, default_color, "Easy")
+    
     # Draw "Hard" option
-    graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, select_color, "Hard")
+    if selected_level == "hard":
+        graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, selected_color, "Hard")
+    else:
+        graphics.DrawText(offset_canvas, font, x_position_hard, y_position_hard, default_color, "Hard")
 
     # Update the display
     matrix.SwapOnVSync(offset_canvas)
 
 def select_level(matrix, offset_canvas, joysticks):
-    # Draw the level selection screen
-    draw_level(matrix, offset_canvas)
-
     # Wait for the player to make a selection
     selected_level = None
     while selected_level is None:
+        draw_level(matrix, offset_canvas, selected_level)
         for event in pygame.event.get():
             if event.type == pygame.JOYBUTTONDOWN:
+                # Check if button 0 (button A) is pressed
+                if event.button == 0:
+                    # Return the selected level
+                    return selected_level
+                
                 # Check joystick position to determine the selection
                 # Adjust x and y thresholds according to your setup
                 if 0.2 < joysticks.get_axis(0) < 0.8 and 0.2 < joysticks.get_axis(1) < 0.8:
@@ -56,6 +68,7 @@ def select_level(matrix, offset_canvas, joysticks):
                 elif -0.8 < joysticks.get_axis(0) < -0.2 and 0.2 < joysticks.get_axis(1) < 0.8:
                     selected_level = "hard"
                 # Redraw the screen to highlight the selected option
-                draw_level(matrix, offset_canvas)
+                draw_level(matrix, offset_canvas, selected_level)
 
     return selected_level
+
