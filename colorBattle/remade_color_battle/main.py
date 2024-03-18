@@ -34,14 +34,18 @@ scoreboard = Scoreboard(offset_canvas)
 def main():
     running = True
     clock = pygame.time.Clock()
+
+    #set level
     draw_level(matrix, offset_canvas)
     if select_level(matrix, offset_canvas, joysticks) == "easy":
         # Easy mode: Draw obstacle
+        offset_canvas.Clear()
         obstacle.obstacle(offset_canvas, matrix)
     if select_level(matrix, offset_canvas, joysticks) == "hard":
         # Hard mode: maze
+        offset_canvas.Clear()
         obstacle.maze(offset_canvas, matrix)
-   
+    
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
