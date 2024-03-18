@@ -1,8 +1,9 @@
-#from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+# from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 import obstacle
 from scoreboard import Scoreboard
+from levelSelection import draw_level, select_level
 #pip install numpy
 
 # Constants and Configurations
@@ -33,10 +34,13 @@ scoreboard = Scoreboard(offset_canvas)
 def main():
     running = True
     clock = pygame.time.Clock()
-    # Draw obstacle
-        # Easy mode
-    #obstacle.obstacle(offset_canvas, matrix)
+    draw_level(matrix, offset_canvas)
+    if select_level(matrix, offset_canvas, joysticks) == "easy":
+        # Easy mode: Draw obstacle
+        obstacle.obstacle(offset_canvas, matrix)
+    if select_level(matrix, offset_canvas, joysticks) == "hard":
         # Hard mode: maze
+        obstacle.maze(offset_canvas, matrix)
    
     while running:
         for event in pygame.event.get():
@@ -46,10 +50,9 @@ def main():
         # Update the scoreboard
         scoreboard.update(GAME_DURATION)
 
-        # Draw the updated scoreboard
-        scoreboard.draw(offset_canvas)
+        # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
+        scoreboard.draw()
 
-        obstacle.maze(offset_canvas, matrix)
         clock.tick(300)
         # Update the display
         matrix.SwapOnVSync(offset_canvas)
