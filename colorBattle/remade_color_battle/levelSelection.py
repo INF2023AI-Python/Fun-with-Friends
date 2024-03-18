@@ -60,27 +60,15 @@ def select_level(matrix, offset_canvas, joysticks):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.JOYBUTTONDOWN:
-                # Check if button 0 (button A) is pressed
                 if event.button == 0:
+                    selected_level = "easy"
+                    draw_level(matrix, offset_canvas, selected_level)
+                if event.button == 2:
+                    selected_level = "hard"
+                    draw_level(matrix, offset_canvas, selected_level)
+                # Check if button 9 (button start) is pressed
+                if event.button == 1:
                     # Return the selected level
                     return selected_level
-                
-        # Check joystick position to determine the selection
-        for joystick in joysticks:
-            # Get current joystick position
-            y_axis = joystick.get_axis(1)
-
-            # Determine the selected level based on joystick position
-            if y_axis < -0.8 and prev_y_axis >= -0.8:
-                selected_level = "easy"
-            elif y_axis > 0.8 and prev_y_axis <= 0.8:
-                selected_level = "hard"
-            
-            # Redraw the screen to highlight the selected option only if the joystick position has changed
-            if y_axis != prev_y_axis:
-                draw_level(matrix, offset_canvas, selected_level)
-
-            # Update previous joystick position
-            prev_y_axis = y_axis
         
         pygame.time.Clock().tick(10)
