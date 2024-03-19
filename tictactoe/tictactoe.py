@@ -125,6 +125,7 @@ def display_winner(player, offset_canvas, matrix):
 
 # Darstellung bei unentschieden
 def display_draw(offset_canvas, matrix):
+    matrix.Clear()
     color = (255, 255, 255)  # Weiß für Unentschieden
     offset_canvas = display_text(["DRAW", "", ""], color, offset_canvas, matrix)
     time.sleep(5)
@@ -161,7 +162,6 @@ def tictactoe(offset_canvas, matrix):
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-            matrix.Clear(offset_canvas, matrix)
             offset_canvas = display_draw(offset_canvas, matrix)  # Zeige Unentschiedenmeldung auf der LED-Matrix an
             return
 
