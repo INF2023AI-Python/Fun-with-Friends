@@ -23,8 +23,9 @@ class Scoreboard:
         # self.player1_points = player1_points
         # self.player2_points = player2_points
         elapsed_time = time.time() - self.start_time
-        remaining_time = max(duration - elapsed_time, 0)
-        return remaining_time
+        remaining_seconds = max(duration - elapsed_time, 0)
+        return remaining_seconds
+
 
     def draw(self, offset_canvas, duration):
         remaining_seconds = self.update(duration)
@@ -37,4 +38,4 @@ class Scoreboard:
 
         # Draw remaining time in the middle
         time_text = f"{int(remaining_seconds):02d}"
-        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH // 2 - len(time_text) - 2 // 2, SCREEN_HEIGHT, self.timeColor, time_text)
+        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH // 2 - len(time_text) * 3 // 2, SCREEN_HEIGHT, self.timeColor, time_text)
