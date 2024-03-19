@@ -93,7 +93,7 @@ def set_x_or_o(board_state, offset_canvas, matrix):
         if check_winner(board_state):
             print(f"Player {current_player} wins!")
             draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-            time.sleep(2)
+            time.sleep(0.5)
             matrix.Clear()
             display_winner(current_player, offset_canvas, matrix)  # Zeige Gewinnmeldung auf der LED-Matrix an
             matrix.Clear()
@@ -128,6 +128,7 @@ def display_draw(offset_canvas, matrix):
     color = (255, 255, 255)  # Weiß für Unentschieden
     offset_canvas = display_text(["DRAW", "", ""], color, offset_canvas, matrix)
     time.sleep(5)
+    matrix.Clear()
     return offset_canvas
 
 # Funktion für die Hauptschleife des Spiels
