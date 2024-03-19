@@ -20,16 +20,14 @@ class Scoreboard:
         self.font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/4x6.bdf")
 
     def update(self, duration):
-        # self.player1_points = player1_points
-        # self.player2_points = player2_points
         elapsed_time = int(time.time() - self.start_time)
         remaining_seconds = max(duration - elapsed_time, 0)
         time.sleep(1)
         return remaining_seconds
 
-
     def draw(self, offset_canvas, duration):
         remaining_seconds = self.update(duration)
+        print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
         # Draw player 1's points on the left side
         graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1_points))
