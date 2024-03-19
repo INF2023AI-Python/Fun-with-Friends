@@ -1,7 +1,7 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 ROWS = 32
-COLS = 26
+COLS = 32
 
 
 class Emulator:
@@ -11,6 +11,7 @@ class Emulator:
         options.hardware_mapping = hardware_mapping
         options.rows = rows
         options.cols = cols
+        options.drop_privileges = 0
 
         # Create RGBMatrix and canvas
         self.matrix = RGBMatrix(options=options)
