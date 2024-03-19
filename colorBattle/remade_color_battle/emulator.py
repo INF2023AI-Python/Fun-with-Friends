@@ -1,5 +1,5 @@
-# from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+# from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 ROWS = 32
 COLS = 32
