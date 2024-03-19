@@ -3,7 +3,7 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 import psutil
 from tictactoe.tictactoe import tictactoe
-# from VierGewinnt.VierGewinnt import vierGewinnt
+from VierGewinnt.VierGewinnt import vierGewinnt
 
 orange_square_position = [0, 0]
 
@@ -155,7 +155,7 @@ def select_option(new_position):
         print("Tictactoe wurde ausgewählt")
         
     elif new_position[0] == 0 and new_position[1] == 1:
-        vierGewinnt()
+        vierGewinnt(offset_canvas, matrix)
         print("VierGewinnt wurde ausgewählt")
         
     elif new_position[0] == 1 and new_position[1] == 1:
