@@ -27,6 +27,10 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
+# Define apple color
+apple_color = RED  # You can change this to any color you like
+
+
 clock = pygame.time.Clock()
 
 # Directions for each player
