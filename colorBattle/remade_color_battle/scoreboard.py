@@ -16,7 +16,7 @@ class Scoreboard:
     def update(self, duration):
         # self.player1_points = player1_points
         # self.player2_points = player2_points
-        self.remaining_time = duration
+        # self.remaining_time = duration
         
         # Calculate the elapsed time since the start of the game
         elapsed_time_ms = pygame.time.get_ticks() - self.start_time
