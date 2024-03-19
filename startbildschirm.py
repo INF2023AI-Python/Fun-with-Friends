@@ -2,7 +2,7 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 import psutil
-# from tictactoe.tictactoe import tictactoe
+from tictactoe.tictactoe import tictactoe
 # from VierGewinnt.VierGewinnt import vierGewinnt
 
 orange_square_position = [0, 0]
@@ -163,11 +163,13 @@ def draw_screen(x, y, offset_canvas, matrix):
     return matrix.SwapOnVSync(offset_canvas)
 
 def select_option(new_position):
+    global offset_canvas
+    global matrix
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
         
     elif new_position[0] == 1 and new_position[1] == 0:       
-        tictactoe()
+        tictactoe(offset_canvas, matrix)
         print("Tictactoe wurde ausgewählt")
         
     elif new_position[0] == 0 and new_position[1] == 1:
