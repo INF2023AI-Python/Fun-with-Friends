@@ -2,6 +2,7 @@ import time
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import sys
+from startbildschirm import clear_screen
 
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
@@ -91,8 +92,10 @@ def set_x_or_o(board_state, offset_canvas, matrix):
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
         if check_winner(board_state):
             print(f"Player {current_player} wins!")
-            # draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            clear_screen()
             display_winner(current_player, offset_canvas, matrix)  # Zeige Gewinnmeldung auf der LED-Matrix an
+            clear_screen()
             return
         current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler
         print(f"Player {current_player}")
@@ -155,7 +158,10 @@ def tictactoe(offset_canvas, matrix):
         if check_winner(board_state):
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
+            draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
+            clear_screen()
             offset_canvas = display_draw()  # Zeige Unentschiedenmeldung auf der LED-Matrix an
+            clear_screen()
             return
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
