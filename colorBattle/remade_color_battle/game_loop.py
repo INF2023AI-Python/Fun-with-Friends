@@ -4,6 +4,7 @@ from emulator import Emulator
 from controllers import controllers
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from obstacle import maze, obstacle
+# from RGBMatrixEmulator import RGBMatrix,
 
 # TODO: create Game class with grid, player1_points, player2_points
 
