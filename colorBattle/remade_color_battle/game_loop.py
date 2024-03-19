@@ -2,9 +2,9 @@ import pygame
 from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+# from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from obstacle import maze, obstacle
-# from RGBMatrixEmulator import RGBMatrix,
+# from RGBMatrixEmulator import RGBMatrix
 
 # TODO: create Game class with grid, player1_points, player2_points
 
@@ -27,8 +27,8 @@ def run_game():
     joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())]
 
     # Initialize the players
-    player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 15))
-    player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 15))
+    player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 10))
+    player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 10))
 
     # Initialize the game grid
     grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
@@ -67,7 +67,7 @@ def run_game():
         emulator.update_canvas(grid)
 
         # Frame rate (e.g., 60 FPS)
-        pygame.time.delay(int(1000 / 40))
+        pygame.time.delay(int(1000 / 120))
 
     # Count points and determine the winner
     player1_points, player2_points = count_points(grid, player1.color, player2.color)
