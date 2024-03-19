@@ -163,7 +163,7 @@ def vierGewinnt(offset_canvas, matrix):
                 # Überprüfen auf Gewinn
                 if check_win(player):
                     matrix.Clear()
-                    display_winner(player)
+                    display_winner(player, offset_canvas, matrix)
                     return
                 
                 # Überprüfen auf Untentschieden
