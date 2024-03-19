@@ -22,11 +22,7 @@ gameDisplay = matrix.CreateFrameCanvas()
 # Colors
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
-GREEN = (0, 155, 0)
-
-# To import an image.
-img = pygame.image.load('snakehead.png')
-img2 = pygame.image.load('apple.png')
+GREEN = (0, 255, 0)
 
 clock = pygame.time.Clock()
 
@@ -57,8 +53,8 @@ def score(score):
 
 # Function to generate a random apple position
 def rand_apple_gen():
-    rand_apple_x = round(random.randrange(0, SCREEN_WIDTH - APPLE_THICKNESS))
-    rand_apple_y = round(random.randrange(0, SCREEN_HEIGHT - APPLE_THICKNESS))
+    rand_apple_x = random.randrange(0, SCREEN_WIDTH - APPLE_THICKNESS)
+    rand_apple_y = random.randrange(0, SCREEN_HEIGHT - APPLE_THICKNESS)
     return rand_apple_x, rand_apple_y
 
 rand_apple_x, rand_apple_y = rand_apple_gen()
@@ -70,8 +66,8 @@ def game_loop():
     game_over = False
 
     # Will be the leader of the #1 block of the snake
-    lead_x = SCREEN_WIDTH / 2
-    lead_y = SCREEN_HEIGHT / 2
+    lead_x = SCREEN_WIDTH // 2
+    lead_y = SCREEN_HEIGHT // 2
     lead_x_change_p1 = 1
     lead_y_change_p1 = 0
     lead_x_change_p2 = -1
@@ -153,10 +149,11 @@ def game_loop():
         lead_y += lead_y_change_p1
 
         # Sets background to white
-        gameDisplay.fill(WHITE)
+        gameDisplay.Fill(0, 0, 0)
 
         # Draw a rectangle (where, color, [dimensions])
-        apple = img2
+        apple = pygame.Surface((APPLE_THICKNESS, APPLE_THICKNESS))
+        apple.fill(RED)
         gameDisplay.blit(apple, [rand_apple_x, rand_apple_y, APPLE_THICKNESS, APPLE_THICKNESS])
 
         # creates the snake and will make it longer by appending last known place
@@ -187,4 +184,3 @@ def game_loop():
     quit()
 
 game_loop()
-
