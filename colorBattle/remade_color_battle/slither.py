@@ -162,8 +162,10 @@ def game_loop():
                 game_over = True
 
         # Draw player 1's snake
+        # Draw player 1's snake
         for XnY in snake_list_p1:
-            pygame.draw.rect(gameDisplay, GREEN, [XnY[0], XnY[1], BLOCK_SIZE, BLOCK_SIZE])
+            gameDisplay.SetPixel(XnY[0], XnY[1], *GREEN)
+
 
         # Update the display
         matrix.SwapOnVSync(gameDisplay)
