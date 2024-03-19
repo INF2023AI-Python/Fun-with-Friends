@@ -38,7 +38,8 @@ class Scoreboard:
         # Clear the area where the countdown timer is displayed
         time_text = f"{int(remaining_seconds):02d}"
         time_text_width = len(time_text) * 3
-        graphics.FillRect(offset_canvas, SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_HEIGHT, time_text_width, 6, 0)
+        for x in range(SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_WIDTH // 2 + time_text_width // 2):
+            graphics.DrawLine(offset_canvas, x, SCREEN_HEIGHT, x, SCREEN_HEIGHT + 6, 0)
 
         # Draw remaining time in the middle
         graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_HEIGHT, self.timeColor, time_text)
