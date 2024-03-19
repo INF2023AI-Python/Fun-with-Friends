@@ -135,11 +135,11 @@ def game_loop():
         lead_y += lead_y_change_p1
 
         # Sets background to white
-        gameDisplay.Fill(WHITE)
+        gameDisplay.Fill(255, 255, 255)
 
         # Draw a rectangle (where, color, [dimensions])
-        apple = img2
-        gameDisplay.blit(apple, [rand_apple_x, rand_apple_y, APPLE_THICKNESS, APPLE_THICKNESS])
+        apple_color = (255, 0, 0)  # Red color for the apple
+        pygame.draw.rect(gameDisplay, apple_color, [rand_apple_x, rand_apple_y, APPLE_THICKNESS, APPLE_THICKNESS])
 
         # creates the snake and will make it longer by appending last known place
         snake_head_p1 = []
