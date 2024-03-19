@@ -190,6 +190,4 @@ def vierGewinnt():
                 
         pygame.time.Clock().tick(7)
 
-if __name__ == "__main__":
-    vierGewinnt()
 
