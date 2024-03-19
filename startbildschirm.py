@@ -15,6 +15,7 @@ options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
+offset_canvas = matrix.CreateFrameCanvas()
 
 # Funktion zum Löschen des Bildschirms
 def clear_screen():
@@ -41,7 +42,7 @@ def clear_screen():
 #         subprocess.call("sudo python VierGewinnt.py", shell=True)
 
 # Funktion zum Zeichnen des Bildschirms
-def draw_screen(x, y):
+def draw_screen(x, y, offset_canvas, matrix):
     # Farbe der Linien
     color = (255, 255, 255) #weiß
     red = (255, 0, 0)
@@ -50,15 +51,15 @@ def draw_screen(x, y):
 
      # Zeichnen der vertikalen Linie
     for row in range(32):
-        matrix.SetPixel(0, row, *color)
-        matrix.SetPixel(15, row, *color)
-        matrix.SetPixel(31, row, *color)
+        offset_canvas.SetPixel(0, row, *color)
+        offset_canvas.SetPixel(15, row, *color)
+        offset_canvas.SetPixel(31, row, *color)
 
     # Zeichnen der horizontalen Linie
     for col in range(32):
-        matrix.SetPixel(col, 0, *color)
-        matrix.SetPixel(col, 15, *color)
-        matrix.SetPixel(col, 31, *color)
+        offset_canvas.SetPixel(col, 0, *color)
+        offset_canvas.SetPixel(col, 15, *color)
+        offset_canvas.SetPixel(col, 31, *color)
 
     # Position des Quadrats anpassen
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
@@ -68,37 +69,37 @@ def draw_screen(x, y):
     # Obere Linie
     if x_pos % 16 == 0 and y_pos % 16 != 0:
         for i in range(16):
-            matrix.SetPixel(i + x_pos, y_pos, *orange)
+            offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
     elif x_pos % 16 != 0 and y_pos % 16 == 0:
         for i in range(16):
-            matrix.SetPixel(x_pos, i + y_pos, *orange)
+            offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
     elif x_pos % 16 != 0 and y_pos % 16 != 0:
         for i in range(16):
-            matrix.SetPixel(i + x_pos, y_pos, *orange)
-            matrix.SetPixel(x_pos, i + y_pos, *orange)
+            offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
+            offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
     else:
         for i in range(16):
-            matrix.SetPixel(i + x_pos, y_pos, *orange)
-            matrix.SetPixel(x_pos, i + y_pos, *orange)
+            offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
+            offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
 
     # Untere Linie
     for i in range(16):
-        matrix.SetPixel(i + x_pos, 15 + y_pos, *orange)
+        offset_canvas.SetPixel(i + x_pos, 15 + y_pos, *orange)
     # Linke Linie
     for i in range(16):
-        matrix.SetPixel(x_pos, i + y_pos, *orange)
+        offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
     # Rechte Linie
     for i in range(16):
-        matrix.SetPixel(15 + x_pos, i + y_pos, *orange)
+        offset_canvas.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Zeichnen der Piktogramme
     # Colorbattel
     for row in range(2, 7):
         for col in range(5, 10):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(9, 14):
         for col in range(5, 10):
-            matrix.SetPixel(row, col, *blue)
+            offset_canvas.SetPixel(row, col, *blue)
 
     # tictactoe
     positionsX = [
@@ -106,59 +107,60 @@ def draw_screen(x, y):
         (19, 8), (21, 8), (18, 9), (22, 9), (17, 10), (23, 10)
     ]
     for pos in positionsX:
-        matrix.SetPixel(pos[0], pos[1], *red)
+        offset_canvas.SetPixel(pos[0], pos[1], *red)
     positionsO = [
         (24, 6), (24, 7), (24, 8), (25, 5), (25, 9), (26, 4), (26, 10),
         (27, 4), (27, 10), (28, 5), (28, 9), (29, 6), (29, 7), (29, 8)
     ]
     for pos in positionsO:
-        matrix.SetPixel(pos[0], pos[1], *blue)
+        offset_canvas.SetPixel(pos[0], pos[1], *blue)
 
     # VierGewinnt
     for row in range(2, 5):
         for col in range(27, 30):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(5, 8):
         for col in range(24, 30):
-            matrix.SetPixel(row, col, *blue)
+            offset_canvas.SetPixel(row, col, *blue)
     for row in range(8, 11):
         for col in range(21, 30):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(11, 14):
         for col in range(18, 24):
-            matrix.SetPixel(row, col, *blue)
+            offset_canvas.SetPixel(row, col, *blue)
     for row in range(11, 14):
         for col in range(24, 27):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(11, 14):
         for col in range(27, 30):
-            matrix.SetPixel(row, col, *blue)
+            offset_canvas.SetPixel(row, col, *blue)
 
    # ShutDown
     for row in range(22, 24):  
         for col in range(17, 23):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(21, 25):   
         for col in range(27, 29):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(19, 21):  
         for col in range(25, 27):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(25, 27):   
         for col in range(25, 27):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(17, 19):   
         for col in range(21, 25):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(27, 29):   
         for col in range(21, 25):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(19, 21):   
         for col in range(19, 21):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
     for row in range(25, 27):   
         for col in range(19, 21):
-            matrix.SetPixel(row, col, *red)
+            offset_canvas.SetPixel(row, col, *red)
+    return matrix.SwapOnVSync(offset_canvas)
 
 def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
@@ -218,6 +220,9 @@ def update_orange_square_position(orange_square_position, joystick):
 
 def main():
     global orange_square_position
+    global matrix
+    global offset_canvas
+
     # Pygame und Controllerprüfung
     pygame.init()
     pygame.joystick.init()
@@ -232,11 +237,11 @@ def main():
 
     running = True
     while running:
-        clear_screen()
+        # clear_screen()
         # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
         # Übergebe die aktualisierte Position an draw_screen
-        draw_screen(orange_square_position[0], orange_square_position[1])
+        draw_screen(orange_square_position[0], orange_square_position[1], offset_canvas, matrix)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
