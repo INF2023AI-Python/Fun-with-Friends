@@ -12,21 +12,9 @@ CHIP_SIZE = 3
 # Leeres Array für das Spielfeld
 board = np.zeros((ROWS, COLS), dtype=int)
 
-# Konfiguration der Matrix
-options = RGBMatrixOptions()
-options.cols = 32
-options.rows = 32
-options.chain_length = 1
-options.hardware_mapping = 'adafruit-hat-pwm'
-options.drop_privileges = 0
-matrix = RGBMatrix(options=options)
-
-# Funktion zum Löschen des Spielfelds
-def clear_screen():
-    matrix.Clear()
 
 # Anzeigen des Spielfelds
-def display_board():
+def display_board(offset_canvas, matrix):
     for row in range(ROWS):
         for col in range(COLS):
             color = (0,0,0) # Ausschlten leerer Zellen
@@ -36,7 +24,8 @@ def display_board():
                 color = (0, 0, 255) # Spieler 2: Blau
             for i in range(CHIP_SIZE):
                 for j in range(CHIP_SIZE):
-                    matrix.SetPixel(col * CHIP_SIZE + j + 6, row * CHIP_SIZE + i + 8, *color)
+                    offset_canvas.SetPixel(col * CHIP_SIZE + j + 6, row * CHIP_SIZE + i + 8, *color)
+    return matrix.SwapOnVSync(offset_canvas)
                     
 # Funktion zum Prüfen auf Gewinn
 def check_win(player):
@@ -74,39 +63,38 @@ def check_draw():
     return True
 
 # Funktion zum Erstellen eines Canvas und Anzeigen des Texts
-def display_text(text, color):
-    offscreen_canvas = matrix.CreateFrameCanvas()
+def display_text(text, color, offset_canvas, matrix):
     font = graphics.Font()
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
     textColor = graphics.Color(*color)
 
     # Zeige den Text der ersten Zeile an
-    graphics.DrawText(offscreen_canvas, font, 2, 10, textColor, text[0])
+    graphics.DrawText(offset_canvas, font, 2, 10, textColor, text[0])
     # Zeige den Text der zweiten Zeile an
-    graphics.DrawText(offscreen_canvas, font, 2, 20, textColor, text[1])
+    graphics.DrawText(offset_canvas, font, 2, 20, textColor, text[1])
     # Zeige den Text der dritte Zeile an
-    graphics.DrawText(offscreen_canvas, font, 2, 30, textColor, text[2])
+    graphics.DrawText(offset_canvas, font, 2, 30, textColor, text[2])
 
-    matrix.SwapOnVSync(offscreen_canvas)
+    matrix.SwapOnVSync(offset_canvas)
 
 # Darstellung Gewinnbildschirm
-def display_winner(player):
+def display_winner(player, offset_canvas, matrix):
     if player == 1:
         color = (255, 0, 0)
-        display_text(["WIN", "Player", "1"], color)
+        display_text(["WIN", "Player", "1"], color, offset_canvas, matrix)
         time.sleep(5)
     if player == 2:
         color = (0, 0, 255)
-        display_text(["WIN", "Player2", "2"], color)
+        display_text(["WIN", "Player2", "2"], color, offset_canvas, matrix)
         time.sleep(5)
 
 # Darstellung bei unentschieden
-def display_draw():
+def display_draw(offset_canvas, matrix):
     color = (255, 255, 255)
-    display_text(["DRAW", " ", " "], color)
+    display_text(["DRAW", " ", " "], color, offset_canvas, matrix)
     time.sleep(5)
 
-def vierGewinnt():
+def vierGewinnt(offset_canvas, matrix):
     # Pygame und COntrollerprüfung
     pygame.init()
     pygame.joystick.init()
@@ -125,8 +113,8 @@ def vierGewinnt():
     board[0][col] = 1
 
     while True:
-        clear_screen()
-        display_board()
+        matrix.Clear()
+        offset_canvas = display_board(offset_canvas, matrix)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -166,7 +154,7 @@ def vierGewinnt():
                                 board[move - 1][col] = 0
                                 board[move][col] = player
                                 time.sleep(0.25)
-                                display_board()
+                                offset_canvas = display_board(offset_canvas, matrix)
                             break
                         else:
                             player = 2 if player == 1 else 1
@@ -174,14 +162,14 @@ def vierGewinnt():
 
                 # Überprüfen auf Gewinn
                 if check_win(player):
-                    clear_screen()
+                    matrix.Clear()
                     display_winner(player)
                     return
                 
                 # Überprüfen auf Untentschieden
                 if check_draw():
-                    clear_screen()
-                    display_draw()
+                    matrix.Clear()
+                    display_draw(offset_canvas, matrix)
                     return
                 
                 # Spielerwechsel
@@ -189,5 +177,3 @@ def vierGewinnt():
                 board[0][col] = player
                 
         pygame.time.Clock().tick(7)
-
-
