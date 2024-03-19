@@ -41,8 +41,8 @@ def main():
     #select rhe level, easy or hard
 
     # select_level(matrix, offset_canvas, joysticks)
-    obstacle(offset_canvas, matrix)
-    # maze(offset_canvas, matrix)
+    #obstacle(offset_canvas, matrix)
+    maze(offset_canvas, matrix)
 
     while running:
         for event in pygame.event.get():
