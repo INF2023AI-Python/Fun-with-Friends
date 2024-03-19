@@ -2,6 +2,9 @@ import pygame
 import random
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
+# Initialize Pygame
+pygame.init()
+
 # Constants
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
@@ -29,23 +32,6 @@ clock = pygame.time.Clock()
 # Directions for each player
 direction_p1 = "right"
 direction_p2 = "left"
-
-# Function to handle game pause
-def pause():
-    paused = True
-    while paused:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_c:
-                    paused = False
-                elif event.key == pygame.K_q:
-                    pygame.quit()
-                    quit()
-        clock.tick(5)
 
 # Function to display score on RGBMatrix
 def score(score):
@@ -149,11 +135,10 @@ def game_loop():
         lead_y += lead_y_change_p1
 
         # Sets background to white
-        gameDisplay.Fill(0, 0, 0)
+        gameDisplay.Fill(WHITE)
 
         # Draw a rectangle (where, color, [dimensions])
-        apple = pygame.Surface((APPLE_THICKNESS, APPLE_THICKNESS))
-        apple.fill(RED)
+        apple = img2
         gameDisplay.blit(apple, [rand_apple_x, rand_apple_y, APPLE_THICKNESS, APPLE_THICKNESS])
 
         # creates the snake and will make it longer by appending last known place
