@@ -55,7 +55,7 @@ def check_winner(board_state):
     return False
 
 # Funktion zum Aktualisieren des Tictactoe-Boards basierend auf Joystick-Eingaben
-def update_board_with_joystick(board_state, joystick):
+def update_board_with_joystick(board_state, joystick, offset_canvas, matrix):
     global orange_square_position
     global current_player
 
@@ -79,10 +79,10 @@ def update_board_with_joystick(board_state, joystick):
 
     # Überprüfe, ob der Button mit der ID 0 gedrückt wurde
     if joystick.get_button(1) == 1:
-        set_x_or_o(board_state)
+        set_x_or_o(board_state, offset_canvas, matrix)
 
 # Funktion zum Setzen von 'X' oder 'O' auf dem Tictactoe-Board
-def set_x_or_o(board_state):
+def set_x_or_o(board_state, offset_canvas, matrix):
     global orange_square_position
     global current_player
 
@@ -92,7 +92,7 @@ def set_x_or_o(board_state):
         if check_winner(board_state):
             print(f"Player {current_player} wins!")
             # draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
-            display_winner(current_player)  # Zeige Gewinnmeldung auf der LED-Matrix an
+            display_winner(current_player, offset_canvas, matrix)  # Zeige Gewinnmeldung auf der LED-Matrix an
             return
         current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler
         print(f"Player {current_player}")
@@ -149,7 +149,7 @@ def tictactoe(offset_canvas, matrix):
                 sys.exit()
 
         offset_canvas = draw_board(board_state, offset_canvas, matrix)
-        update_board_with_joystick(board_state, joystick)
+        update_board_with_joystick(board_state, joystick, offset_canvas, matrix)
 
         # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
