@@ -2,6 +2,8 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 import psutil
+from tictactoe.tictactoe import tictactoe
+from VierGewinnt.VierGewinnt import vierGewinnt
 
 orange_square_position = [0, 0]
 
@@ -163,11 +165,11 @@ def select_option(new_position):
         print("Colorbattle wurde ausgewählt")
         
     elif new_position[0] == 1 and new_position[1] == 0:       
-        run_game("tictactoe")
+        tictactoe()
         print("Tictactoe wurde ausgewählt")
         
     elif new_position[0] == 0 and new_position[1] == 1:
-        run_game("viergewinnt")
+        vierGewinnt()
         print("VierGewinnt wurde ausgewählt")
         
     elif new_position[0] == 1 and new_position[1] == 1:
