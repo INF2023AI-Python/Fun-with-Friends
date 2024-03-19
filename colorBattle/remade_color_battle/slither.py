@@ -50,17 +50,21 @@ def rand_apple_gen():
 rand_apple_x, rand_apple_y = rand_apple_gen()
 
 # Main game loop
+# Main game loop
 def game_loop():
     global direction_p1, direction_p2
     game_exit = False
     game_over = False
 
     # Will be the leader of the #1 block of the snake
-    lead_x = SCREEN_WIDTH // 2
-    lead_y = SCREEN_HEIGHT // 2
-    lead_x_change_p1 = 1
+    lead_x_p1 = SCREEN_WIDTH / 4
+    lead_y_p1 = SCREEN_HEIGHT / 2
+    lead_x_change_p1 = BLOCK_SIZE
     lead_y_change_p1 = 0
-    lead_x_change_p2 = -1
+
+    lead_x_p2 = (SCREEN_WIDTH / 4) * 3
+    lead_y_p2 = SCREEN_HEIGHT / 2
+    lead_x_change_p2 = -BLOCK_SIZE
     lead_y_change_p2 = 0
 
     # list is for the length of the snake (Note: the last item in list is the head)
@@ -71,10 +75,7 @@ def game_loop():
 
     rand_apple_x, rand_apple_y = rand_apple_gen()
 
-    # Initialize gamepad
-    pygame.joystick.init()
-    joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-
+    # Main game loop
     while not game_exit:
         if game_over:
             # Handle game over logic here
@@ -83,52 +84,58 @@ def game_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_exit = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    game_exit = True
 
         # Read gamepad inputs
         for joystick in joysticks:
             if joystick.get_name() == "YourFirstGamepadName":
                 # Handle gamepad inputs for player 1
-                axis_x_p1 = joystick.get_axis(0)
-                axis_y_p1 = joystick.get_axis(1)
-
-                if axis_x_p1 > 0.5:
-                    direction_p1 = "right"
-                    lead_x_change_p1 = BLOCK_SIZE
-                    lead_y_change_p1 = 0
-                elif axis_x_p1 < -0.5:
+                if joystick.get_button(0):
                     direction_p1 = "left"
                     lead_x_change_p1 = -BLOCK_SIZE
                     lead_y_change_p1 = 0
-                elif axis_y_p1 > 0.5:
-                    direction_p1 = "down"
-                    lead_y_change_p1 = BLOCK_SIZE
-                    lead_x_change_p1 = 0
-                elif axis_y_p1 < -0.5:
+                elif joystick.get_button(1):
+                    direction_p1 = "right"
+                    lead_x_change_p1 = BLOCK_SIZE
+                    lead_y_change_p1 = 0
+                elif joystick.get_button(2):
                     direction_p1 = "up"
                     lead_y_change_p1 = -BLOCK_SIZE
+                    lead_x_change_p1 = 0
+                elif joystick.get_button(3):
+                    direction_p1 = "down"
+                    lead_y_change_p1 = BLOCK_SIZE
                     lead_x_change_p1 = 0
 
             elif joystick.get_name() == "YourSecondGamepadName":
                 # Handle gamepad inputs for player 2
-                axis_x_p2 = joystick.get_axis(0)
-                axis_y_p2 = joystick.get_axis(1)
-
-                if axis_x_p2 > 0.5:
-                    direction_p2 = "right"
-                    lead_x_change_p2 = BLOCK_SIZE
-                    lead_y_change_p2 = 0
-                elif axis_x_p2 < -0.5:
+                if joystick.get_button(0):
                     direction_p2 = "left"
                     lead_x_change_p2 = -BLOCK_SIZE
                     lead_y_change_p2 = 0
-                elif axis_y_p2 > 0.5:
-                    direction_p2 = "down"
-                    lead_y_change_p2 = BLOCK_SIZE
-                    lead_x_change_p2 = 0
-                elif axis_y_p2 < -0.5:
+                elif joystick.get_button(1):
+                    direction_p2 = "right"
+                    lead_x_change_p2 = BLOCK_SIZE
+                    lead_y_change_p2 = 0
+                elif joystick.get_button(2):
                     direction_p2 = "up"
                     lead_y_change_p2 = -BLOCK_SIZE
                     lead_x_change_p2 = 0
+                elif joystick.get_button(3):
+                    direction_p2 = "down"
+                    lead_y_change_p2 = BLOCK_SIZE
+                    lead_x_change_p2 = 0
+
+        # Handle snake movement and collision detection for player 1
+        lead_x_p1 += lead_x_change_p1
+        lead_y_p1 += lead_y_change_p1
+        # Update snake position, check for collisions, etc. for player 1
+
+        # Handle snake movement and collision detection for player 2
+        lead_x_p2 += lead_x_change_p2
+        lead_y_p2 += lead_y_change_p2
 
         # Creates the boundaries for the game
         if lead_x >= SCREEN_WIDTH or lead_x < 0 or lead_y >= SCREEN_HEIGHT or lead_y < 0:
@@ -137,9 +144,6 @@ def game_loop():
         # Adds or subtracts from lead_x
         lead_x += lead_x_change_p1
         lead_y += lead_y_change_p1
-
-        # Sets background to white
-        gameDisplay.Fill(255, 255, 255)
 
       # Draw a rectangle representing the apple
         for x in range(rand_apple_x, rand_apple_x + APPLE_THICKNESS):
@@ -162,9 +166,12 @@ def game_loop():
                 game_over = True
 
         # Draw player 1's snake
-        # Draw player 1's snake
         for XnY in snake_list_p1:
             gameDisplay.SetPixel(XnY[0], XnY[1], *GREEN)
+
+        # Draw player 2's snake
+        for XnY in snake_list_p2:
+            gameDisplay.SetPixel(XnY[0], XnY[1], *WHITE)
 
 
         # Update the display
