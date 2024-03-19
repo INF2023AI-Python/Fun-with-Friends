@@ -22,8 +22,9 @@ class Scoreboard:
     def update(self, duration):
         # self.player1_points = player1_points
         # self.player2_points = player2_points
-        elapsed_time = time.time() - self.start_time
+        elapsed_time = int(time.time() - self.start_time)
         remaining_seconds = max(duration - elapsed_time, 0)
+        time.sleep(1)
         return remaining_seconds
 
 
