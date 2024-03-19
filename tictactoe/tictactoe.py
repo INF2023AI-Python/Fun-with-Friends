@@ -2,13 +2,17 @@ import time
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import sys
-from startbildschirm import clear_screen
+#from startbildschirm import clear_screen
 
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
 
 # Spieler 1 beginnt mit 'X'
 current_player = 'X'
+
+def clear_screen():
+    global matrix
+    matrix.Clear()
 
 # Funktion zum Zeichnen des Tictactoe-Boards auf der RGB-LED-Matrix
 def draw_board(board_state, offset_canvas, matrix):
