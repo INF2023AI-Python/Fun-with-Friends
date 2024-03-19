@@ -91,7 +91,7 @@ def set_x_or_o(board_state):
         board_state[orange_square_position[1]][orange_square_position[0]] = current_player
         if check_winner(board_state):
             print(f"Player {current_player} wins!")
-            draw_board(board_state)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
+            # draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um den Gewinner anzuzeigen
             display_winner(current_player)  # Zeige Gewinnmeldung auf der LED-Matrix an
             return
         current_player = 'X' if current_player == 'O' else 'O'  # Wechsle den aktuellen Spieler

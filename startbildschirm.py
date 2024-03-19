@@ -19,6 +19,7 @@ offset_canvas = matrix.CreateFrameCanvas()
 
 # Funktion zum Löschen des Bildschirms
 def clear_screen():
+    global matrix
     matrix.Clear()
 
 # def run_game(game):
@@ -169,6 +170,7 @@ def select_option(new_position):
         print("Colorbattle wurde ausgewählt")
         
     elif new_position[0] == 1 and new_position[1] == 0:       
+        clear_screen()
         tictactoe(offset_canvas, matrix)
         print("Tictactoe wurde ausgewählt")
         
