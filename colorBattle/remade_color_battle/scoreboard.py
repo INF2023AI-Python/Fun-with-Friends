@@ -17,7 +17,7 @@ class Scoreboard:
         self.timeColor = graphics.Color(*turquoise)
 
         self.font = graphics.Font()
-        self.font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/4x6.bdf")
+        self.font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x7.bdf")
 
     def update(self, duration):
         elapsed_time = int(time.time() - self.start_time)
