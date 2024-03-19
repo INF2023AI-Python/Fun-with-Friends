@@ -137,9 +137,12 @@ def game_loop():
         # Sets background to white
         gameDisplay.Fill(255, 255, 255)
 
-        # Draw a rectangle (where, color, [dimensions])
+       # Draw a rectangle to represent the apple
         apple_color = (255, 0, 0)  # Red color for the apple
-        pygame.draw.rect(gameDisplay, apple_color, [rand_apple_x, rand_apple_y, APPLE_THICKNESS, APPLE_THICKNESS])
+        apple_surface = pygame.Surface((APPLE_THICKNESS, APPLE_THICKNESS))
+        apple_surface.fill(apple_color)
+        gameDisplay.blit(apple_surface, (rand_apple_x, rand_apple_y))
+
 
         # creates the snake and will make it longer by appending last known place
         snake_head_p1 = []
