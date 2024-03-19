@@ -94,7 +94,7 @@ def display_draw(offset_canvas, matrix):
     display_text(["DRAW", " ", " "], color, offset_canvas, matrix)
     time.sleep(5)
 
-def vierGewinnt(offset_canvas, matrix):
+def vierGewinnt(offset_canvas, matrixScreen):
     # Pygame und COntrollerprüfung
     pygame.init()
     pygame.joystick.init()
