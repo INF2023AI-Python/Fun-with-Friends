@@ -161,7 +161,7 @@ def tictactoe(offset_canvas, matrix):
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state, offset_canvas, matrix)  # Aktualisiere das letzte Mal vor dem Ende, um das Unentschieden anzuzeigen
-            offset_canvas = display_draw()  # Zeige Unentschiedenmeldung auf der LED-Matrix an
+            offset_canvas = display_draw(offset_canvas, matrix)  # Zeige Unentschiedenmeldung auf der LED-Matrix an
             return
 
         pygame.time.Clock().tick(10)  # Fügt eine Verzögerung hinzu, um das Board besser sichtbar zu machen
