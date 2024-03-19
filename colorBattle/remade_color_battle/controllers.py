@@ -31,4 +31,4 @@ def controllers(joysticks, player1, player2, maze_pattern, game_area):
             elif axis_y > DEAD_ZONE:
                 player2.move('DOWN', maze_pattern, game_area)
 
-        print(f"Joystick {i}: axis_x = {axis_x}, axis_y = {axis_y}")
+        # print(f"Joystick {i}: axis_x = {axis_x}, axis_y = {axis_y}")
