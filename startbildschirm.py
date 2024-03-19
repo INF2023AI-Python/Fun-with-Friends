@@ -2,8 +2,8 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 import psutil
-from tictactoe.tictactoe import tictactoe
-from VierGewinnt.VierGewinnt import vierGewinnt
+#from tictactoe.tictactoe import tictactoe
+#from VierGewinnt.VierGewinnt import vierGewinnt
 
 orange_square_position = [0, 0]
 
@@ -20,25 +20,25 @@ matrix = RGBMatrix(options=options)
 def clear_screen():
     matrix.Clear()
 
-def run_game(game):
+# def run_game(game):
 
-    if game == "tictactoe":
-        # Überprüfen, ob bereits eine Instanz von tictactoe läuft
-        for proc in psutil.process_iter():
-            if "tictactoe.py" in proc.cmdline():
-                proc.kill()  # Beende die vorherige Instanz
+#     if game == "tictactoe":
+#         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
+#         for proc in psutil.process_iter():
+#             if "tictactoe.py" in proc.cmdline():
+#                 proc.kill()  # Beende die vorherige Instanz
     
-        # Starte eine neue Instanz von tictactoe
-        subprocess.call("sudo python tictactoe.py", shell=True)
+#         # Starte eine neue Instanz von tictactoe
+#         subprocess.call("sudo python tictactoe.py", shell=True)
 
-    if game == "viergewinnt":
-        # Überprüfen, ob bereits eine Instanz von tictactoe läuft
-        for proc in psutil.process_iter():
-            if "VierGewinnt.py" in proc.cmdline():
-                proc.kill()  # Beende die vorherige Instanz
+#     if game == "viergewinnt":
+#         # Überprüfen, ob bereits eine Instanz von tictactoe läuft
+#         for proc in psutil.process_iter():
+#             if "VierGewinnt.py" in proc.cmdline():
+#                 proc.kill()  # Beende die vorherige Instanz
     
-        # Starte eine neue Instanz von tictactoe
-        subprocess.call("sudo python VierGewinnt.py", shell=True)
+#         # Starte eine neue Instanz von tictactoe
+#         subprocess.call("sudo python VierGewinnt.py", shell=True)
 
 # Funktion zum Zeichnen des Bildschirms
 def draw_screen(x, y):
@@ -164,11 +164,13 @@ def select_option(new_position):
     if new_position[0] == 0 and new_position[1] == 0:
         print("Colorbattle wurde ausgewählt")
         
-    elif new_position[0] == 1 and new_position[1] == 0:       
+    elif new_position[0] == 1 and new_position[1] == 0:  
+        from tictactoe.tictactoe import tictactoe     
         tictactoe()
         print("Tictactoe wurde ausgewählt")
         
     elif new_position[0] == 0 and new_position[1] == 1:
+        from VierGewinnt.VierGewinnt import vierGewinnt
         vierGewinnt()
         print("VierGewinnt wurde ausgewählt")
         
