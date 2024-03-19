@@ -15,7 +15,10 @@
 + Install Fun-with-Friends Repo
   + https://github.com/INF2023AI-Python/Fun-with-Friends.git
 + Set-up für Autostart
-  + Führe folgende Befehler aus
-  + sudo nano /etc/xdg/lxsession/LXDE-pi/autostart (open the autostart file)
-  + @sudo python3 /path/to/your/startbildschirm.py (at this to the end of the fil)
+  + startbildschrim.py Ausführungsrechte geben
+    + chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
+  + Autostartdatei erweitern
+    + sudo nano /etc/rc.local
+    + vor "exit 0" folgenden Text ergänzen
+      + python3  /home/pi/Fun-with-Friends/startbildschirm.py &
   + sudo reboot
