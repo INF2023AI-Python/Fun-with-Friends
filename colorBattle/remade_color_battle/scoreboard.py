@@ -29,19 +29,16 @@ class Scoreboard:
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
-        # Clear the area where the previous time was displayed
-        clear_x = SCREEN_WIDTH // 2 - 3 * 3 // 2  # Calculate the x-coordinate of the clear area
-        clear_y = SCREEN_HEIGHT  # Calculate the y-coordinate of the clear area
-        clear_width = 3 * 3  # Width of the clear area (each digit is 3 pixels wide)
-        clear_height = 6  # Height of the clear area (digits are 6 pixels tall)
-        self.canvas.ClearCanvas(clear_x, clear_y, clear_width, clear_height)
-
         # Draw player 1's points on the left side
         graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
         graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, str(self.player2_points))
 
-        # Draw remaining time in the middle
+        # Clear the area where the countdown timer is displayed
         time_text = f"{int(remaining_seconds):02d}"
-        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH // 2 - len(time_text) * 3 // 2, SCREEN_HEIGHT, self.timeColor, time_text)
+        time_text_width = len(time_text) * 3
+        graphics.FillRect(offset_canvas, SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_HEIGHT, time_text_width, 6, 0)
+
+        # Draw remaining time in the middle
+        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_HEIGHT, self.timeColor, time_text)
