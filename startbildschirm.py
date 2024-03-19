@@ -2,8 +2,8 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 import psutil
-from tictactoe.tictactoe import tictactoe
-from VierGewinnt.VierGewinnt import vierGewinnt
+# from tictactoe.tictactoe import tictactoe
+# from VierGewinnt.VierGewinnt import vierGewinnt
 
 orange_square_position = [0, 0]
 
@@ -64,7 +64,6 @@ def draw_screen(x, y, offset_canvas, matrix):
     # Position des Quadrats anpassen
     x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
     y_pos = int(y * 15)
-    print(x_pos, y_pos, x, y)
 
     # Zeichnen der orangefarbenen Linien
     # Obere Linie
