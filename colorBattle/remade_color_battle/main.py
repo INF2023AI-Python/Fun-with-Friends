@@ -1,7 +1,7 @@
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
-# from obstacle import obstacle, maze
+from obstacle import obstacle, maze
 from scoreboard import Scoreboard
 from levelSelection import select_level
 from game_loop import run_game
@@ -40,14 +40,16 @@ def main():
 
     #select rhe level, easy or hard
 
-    select_level(matrix, offset_canvas, joysticks)
-    
+    # select_level(matrix, offset_canvas, joysticks)
+    obstacle(offset_canvas, matrix)
+    # maze(offset_canvas, matrix)
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        run_game()
+        # run_game()
 
         # Update the scoreboard
         scoreboard.update(GAME_DURATION)
