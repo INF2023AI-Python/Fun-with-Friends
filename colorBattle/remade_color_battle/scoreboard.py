@@ -39,7 +39,7 @@ class Scoreboard:
         time_text = f"{int(remaining_seconds):02d}"
         time_text_width = len(time_text) * 3
         for x in range(SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_WIDTH // 2 + time_text_width // 2):
-            graphics.DrawLine(offset_canvas, x, SCREEN_HEIGHT, x, SCREEN_HEIGHT + 6, 0)
+            graphics.DrawLine(offset_canvas, x, SCREEN_HEIGHT, x, SCREEN_HEIGHT + 6, self.canvas.RGBMatrix.RGB_YELLOW)
 
         # Draw remaining time in the middle
         graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH // 2 - time_text_width // 2, SCREEN_HEIGHT, self.timeColor, time_text)
