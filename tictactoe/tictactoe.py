@@ -125,6 +125,7 @@ def display_winner(player, offset_canvas, matrix):
 
 # Darstellung bei unentschieden
 def display_draw(offset_canvas, matrix):
+    time.sleep(0.5)
     matrix.Clear()
     color = (255, 255, 255)  # Weiß für Unentschieden
     offset_canvas = display_text(["DRAW", "", ""], color, offset_canvas, matrix)
