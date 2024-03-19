@@ -33,7 +33,7 @@ class Scoreboard:
     def clear_time_text_area(self, offset_canvas):
         # Clear the area occupied by the previous time text
         for x in range(self.time_text_x, self.time_text_x + self.time_text_width):
-            graphics.DrawLine(offset_canvas, x, self.time_text_y, x, self.time_text_y + 6, graphics.Color(0, 0, 0))  # Use black color to clear
+            graphics.DrawLine(offset_canvas, x, self.time_text_y, x, self.time_text_y + 6, graphics.Color(255, 255, 255))  # Use black color to clear
 
     def draw(self, offset_canvas, duration):
         remaining_seconds = self.update(duration)
