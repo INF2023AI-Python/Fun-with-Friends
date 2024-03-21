@@ -11,6 +11,8 @@ class Player:
         self.trail = [start_pos]  # Initialize the trail with the start position
 
     def move(self, direction, maze_pattern, game_area):
+        new_y = self.y  # Initialize new_y to current y position
+        new_x = self.x  # Initialize new_x to current x position
 
         if direction == 'UP':
             new_y = (self.y - 1) % PLAY_HEIGHT
