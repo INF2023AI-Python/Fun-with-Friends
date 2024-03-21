@@ -39,9 +39,9 @@ class Scoreboard:
     def draw(self, offset_canvas, duration, player1Points, player2Points):
         print(f"get player1 :{player1Points}")
         print(f"get player2 :{player2Points}")
-        self.player1_points = int(player1Points)
+        self.player1_points = player1Points
         print(f"1 is {self.player1_points}")
-        self.player2_points = int(player2Points)
+        self.player2_points = player2Points
         print(f"2 is {self.player2_points}")
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
@@ -50,10 +50,10 @@ class Scoreboard:
         self.clear_time_text_area(offset_canvas)
 
         # Draw player 1's points on the left side
-        graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, self.player1_points)
+        graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, self.player2_points)
+        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, str(self.player2_points))
 
         # Draw remaining time in the middle
         time_text = f"{int(remaining_seconds):02d}"
