@@ -7,8 +7,6 @@ from obstacle import obstacle, maze
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 
-pygame.init()
-
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
     offset_canvas.Clear()
