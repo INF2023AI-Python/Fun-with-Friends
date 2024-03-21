@@ -10,21 +10,21 @@ class Player:
         self.cells_painted = 0
         self.trail = [start_pos]  # Initialize the trail with the start position
 
-    def move(self, direction, maze_pattern, game_area):
-        if direction == 'UP':
+    def move(self, button, maze_pattern, game_area):
+        if button == 0:  # Up
             new_y = (self.y - 1) % PLAY_HEIGHT
             if not self.is_collision(new_y, self.x, maze_pattern, game_area):
                 self.y = new_y
-        elif direction == 'DOWN':
+        elif button == 1:  # Right
+            new_x = (self.x + 1) % PLAY_WIDTH
+            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
+                self.x = new_x
+        elif button == 2:  # Down
             new_y = (self.y + 1) % PLAY_HEIGHT
             if not self.is_collision(new_y, self.x, maze_pattern, game_area):
                 self.y = new_y
-        elif direction == 'LEFT':
+        elif button == 3:  # Left
             new_x = (self.x - 1) % PLAY_WIDTH
-            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
-                self.x = new_x
-        elif direction == 'RIGHT':
-            new_x = (self.x + 1) % PLAY_WIDTH
             if not self.is_collision(self.y, new_x, maze_pattern, game_area):
                 self.x = new_x
         self.trail.append((self.x, self.y))
