@@ -1,5 +1,6 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
+pygame.init()
 import os
 from player import Player
 from controllers import controllers
@@ -25,7 +26,6 @@ matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
 # Initialise Pygame
-pygame.init()
 os.environ["XDG_RUNTIME_DIR"] = "/home/pi/Fun-with-Friends/colorBattle/remade_color_battle"
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
