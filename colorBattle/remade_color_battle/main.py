@@ -78,17 +78,13 @@ def main():
             print("It's a tie!")
         elif player1_points > player2_points:
             print("Player 1 wins!")
-
         else:
             print("Player 2 wins!")
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
-        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION)
-        # if remaining_seconds == 0:
-        #     running = False
+        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
 
          # Check if remaining time is zero
-        print("Remaining Seconds:", remaining_seconds)
         if remaining_seconds == 0:
             running = False
 
@@ -106,7 +102,6 @@ def main():
 def count_points(grid, player1_color, player2_color):
     player1_points = sum(row.count(player1_color) for row in grid)  # Count cells occupied by player 1
     player2_points = sum(row.count(player2_color) for row in grid)  # Count cells occupied by player 2
-
     return {
         "player1_points": player1_points,
         "player2_points": player2_points
