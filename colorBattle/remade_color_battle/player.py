@@ -15,13 +15,13 @@ class Player:
         new_x = self.x  # Initialize new_x to current x position
 
         if direction == 'UP':
-            new_y = (self.y - 1) % PLAY_HEIGHT
+            new_y = (self.y - 2) % PLAY_HEIGHT
         elif direction == 'DOWN':
-            new_y = (self.y + 1) % PLAY_HEIGHT
+            new_y = (self.y + 2) % PLAY_HEIGHT
         elif direction == 'LEFT':
-            new_x = (self.x - 1) % PLAY_WIDTH
+            new_x = (self.x - 2) % PLAY_WIDTH
         elif direction == 'RIGHT':
-            new_x = (self.x + 1) % PLAY_WIDTH
+            new_x = (self.x + 2) % PLAY_WIDTH
 
         if not self.is_collision(new_y, new_x, maze_pattern, game_area):
             self.y = new_y

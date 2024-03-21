@@ -87,7 +87,7 @@ def main():
         if remaining_seconds == 0:
             running = False
 
-        clock.tick(300)
+        clock.tick(60)
         # Update the display
         matrix.SwapOnVSync(offset_canvas)
 
