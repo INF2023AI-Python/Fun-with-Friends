@@ -27,16 +27,17 @@ options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
-# Initialize the game grid
-grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
-
-pygame.display.set_caption("Color Battle")
-
 # Initialise
 pygame.init()
 os.environ["XDG_RUNTIME_DIR"] = "/path/to/runtime/directory"
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+
+# Initialize the game grid
+grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
+
+pygame.display.set_caption("Color Battle")
+
 # initialize players
 player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 10))
 player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 10))
