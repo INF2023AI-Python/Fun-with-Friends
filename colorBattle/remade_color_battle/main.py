@@ -1,5 +1,5 @@
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
 from obstacle import obstacle, maze
 from scoreboard import Scoreboard
@@ -64,9 +64,9 @@ def main():
     # maze(offset_canvas, matrix)
 
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         running = False
 
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)
