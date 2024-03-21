@@ -25,6 +25,9 @@ options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
+# Initialize the game grid
+grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
+
 pygame.display.set_caption("Color Battle")
 
 # Initialise
@@ -67,11 +70,11 @@ def main():
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)
         # Painting
-        player1.paint(offset_canvas)
-        player2.paint(offset_canvas)
+        player1.paint(grid)
+        player2.paint(grid)
 
         # Count points and determine the winner
-        player1_points, player2_points = count_points(offset_canvas, player1.color, player2.color)
+        player1_points, player2_points = count_points(grid, player1.color, player2.color)
         if player1_points == player2_points:
             print("It's a tie!")
         elif player1_points > player2_points:

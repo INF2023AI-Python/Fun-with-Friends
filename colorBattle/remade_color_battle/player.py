@@ -1,8 +1,6 @@
 PLAY_HEIGHT = 26
 PLAY_WIDTH = 32
 
-# TODO: make the color for every player
-
 
 class Player:
     def __init__(self, color, trail_color, start_pos):
