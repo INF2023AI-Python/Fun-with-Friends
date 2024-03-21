@@ -47,3 +47,9 @@ class Player:
             if game_area[y][x] == 1:
                 return True
         return False
+    
+    def update_state(self, grid):
+        # Update the game state based on the player's position and color
+        if self.y < len(grid) and self.x < len(grid[0]):
+            grid[self.y][self.x] = self.trail_color
+            self.cells_painted += 1
