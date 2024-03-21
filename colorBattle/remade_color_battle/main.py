@@ -27,7 +27,7 @@ offset_canvas = matrix.CreateFrameCanvas()
 def main():
     # Initialise Pygame
     pygame.init()
-    os.environ["XDG_RUNTIME_DIR"] = "/home/pi/Fun-with-Friends/colorBattle/remade_color_battle"
+    os.environ["XDG_RUNTIME_DIR"] = "/tmp"
     pygame.joystick.init()
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 
