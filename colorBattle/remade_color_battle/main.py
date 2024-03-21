@@ -64,8 +64,8 @@ def main():
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)
         # Painting
-        player1.paint(grid)
-        player2.paint(grid)
+        player1.paint(offset_canvas)
+        player2.paint(offset_canvas)
 
         # Count points and determine the winner
         player1_points, player2_points = count_points(grid, player1.color, player2.color)
