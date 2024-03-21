@@ -65,13 +65,15 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        
 
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)
         # Painting
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)
+
+        player1.update_state(grid)
+        player2.update_state(grid)
 
         # Count points and determine the winner
         player1_points, player2_points = count_points(grid, player1.color, player2.color)
@@ -84,9 +86,9 @@ def main():
             print("Player 2 wins!")
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
-        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, int(player1_points), int(player2_points))
+        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
 
-         # Check if remaining time is zero
+        # Check if remaining time is zero
         if remaining_seconds == 0:
             running = False
 
@@ -98,12 +100,17 @@ def main():
 
     # Game over, quit Pygame
     pygame.quit()
-    
+
+
 def count_points(grid, player1_color, player2_color):
     player1_points = sum(row.count(player1_color) for row in grid)  # Count cells occupied by player 1
     player2_points = sum(row.count(player2_color) for row in grid)  # Count cells occupied by player 2
-    return player1_points, player2_points  # Return integers directly instead of using dictionary
-
+    print(player1_points)
+    print(player2_points)
+    return {
+        "player1_points": int(player1_points),
+        "player2_points": int(player2_points)
+    }
 
 
 if __name__ == "__main__":
