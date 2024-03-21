@@ -75,6 +75,7 @@ def main():
 
         # Count points and determine the winner
         player1_points, player2_points = count_points(grid, player1.color, player2.color)
+        print(player1_points, player2_points)
         if player1_points == player2_points:
             print("It's a tie!")
         elif player1_points > player2_points:
