@@ -7,7 +7,7 @@ from VierGewinnt.VierGewinnt import vierGewinnt
 
 orange_square_position = [0, 0]
 
-# Konfiguration der Matrix
+# Matrix configuration
 options = RGBMatrixOptions()
 options.cols = 32
 options.rows = 32
@@ -17,36 +17,36 @@ options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
-# Funktion zum reseten des Bildschirms
+# Function to clear the screen
 def clear_screen():
     global matrix
     matrix.Clear()
 
-# Funktion zum Zeichnen des Bildschirms (Raster, Piktogramme, Auswahl)
+# Function to draw the screen (grid, icons, selection)
 def draw_screen(x, y, offset_canvas, matrix):
-    color = (255, 255, 255) #weiß
+    color = (255, 255, 255) # white
     red = (255, 0, 0)
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-     # vertikalen Linie
+    # Vertical lines
     for row in range(32):
         offset_canvas.SetPixel(0, row, *color)
         offset_canvas.SetPixel(15, row, *color)
         offset_canvas.SetPixel(31, row, *color)
 
-    # horizontalen Linie
+    # Horizontal lines
     for col in range(32):
         offset_canvas.SetPixel(col, 0, *color)
         offset_canvas.SetPixel(col, 15, *color)
         offset_canvas.SetPixel(col, 31, *color)
 
-    # Position des orangenen Quadrats skaliert auf 0-15
-    x_pos = int(x * 15)  
+    # Position of the orange square scaled to 0-15
+    x_pos = int(x * 15)
     y_pos = int(y * 15)
 
-    # Oranges Quadrat
-    # Obere Linie
+    # Orange square
+    # Top line
     if x_pos % 16 == 0 and y_pos % 16 != 0:
         for i in range(16):
             offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
@@ -62,18 +62,18 @@ def draw_screen(x, y, offset_canvas, matrix):
             offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
             offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
 
-    # Untere Linie
+    # Bottom line
     for i in range(16):
         offset_canvas.SetPixel(i + x_pos, 15 + y_pos, *orange)
-    # Linke Linie
+    # Left line
     for i in range(16):
         offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
-    # Rechte Linie
+    # Right line
     for i in range(16):
         offset_canvas.SetPixel(15 + x_pos, i + y_pos, *orange)
 
-    # Zeichnen der Piktogramme
-    # Colorbattel
+    # Draw icons
+    # Colorbattle
     for row in range(2, 7):
         for col in range(5, 10):
             offset_canvas.SetPixel(row, col, *red)
@@ -81,7 +81,7 @@ def draw_screen(x, y, offset_canvas, matrix):
         for col in range(5, 10):
             offset_canvas.SetPixel(row, col, *blue)
 
-    # tictactoe
+    # Tictactoe
     positionsX = [
         (17, 4), (18, 5), (19, 6), (20, 7), (21, 6), (22, 5), (23, 4),
         (19, 8), (21, 8), (18, 9), (22, 9), (17, 10), (23, 10)
@@ -95,7 +95,7 @@ def draw_screen(x, y, offset_canvas, matrix):
     for pos in positionsO:
         offset_canvas.SetPixel(pos[0], pos[1], *blue)
 
-    # VierGewinnt
+    # Connect Four
     for row in range(2, 5):
         for col in range(27, 30):
             offset_canvas.SetPixel(row, col, *red)
@@ -115,29 +115,29 @@ def draw_screen(x, y, offset_canvas, matrix):
         for col in range(27, 30):
             offset_canvas.SetPixel(row, col, *blue)
 
-   # ShutDown
-    for row in range(22, 24):  
+    # ShutDown
+    for row in range(22, 24):
         for col in range(17, 23):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(21, 25):   
+    for row in range(21, 25):
         for col in range(27, 29):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(19, 21):  
+    for row in range(19, 21):
         for col in range(25, 27):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(25, 27):   
+    for row in range(25, 27):
         for col in range(25, 27):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(17, 19):   
+    for row in range(17, 19):
         for col in range(21, 25):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(27, 29):   
+    for row in range(27, 29):
         for col in range(21, 25):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(19, 21):   
+    for row in range(19, 21):
         for col in range(19, 21):
             offset_canvas.SetPixel(row, col, *red)
-    for row in range(25, 27):   
+    for row in range(25, 27):
         for col in range(19, 21):
             offset_canvas.SetPixel(row, col, *red)
     return matrix.SwapOnVSync(offset_canvas)
@@ -146,19 +146,19 @@ def select_option(new_position):
     global offset_canvas
     global matrix
     if new_position[0] == 0 and new_position[1] == 0:
-        print("Colorbattle wurde ausgewählt")
+        print("Colorbattle selected")
         
-    elif new_position[0] == 1 and new_position[1] == 0:       
+    elif new_position[0] == 1 and new_position[1] == 0:
         clear_screen()
         tictactoe(offset_canvas, matrix)
-        print("Tictactoe wurde ausgewählt")
+        print("Tictactoe selected")
         
     elif new_position[0] == 0 and new_position[1] == 1:
         vierGewinnt(offset_canvas, matrix)
-        print("VierGewinnt wurde ausgewählt")
+        print("Connect Four selected")
         
     elif new_position[0] == 1 and new_position[1] == 1:
-        print("ShutDown wurde ausgewählt")
+        print("ShutDown selected")
         subprocess.call("sudo shutdown -h now", shell=True)
 
 
@@ -167,27 +167,27 @@ def update_orange_square_position(orange_square_position, joystick):
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
-    # Bewegungsrichtung basierend auf den Achsenwerten mit Toleranz
+    # Movement direction based on axis values with tolerance
     if -0.2 < x_axis < 0.2 and y_axis < -0.8:
-        # Bewege nach oben
+        # Move up
         new_position = [max(0, min(1, orange_square_position[0])),
                         max(0, min(1, orange_square_position[1] - 1))]
-        print("Bewege nach oben")
+        print("Move up")
     elif -0.2 < x_axis < 0.2 and y_axis > 0.8:
-        # Bewege nach unten
+        # Move down
         new_position = [max(0, min(1, orange_square_position[0])),
                         max(0, min(1, orange_square_position[1] + 1))]
-        print("Bewege nach unten")
+        print("Move down")
     elif x_axis > 0.8 and -0.2 < y_axis < 0.2:
-        # Bewege nach rechts
+        # Move right
         new_position = [max(0, min(1, orange_square_position[0] + 1)),
                         max(0, min(1, orange_square_position[1]))]
-        print("Bewege nach rechts")
+        print("Move right")
     elif x_axis < -0.8 and -0.2 < y_axis < 0.2:
-        # Bewege nach links
+        # Move left
         new_position = [max(0, min(1, orange_square_position[0] - 1)),
                         max(0, min(1, orange_square_position[1]))]
-        print("Bewege nach links")
+        print("Move left")
     else:
         new_position = orange_square_position
 
@@ -206,7 +206,7 @@ def main():
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
-        print("Kein Joystick gefunden.")
+        print("No joystick found.")
         pygame.quit()
         quit()
 
