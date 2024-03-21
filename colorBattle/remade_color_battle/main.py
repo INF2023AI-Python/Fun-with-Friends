@@ -109,11 +109,7 @@ def count_points(grid, player1_color, player2_color):
     player2_points = sum(row.count(player2_color) for row in grid)  # Count cells occupied by player 2
     print(player1_points)
     print(player2_points)
-    return {
-        "player1_points": int(player1_points),
-        "player2_points": int(player2_points)
-    }
-
+    return player1_points, player2_points
 
 if __name__ == "__main__":
     main()
