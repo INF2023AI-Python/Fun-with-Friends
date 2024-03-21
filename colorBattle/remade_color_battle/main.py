@@ -64,12 +64,20 @@ def main():
     # maze(offset_canvas, matrix)
 
     while running:
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         running = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.JOYBUTTONDOWN:
+                button = event.button
+                if button == 0:  # Up button
+                    player1.move('UP', maze_pattern, game_area)
+                elif button == 1:  # Right button
+                    player1.move('RIGHT', maze_pattern, game_area)
+                elif button == 2:  # Down button
+                    player1.move('DOWN', maze_pattern, game_area)
+                elif button == 3:  # Left button
+                    player1.move('LEFT', maze_pattern, game_area)
 
-        # Player controls
-        controllers(joysticks, player1, player2, maze_pattern, game_area)
         # Painting
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)
@@ -79,7 +87,6 @@ def main():
 
         # Count points and determine the winner
         player1_points, player2_points = count_points(grid, player1.color, player2.color)
-        # print(f"{player1_points} and {player2_points}")
         if player1_points == player2_points:
             print("It's a tie!")
         elif player1_points > player2_points:
@@ -87,20 +94,16 @@ def main():
         else:
             print("Player 2 wins!")
 
-        # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
+        # Draw the updated scoreboard
         remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
 
         # Check if remaining time is zero
         if remaining_seconds == 0:
             running = False
 
-        clock.tick(300)
-        # Update the display
+        clock.tick(30)  # Adjust frame rate as needed
         matrix.SwapOnVSync(offset_canvas)
-        # Delay to control frame rate
-        # pygame.time.delay(1000)  # Delay for 1 second (1000 milliseconds)
 
-    # Game over, quit Pygame
     pygame.quit()
 
 
