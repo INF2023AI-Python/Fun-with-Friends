@@ -44,7 +44,7 @@ pygame.display.set_caption("Color Battle")
 player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 10))
 player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 10))
 # create an instance for scoreboard
-scoreboard = Scoreboard(offset_canvas)
+scoreboard = Scoreboard(offset_canvas, player1, player2)
 
 # Easy mode
 game_area = obstacle(offset_canvas, matrix)
