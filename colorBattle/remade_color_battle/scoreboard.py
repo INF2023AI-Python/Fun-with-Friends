@@ -32,7 +32,7 @@ class Scoreboard:
 
     def clear_time_text_area(self, offset_canvas):
     # Clear the area occupied by the previous time text using black color
-        for x in range(0, 32):
+        for x in range(32):
             for y in range(26, 32):
                 offset_canvas.SetPixel(x, y, 0, 0, 0)  # Set pixel to black
 
