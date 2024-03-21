@@ -50,10 +50,10 @@ class Scoreboard:
         self.clear_time_text_area(offset_canvas)
 
         # Draw player 1's points on the left side
-        graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1_points))
+        graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, int(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, str(self.player2_points))
+        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, int(self.player2_points))
 
         # Draw remaining time in the middle
         time_text = f"{int(remaining_seconds):02d}"
