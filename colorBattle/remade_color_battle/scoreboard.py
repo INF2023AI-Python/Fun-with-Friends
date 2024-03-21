@@ -40,9 +40,9 @@ class Scoreboard:
         print(f"get player1 :{player1Points}")
         print(f"get player2 :{player2Points}")
         self.player1_points = player1Points
-        print(f"1 is {self.player1_points}")
+        print(f"score1 is {self.player1_points}")
         self.player2_points = player2Points
-        print(f"2 is {self.player2_points}")
+        print(f"score2 is {self.player2_points}")
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
