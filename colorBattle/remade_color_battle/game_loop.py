@@ -2,7 +2,7 @@ import pygame
 from player import Player, PLAY_WIDTH, PLAY_HEIGHT
 from emulator import Emulator
 from controllers import controllers
-# from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from obstacle import maze, obstacle
 # from RGBMatrixEmulator import RGBMatrix
 
@@ -38,7 +38,7 @@ def run_game():
 
     # Easy mode
     game_area = obstacle(emulator.canvas, emulator.matrix)
-    # Hard mode: maze
+    # # Hard mode: maze
     maze_pattern = maze(emulator.canvas, emulator.matrix)
 
     # Get the start time
@@ -67,7 +67,7 @@ def run_game():
         emulator.update_canvas(grid)
 
         # Frame rate (e.g., 60 FPS)
-        pygame.time.delay(int(1000 / 120))
+        pygame.time.delay(int(1000 / 60))
 
     # Count points and determine the winner
     player1_points, player2_points = count_points(grid, player1.color, player2.color)
