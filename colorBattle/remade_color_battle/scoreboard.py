@@ -38,7 +38,9 @@ class Scoreboard:
 
     def draw(self, offset_canvas, duration, player1Points, player2Points):
         self.player1_points = player1Points
+        print(f"1 is {self.player1_points}")
         self.player2_points = player2Points
+        print(f"2 is {self.player2_points}")
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
