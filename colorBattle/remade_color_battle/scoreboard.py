@@ -1,6 +1,5 @@
 from rgbmatrix import graphics
 import time
-from main import player1, player2
 
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
