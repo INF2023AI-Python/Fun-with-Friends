@@ -3,7 +3,7 @@ import pygame
 import os
 from player import Player
 from controllers import controllers
-from obstacle import obstacle
+from obstacle import obstacle, maze
 from levelSelection import select_level
 from scoreboard import Scoreboard
 
