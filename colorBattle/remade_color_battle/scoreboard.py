@@ -36,24 +36,25 @@ class Scoreboard:
             for y in range(26, 32):
                 offset_canvas.SetPixel(x, y, 0, 0, 0)  # Set pixel to black
 
-    def draw(self, offset_canvas, duration):
+    def draw(self, offset_canvas, duration, player1Points, player2Points):
+        print(f"get player1 :{player1Points}")
+        print(f"get player2 :{player2Points}")
+        self.player1_points = player1Points
+        print(f"score1 is {self.player1_points}")
+        self.player2_points = player2Points
+        print(f"score2 is {self.player2_points}")
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
-
         # Clear the area occupied by the previous time text
         self.clear_time_text_area(offset_canvas)
-
         # Draw player 1's points on the left side
-        graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1.cells_painted))
-
+        graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1_points))
         # Draw player 2's points on the right side
-        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, str(self.player2.cells_painted))
-
+        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 4, SCREEN_HEIGHT, self.pointsColor, str(self.player2_points))
         # Draw remaining time in the middle
         time_text = f"{int(remaining_seconds):02d}"
         self.time_text_width = len(time_text) * 3  # Calculate the width of the time text
         self.time_text_x = SCREEN_WIDTH // 2 - self.time_text_width // 2  # Calculate the x-coordinate of the time text
         self.time_text_y = SCREEN_HEIGHT  # Set the y-coordinate of the time text
         graphics.DrawText(offset_canvas, self.font, self.time_text_x, self.time_text_y, self.timeColor, time_text)
-
         return remaining_seconds
