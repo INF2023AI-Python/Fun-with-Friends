@@ -2,9 +2,12 @@ import pygame
 from rgbmatrix import graphics
 from obstacle import obstacle, maze
 
+
 # Constants for screen dimensions and options
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
+
+pygame.init()
 
 def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
@@ -49,28 +52,6 @@ def draw_level(matrix, offset_canvas, selected_level):
 
     # Update the display
     matrix.SwapOnVSync(offset_canvas)
-
-# def select_level(matrix, offset_canvas, joysticks):
-#     # Initialize the selected level as None
-#     selected_level = "easy"
-#     draw_level(matrix, offset_canvas, selected_level)
-
-#     while True:
-#         for event in pygame.event.get():
-#             if event.type == pygame.JOYBUTTONDOWN:
-#                 if event.button == 0:
-#                     selected_level = "easy"
-#                     draw_level(matrix, offset_canvas, selected_level)
-#                 if event.button == 2:
-#                     selected_level = "hard"
-#                     draw_level(matrix, offset_canvas, selected_level)
-#                 # Check if button 9 (button start) is pressed
-#                 if event.button == 1:
-#                     # Return the selected level
-#                     offset_canvas.Clear()
-#                     return selected_level
-        
-#         pygame.time.Clock().tick(10)
     
 def select_level(matrix, offset_canvas, joysticks):
     selected_level = "easy"
