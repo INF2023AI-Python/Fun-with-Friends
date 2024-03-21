@@ -24,9 +24,8 @@ class Scoreboard:
         self.time_text_y = 0
         self.time_text_width = 0
 
-    def update(self, duration, player1Points, player2Points):
-        self.player1_points = player1Points
-        self.player2_points = player2Points
+    def update(self, duration):
+
         elapsed_time = int(time.time() - self.start_time)
         remaining_seconds = max(duration - elapsed_time, 0)
         time.sleep(1)
@@ -39,6 +38,8 @@ class Scoreboard:
                 offset_canvas.SetPixel(x, y, 0, 0, 0)  # Set pixel to black
 
     def draw(self, offset_canvas, duration, player1Points, player2Points):
+        self.player1_points = player1Points
+        self.player2_points = player2Points
         remaining_seconds = self.update(duration, player1Points, player2Points)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
