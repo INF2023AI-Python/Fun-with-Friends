@@ -51,6 +51,7 @@ maze_pattern = maze(offset_canvas, matrix)
 
 remaining_seconds = GAME_DURATION
 
+
 def main():
     running = True
     clock = pygame.time.Clock()
