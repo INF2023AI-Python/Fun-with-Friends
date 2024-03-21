@@ -78,6 +78,7 @@ def main():
             print("It's a tie!")
         elif player1_points > player2_points:
             print("Player 1 wins!")
+
         else:
             print("Player 2 wins!")
 

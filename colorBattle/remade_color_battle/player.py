@@ -11,22 +11,19 @@ class Player:
         self.trail = [start_pos]  # Initialize the trail with the start position
 
     def move(self, direction, maze_pattern, game_area):
+
         if direction == 'UP':
             new_y = (self.y - 1) % PLAY_HEIGHT
-            if not self.is_collision(new_y, self.x, maze_pattern, game_area):
-                self.y = new_y
         elif direction == 'DOWN':
             new_y = (self.y + 1) % PLAY_HEIGHT
-            if not self.is_collision(new_y, self.x, maze_pattern, game_area):
-                self.y = new_y
         elif direction == 'LEFT':
             new_x = (self.x - 1) % PLAY_WIDTH
-            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
-                self.x = new_x
         elif direction == 'RIGHT':
             new_x = (self.x + 1) % PLAY_WIDTH
-            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
-                self.x = new_x
+
+        if not self.is_collision(new_y, new_x, maze_pattern, game_area):
+            self.y = new_y
+            self.x = new_x
         self.trail.append((self.x, self.y))
 
     def paint(self, canvas):
