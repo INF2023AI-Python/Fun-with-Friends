@@ -87,6 +87,7 @@ def main():
         #     running = False
 
          # Check if remaining time is zero
+        print("Remaining Seconds:", remaining_seconds)
         if remaining_seconds == 0:
             running = False
 
