@@ -59,6 +59,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        
 
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)
@@ -76,7 +77,9 @@ def main():
             print("Player 2 wins!")
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
-        scoreboard.draw(offset_canvas, GAME_DURATION)
+        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION)
+        if remaining_seconds == 0:
+            running = False
 
         clock.tick(300)
         # Update the display
