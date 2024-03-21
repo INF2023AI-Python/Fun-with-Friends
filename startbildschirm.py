@@ -17,36 +17,35 @@ options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
 offset_canvas = matrix.CreateFrameCanvas()
 
-# Funktion zum Löschen des Bildschirms
+# Funktion zum reseten des Bildschirms
 def clear_screen():
     global matrix
     matrix.Clear()
 
-# Funktion zum Zeichnen des Bildschirms
+# Funktion zum Zeichnen des Bildschirms (Raster, Piktogramme, Auswahl)
 def draw_screen(x, y, offset_canvas, matrix):
-    # Farbe der Linien
     color = (255, 255, 255) #weiß
     red = (255, 0, 0)
     blue = (0, 0, 255)
     orange = (255, 165, 0)
 
-     # Zeichnen der vertikalen Linie
+     # vertikalen Linie
     for row in range(32):
         offset_canvas.SetPixel(0, row, *color)
         offset_canvas.SetPixel(15, row, *color)
         offset_canvas.SetPixel(31, row, *color)
 
-    # Zeichnen der horizontalen Linie
+    # horizontalen Linie
     for col in range(32):
         offset_canvas.SetPixel(col, 0, *color)
         offset_canvas.SetPixel(col, 15, *color)
         offset_canvas.SetPixel(col, 31, *color)
 
-    # Position des Quadrats anpassen
-    x_pos = int(x * 15)  # Skalierung der Joystick-Achsen auf 0-15
+    # Position des orangenen Quadrats skaliert auf 0-15
+    x_pos = int(x * 15)  
     y_pos = int(y * 15)
 
-    # Zeichnen der orangefarbenen Linien
+    # Oranges Quadrat
     # Obere Linie
     if x_pos % 16 == 0 and y_pos % 16 != 0:
         for i in range(16):
@@ -164,7 +163,7 @@ def select_option(new_position):
 
 
 def update_orange_square_position(orange_square_position, joystick):
-    # Erhalte die Achsenpositionen des Joysticks
+   
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
@@ -190,14 +189,11 @@ def update_orange_square_position(orange_square_position, joystick):
                         max(0, min(1, orange_square_position[1]))]
         print("Bewege nach links")
     else:
-        # Keine Bewegung, wenn keine der Bedingungen erfüllt ist
         new_position = orange_square_position
 
-    # Überprüfe, ob der Button mit der ID 1 gedrückt wurde
     if joystick.get_button(1) == 1:
         select_option(new_position)
 
-    # Rückgabe der neuen Position
     return new_position
 
 
@@ -207,7 +203,6 @@ def main():
     global matrix
     global offset_canvas
 
-    # Pygame und Controllerprüfung
     pygame.init()
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
@@ -215,16 +210,12 @@ def main():
         pygame.quit()
         quit()
 
-    # Wähle den ersten verfügbaren Joystick was
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
     running = True
     while running:
-        # clear_screen()
-        # Rufe update_orange_square_position auf, um die Position des orangen Quadrats zu aktualisieren
         orange_square_position = update_orange_square_position(orange_square_position, joystick)
-        # Übergebe die aktualisierte Position an draw_screen
         draw_screen(orange_square_position[0], orange_square_position[1], offset_canvas, matrix)
 
         for event in pygame.event.get():

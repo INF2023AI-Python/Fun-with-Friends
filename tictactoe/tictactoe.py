@@ -2,7 +2,6 @@ import time
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import sys
-#from startbildschirm import clear_screen
 
 # Startposition des orangenen Quadrats
 orange_square_position = [1, 1]
@@ -18,7 +17,7 @@ def draw_board(board_state, offset_canvas, matrix):
             if row % 10 == 0 or col % 10 == 0:
                 offset_canvas.SetPixel(col, row, 100, 100, 100)
 
-    # Zeichne die Spielsymbole
+    # Zeichnet die Spielsymbole
     for row in range(3):
         for col in range(3):
             if board_state[row][col] == 'O':
@@ -28,7 +27,7 @@ def draw_board(board_state, offset_canvas, matrix):
                 graphics.DrawLine(offset_canvas, x1, y1, x2, y2, graphics.Color(255, 0, 0))
                 graphics.DrawLine(offset_canvas, x2, y1, x1, y2, graphics.Color(255, 0, 0))
 
-    # Zeichne das orangene Quadrat
+    # Zeichnet das orangene Quadrat
     x1, y1, x2, y2 = orange_square_position[0] * 10, orange_square_position[1] * 10, (orange_square_position[0] + 1) * 10, (orange_square_position[1] + 1) * 10
     graphics.DrawLine(offset_canvas, x1, y1, x2, y1, graphics.Color(255, 165, 0))
     graphics.DrawLine(offset_canvas, x2, y1, x2, y2, graphics.Color(255, 165, 0))
@@ -37,7 +36,7 @@ def draw_board(board_state, offset_canvas, matrix):
     
     return matrix.SwapOnVSync(offset_canvas)
 
-# Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden usw.)
+# Funktion zum Überprüfen des Spielstatus (Gewonnen, Unentschieden)
 def check_winner(board_state):
     for row in range(3):
         if board_state[row][0] == board_state[row][1] == board_state[row][2] != ' ':
@@ -60,7 +59,6 @@ def update_board_with_joystick(board_state, joystick, offset_canvas, matrix):
     global orange_square_position
     global current_player
 
-    # Erhalte die Achsenpositionen des Joysticks
     x_axis = joystick.get_axis(0)
     y_axis = joystick.get_axis(1)
 
@@ -78,7 +76,6 @@ def update_board_with_joystick(board_state, joystick, offset_canvas, matrix):
         # Bewege nach links
         orange_square_position[0] = max(0, orange_square_position[0] - 1)
 
-    # Überprüfe, ob der Button mit der ID 0 gedrückt wurde
     if joystick.get_button(1) == 1:
         set_x_or_o(board_state, offset_canvas, matrix)
 
@@ -128,7 +125,7 @@ def display_draw(offset_canvas, matrix):
     time.sleep(0.5)
     matrix.Clear()
     color = (255, 255, 255)  # Weiß für Unentschieden
-    offset_canvas = display_text(["DRAW", "", ""], color, offset_canvas, matrix)
+    offset_canvas = display_text(["", "DRAW", ""], color, offset_canvas, matrix)
     time.sleep(5)
     matrix.Clear()
     return offset_canvas
@@ -158,7 +155,6 @@ def tictactoe(offset_canvas, matrix):
         offset_canvas = draw_board(board_state, offset_canvas, matrix)
         update_board_with_joystick(board_state, joystick, offset_canvas, matrix)
 
-        # Überprüfen Sie den Gewinner und den Unentschieden-Status
         if check_winner(board_state):
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
