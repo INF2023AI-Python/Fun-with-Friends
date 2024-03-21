@@ -40,6 +40,11 @@ grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
 game_area = obstacle(offset_canvas, matrix)
 maze_pattern = maze(offset_canvas, matrix)
 
+def count_points(grid, color1, color2):
+    player1_points = sum(row.count(color1) for row in grid)
+    player2_points = sum(row.count(color2) for row in grid)
+    return player1_points, player2_points
+
 def main():
     running = True
     clock = pygame.time.Clock()
