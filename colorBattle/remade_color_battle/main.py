@@ -86,14 +86,18 @@ def main():
         # if remaining_seconds == 0:
         #     running = False
 
+         # Check if remaining time is zero
+        if remaining_seconds <= 0:
+            running = False
+
         clock.tick(300)
         # Update the display
         matrix.SwapOnVSync(offset_canvas)
         # Delay to control frame rate
         # pygame.time.delay(1000)  # Delay for 1 second (1000 milliseconds)
-    if remaining_seconds == 0:
-            running = False
-            pygame.quit()
+
+    # Game over, quit Pygame
+    pygame.quit()
     
 
 
