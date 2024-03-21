@@ -3,35 +3,31 @@ PLAY_WIDTH = 32
 
 
 class Player:
-    def __init__(self, color, trail_color, start_pos):
+    def __init__(self, color, trail_color_rgb, start_pos):
         self.color = color
-        self.trail_color = trail_color
-        self.x, self.y = start_pos
-        self.cells_painted = 0
+        self.trail_color_rgb = trail_color_rgb
+        self.position = start_pos
         self.trail = [start_pos]  # Initialize the trail with the start position
+        self.cells_painted = 0
 
-    def move(self, direction, maze_pattern, game_area):
-        if direction == 'UP':
-            new_y = (self.y - 1) % PLAY_HEIGHT
-            if not self.is_collision(new_y, self.x, maze_pattern, game_area):
-                self.y = new_y
-        elif direction == 'DOWN':
-            new_y = (self.y + 1) % PLAY_HEIGHT
-            if not self.is_collision(new_y, self.x, maze_pattern, game_area):
-                self.y = new_y
-        elif direction == 'LEFT':
-            new_x = (self.x - 1) % PLAY_WIDTH
-            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
-                self.x = new_x
-        elif direction == 'RIGHT':
-            new_x = (self.x + 1) % PLAY_WIDTH
-            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
-                self.x = new_x
-        self.trail.append((self.x, self.y))
+    def move(self, x_axis, y_axis, maze_pattern, game_area):
+        x, y = self.position
+        new_x, new_y = x, y
+
+        # Adjust the position based on gamepad input
+        if abs(x_axis) > 0.5:
+            new_x = (x + int(x_axis)) % PLAY_WIDTH
+        if abs(y_axis) > 0.5:
+            new_y = (y + int(y_axis)) % PLAY_HEIGHT
+        
+        if not self.is_collision(new_y, new_x, maze_pattern, game_area):
+            self.position = (new_x, new_y)
+            self.trail.append(self.position)
 
     def paint(self, canvas):
         # Check if the indices are within the range of the grid dimensions
-        canvas.SetPixel(self.x, self.y, *self.trail_color)
+        x, y = self.position
+        canvas.SetPixel(x, y, *self.trail_color_rgb)
         self.cells_painted += 1
 
     def repaint_trail(self, canvas):
@@ -50,6 +46,7 @@ class Player:
     
     def update_state(self, grid):
         # Update the game state based on the player's position and color
-        if self.y < len(grid) and self.x < len(grid[0]):
-            grid[self.y][self.x] = self.trail_color
+        x, y = self.position
+        if y < len(grid) and x < len(grid[0]):
+            grid[y][x] = self.trail_color_rgb
             self.cells_painted += 1
