@@ -34,6 +34,8 @@ player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 
 # Initialize Scoreboard
 scoreboard = Scoreboard(offset_canvas)
 
+grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
+
 # Initialize Game Area
 game_area = obstacle(offset_canvas, matrix)
 maze_pattern = maze(offset_canvas, matrix)
