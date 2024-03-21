@@ -53,7 +53,8 @@ def main():
     clock = pygame.time.Clock()
 
     # select the level, easy or hard
-    select_level(matrix, offset_canvas, joysticks)
+    # select_level(matrix, offset_canvas, joysticks)
+    obstacle(offset_canvas, matrix)
     
     while running:
         for event in pygame.event.get():
