@@ -33,7 +33,6 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 # Initialize the game grid
 grid = [[(0, 0, 0) for _ in range(PLAY_HEIGHT)] for _ in range(PLAY_WIDTH)]
 
-pygame.display.set_caption("Color Battle")
 
 # Initialize players
 player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 10))
