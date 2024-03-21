@@ -37,13 +37,13 @@ class Scoreboard:
             for y in range(26, 32):
                 offset_canvas.SetPixel(x, y, 0, 0, 0)  # Set pixel to black
 
-    def draw(self, offset_canvas, duration, player1Points, player2Points):
-        print(f"get player1 :{player1Points}")
-        print(f"get player2 :{player2Points}")
+    def draw(self, offset_canvas, duration, player1, player2):
+        # print(f"get player1 :{player1Points}")
+        # print(f"get player2 :{player2Points}")
         self.player1_points = player1.cells_painted
-        print(f"score1 is {self.player1_points}")
+        # print(f"score1 is {self.player1_points}")
         self.player2_points = player2.cells_painted
-        print(f"score2 is {self.player2_points}")
+        # print(f"score2 is {self.player2_points}")
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
