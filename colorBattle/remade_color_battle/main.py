@@ -65,10 +65,10 @@ def main():
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)
 
-        # Count points and determine the winner
         player1.update_state(grid)
         player2.update_state(grid)
-        
+
+        # Count points and determine the winner
         if player1.cells_painted == player2.cells_painted:
             print("It's a tie!")
         elif player1.cells_painted > player2.cells_painted:

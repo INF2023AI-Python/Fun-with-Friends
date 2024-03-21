@@ -40,10 +40,11 @@ class Player:
     def is_collision(self, y, x, maze_pattern, game_area):
         # Check if the indices are within the range of the grid dimensions
         if y < len(maze_pattern) and x < len(maze_pattern[0]):
-            if maze_pattern[y][x] == "#":
-                return True
-            if game_area[y][x] == 1:
-                return True
+            # Check all positions between the current position and the new position
+            for i in range(min(self.y, y), max(self.y, y) + 1):
+                for j in range(min(self.x, x), max(self.x, x) + 1):
+                    if maze_pattern[i][j] == "#" or game_area[i][j] == 1:
+                        return True
         return False
 
     def update_state(self, grid):
