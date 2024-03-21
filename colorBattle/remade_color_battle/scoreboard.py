@@ -1,5 +1,6 @@
 from rgbmatrix import graphics
 import time
+from main import player1, player2
 
 SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
@@ -39,9 +40,9 @@ class Scoreboard:
     def draw(self, offset_canvas, duration, player1Points, player2Points):
         print(f"get player1 :{player1Points}")
         print(f"get player2 :{player2Points}")
-        self.player1_points = player1Points
+        self.player1_points = player1.cells_painted
         print(f"score1 is {self.player1_points}")
-        self.player2_points = player2Points
+        self.player2_points = player2.cells_painted
         print(f"score2 is {self.player2_points}")
         remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console

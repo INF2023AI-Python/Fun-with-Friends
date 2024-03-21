@@ -78,17 +78,17 @@ def main():
         player2.update_state(grid)
 
         # Count points and determine the winner
-        player1_points, player2_points = count_points(grid, player1.color, player2.color)
+        # player1_points, player2_points = count_points(grid, player1.color, player2.color)
         # print(f"{player1_points} and {player2_points}")
-        if player1_points == player2_points:
+        if player1.cells_painted == player2.cells_painted:
             print("It's a tie!")
-        elif player1_points > player2_points:
+        elif player1.cells_painted > player2.cells_painted:
             print("Player 1 wins!")
         else:
             print("Player 2 wins!")
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
-        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
+        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1, player2)
 
         # Check if remaining time is zero
         if remaining_seconds == 0:
@@ -104,12 +104,12 @@ def main():
     pygame.quit()
 
 
-def count_points(grid, player1_color, player2_color):
-    player1_points = sum(row.count(player1_color) for row in grid)  # Count cells occupied by player 1
-    player2_points = sum(row.count(player2_color) for row in grid)  # Count cells occupied by player 2
-    print(player1_points)
-    print(player2_points)
-    return player1_points, player2_points
+# def count_points(grid, player1_color, player2_color):
+#     player1_points = sum(row.count(player1_color) for row in grid)  # Count cells occupied by player 1
+#     player2_points = sum(row.count(player2_color) for row in grid)  # Count cells occupied by player 2
+#     print(player1_points)
+#     print(player2_points)
+#     return player1_points, player2_points
 
 if __name__ == "__main__":
     main()
