@@ -25,7 +25,6 @@ class Scoreboard:
         self.time_text_width = 0
 
     def update(self, duration):
-
         elapsed_time = int(time.time() - self.start_time)
         remaining_seconds = max(duration - elapsed_time, 0)
         time.sleep(1)
@@ -40,7 +39,7 @@ class Scoreboard:
     def draw(self, offset_canvas, duration, player1Points, player2Points):
         self.player1_points = player1Points
         self.player2_points = player2Points
-        remaining_seconds = self.update(duration, player1Points, player2Points)
+        remaining_seconds = self.update(duration)
         print("Remaining Time:", remaining_seconds)  # Check the remaining time in the console
 
         # Clear the area occupied by the previous time text
