@@ -15,13 +15,13 @@ class Player:
         new_x = self.x  # Initialize new_x to current x position
 
         if direction == 'UP':
-            new_y = (self.y - 2) % PLAY_HEIGHT
+            new_y = (self.y - 1) % PLAY_HEIGHT
         elif direction == 'DOWN':
-            new_y = (self.y + 2) % PLAY_HEIGHT
+            new_y = (self.y + 1) % PLAY_HEIGHT
         elif direction == 'LEFT':
-            new_x = (self.x - 2) % PLAY_WIDTH
+            new_x = (self.x - 1) % PLAY_WIDTH
         elif direction == 'RIGHT':
-            new_x = (self.x + 2) % PLAY_WIDTH
+            new_x = (self.x + 1) % PLAY_WIDTH
 
         if not self.is_collision(new_y, new_x, maze_pattern, game_area):
             self.y = new_y
@@ -40,11 +40,10 @@ class Player:
     def is_collision(self, y, x, maze_pattern, game_area):
         # Check if the indices are within the range of the grid dimensions
         if y < len(maze_pattern) and x < len(maze_pattern[0]):
-            # Check all positions between the current position and the new position
-            for i in range(min(self.y, y), max(self.y, y) + 1):
-                for j in range(min(self.x, x), max(self.x, x) + 1):
-                    if maze_pattern[i][j] == "#" or game_area[i][j] == 1:
-                        return True
+            if maze_pattern[y][x] == "#":
+                return True
+            if game_area[y][x] == 1:
+                return True
         return False
 
     def update_state(self, grid):
