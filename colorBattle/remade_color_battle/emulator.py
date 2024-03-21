@@ -1,7 +1,7 @@
 # from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
-ROWS = 32
+ROWS = 26
 COLS = 32
 
 

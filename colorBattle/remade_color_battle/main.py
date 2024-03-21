@@ -55,17 +55,10 @@ def main():
     # obstacle(offset_canvas, matrix)
     # maze(offset_canvas, matrix)
 
-    start_ticks = pygame.time.get_ticks()
-
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        # Check if 60 seconds have passed
-        seconds = (pygame.time.get_ticks() - start_ticks) / 1000
-        if seconds > 60:  # if more than 60 seconds close the game
-            break
 
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)
