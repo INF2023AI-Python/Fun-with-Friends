@@ -15,18 +15,22 @@ class Player:
             new_y = (self.y - 1) % PLAY_HEIGHT
             if not self.is_collision(new_y, self.x, maze_pattern, game_area):
                 self.y = new_y
+                print("Up button pressed")
         elif button == 1:  # Right
             new_x = (self.x + 1) % PLAY_WIDTH
             if not self.is_collision(self.y, new_x, maze_pattern, game_area):
                 self.x = new_x
+                print("Right button pressed")
         elif button == 2:  # Down
             new_y = (self.y + 1) % PLAY_HEIGHT
             if not self.is_collision(new_y, self.x, maze_pattern, game_area):
                 self.y = new_y
+                print("Down button pressed")
         elif button == 3:  # Left
             new_x = (self.x - 1) % PLAY_WIDTH
             if not self.is_collision(self.y, new_x, maze_pattern, game_area):
                 self.x = new_x
+                print("Left button pressed")
         self.trail.append((self.x, self.y))
 
     def paint(self, canvas):
