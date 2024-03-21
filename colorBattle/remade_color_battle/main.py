@@ -16,7 +16,7 @@ SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 PLAY_WIDTH = 32
 PLAY_HEIGHT = 26
-GAME_DURATION = 60
+GAME_DURATION = 10
 
 options = RGBMatrixOptions()
 options.rows = 32
@@ -92,6 +92,7 @@ def main():
         # Delay to control frame rate
         # pygame.time.delay(1000)  # Delay for 1 second (1000 milliseconds)
     if remaining_seconds == 0:
+            running = False
             pygame.quit()
     
 
