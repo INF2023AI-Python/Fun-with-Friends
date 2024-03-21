@@ -79,7 +79,7 @@ def main():
             print("Player 2 wins!")
 
         # Draw the updated scoreboard
-        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1, player2)
+        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION)
 
         # Check if remaining time is zero
         if remaining_seconds == 0:
