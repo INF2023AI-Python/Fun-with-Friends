@@ -49,6 +49,7 @@ game_area = obstacle(offset_canvas, matrix)
 # Hard mode: maze
 maze_pattern = maze(offset_canvas, matrix)
 
+remaining_seconds = GAME_DURATION
 
 def main():
     running = True
@@ -82,16 +83,17 @@ def main():
 
         # Draw the updated scoreboard, NEED TO MAKE SURE DRAW ON THE SAME CANVAS
         remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION)
-        if remaining_seconds == 0:
-            running = False
+        # if remaining_seconds == 0:
+        #     running = False
 
         clock.tick(300)
         # Update the display
         matrix.SwapOnVSync(offset_canvas)
         # Delay to control frame rate
         # pygame.time.delay(1000)  # Delay for 1 second (1000 milliseconds)
-
-    pygame.quit()
+    if remaining_seconds == 0:
+            pygame.quit()
+    
 
 
 def count_points(grid, player1_color, player2_color):
