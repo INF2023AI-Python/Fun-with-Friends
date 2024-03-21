@@ -10,27 +10,23 @@ class Player:
         self.cells_painted = 0
         self.trail = [start_pos]  # Initialize the trail with the start position
 
-    def move(self, button, maze_pattern, game_area):
-        if button == 0:  # Up
+    def move(self, direction, maze_pattern, game_area):
+        if direction == 'UP':
             new_y = (self.y - 1) % PLAY_HEIGHT
             if not self.is_collision(new_y, self.x, maze_pattern, game_area):
                 self.y = new_y
-                print("Up button pressed")
-        elif button == 1:  # Right
-            new_x = (self.x + 1) % PLAY_WIDTH
-            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
-                self.x = new_x
-                print("Right button pressed")
-        elif button == 2:  # Down
+        elif direction == 'DOWN':
             new_y = (self.y + 1) % PLAY_HEIGHT
             if not self.is_collision(new_y, self.x, maze_pattern, game_area):
                 self.y = new_y
-                print("Down button pressed")
-        elif button == 3:  # Left
+        elif direction == 'LEFT':
             new_x = (self.x - 1) % PLAY_WIDTH
             if not self.is_collision(self.y, new_x, maze_pattern, game_area):
                 self.x = new_x
-                print("Left button pressed")
+        elif direction == 'RIGHT':
+            new_x = (self.x + 1) % PLAY_WIDTH
+            if not self.is_collision(self.y, new_x, maze_pattern, game_area):
+                self.x = new_x
         self.trail.append((self.x, self.y))
 
     def paint(self, canvas):
@@ -51,9 +47,3 @@ class Player:
             if game_area[y][x] == 1:
                 return True
         return False
-
-    def update_state(self, grid):
-            # Update the game state based on the player's position and color
-            if self.y < len(grid) and self.x < len(grid[0]):
-                grid[self.y][self.x] = self.trail_color
-                self.cells_painted += 1
