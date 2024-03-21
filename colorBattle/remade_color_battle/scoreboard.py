@@ -6,10 +6,12 @@ SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 
 class Scoreboard:
-    def __init__(self, canvas):
+    def __init__(self, canvas, player1, player2):
         self.canvas = canvas
-        self.player1_points = 0
-        self.player2_points = 0
+        self.player1 = player1
+        self.player2 = player2
+        # self.player1_points = 0
+        # self.player2_points = 0
         self.start_time = time.time()
 
         blau = (0, 255, 255)
