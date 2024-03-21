@@ -16,7 +16,9 @@ SCREEN_WIDTH = 32
 SCREEN_HEIGHT = 32
 PLAY_WIDTH = 32
 PLAY_HEIGHT = 26
-GAME_DURATION = 10
+
+#set duration
+GAME_DURATION = 60
 
 options = RGBMatrixOptions()
 options.rows = 32
