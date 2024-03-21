@@ -55,3 +55,5 @@ class Scoreboard:
         self.time_text_x = SCREEN_WIDTH // 2 - self.time_text_width // 2  # Calculate the x-coordinate of the time text
         self.time_text_y = SCREEN_HEIGHT  # Set the y-coordinate of the time text
         graphics.DrawText(offset_canvas, self.font, self.time_text_x, self.time_text_y, self.timeColor, time_text)
+
+        return remaining_seconds
