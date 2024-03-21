@@ -1,8 +1,6 @@
 PLAY_HEIGHT = 26
 PLAY_WIDTH = 32
 
-# TODO: make the color for every player
-
 
 class Player:
     def __init__(self, color, trail_color, start_pos):
@@ -10,6 +8,7 @@ class Player:
         self.trail_color = trail_color
         self.x, self.y = start_pos
         self.cells_painted = 0
+        self.trail = [start_pos]  # Initialize the trail with the start position
 
     def move(self, direction, maze_pattern, game_area):
         if direction == 'UP':
@@ -28,19 +27,17 @@ class Player:
             new_x = (self.x + 1) % PLAY_WIDTH
             if not self.is_collision(self.y, new_x, maze_pattern, game_area):
                 self.x = new_x
+        self.trail.append((self.x, self.y))
 
-    def paint(self, grid):
+    def paint(self, canvas):
         # Check if the indices are within the range of the grid dimensions
-        if self.y < len(grid) and self.x < len(grid[0]):
-            if grid[self.y][self.x] != self.trail_color:
-                grid[self.y][self.x] = self.trail_color
-                self.cells_painted += 1
+        canvas.SetPixel(self.x, self.y, *self.trail_color)
+        self.cells_painted += 1
 
-    def repaint_trail(self, grid):
+    def repaint_trail(self, canvas):
         # Check if the indices are within the range of the grid dimensions
-        if self.y < len(grid) and self.x < len(grid[0]):
-            if grid[self.y][self.x] != self.color:
-                grid[self.y][self.x] = self.color
+        for x, y in self.trail:
+            canvas.SetPixel(x, y, *self.color)
 
     def is_collision(self, y, x, maze_pattern, game_area):
         # Check if the indices are within the range of the grid dimensions
