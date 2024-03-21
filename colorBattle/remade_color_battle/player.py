@@ -1,7 +1,3 @@
-PLAY_HEIGHT = 26
-PLAY_WIDTH = 32
-
-
 class Player:
     def __init__(self, color, trail_color, start_pos):
         self.color = color
