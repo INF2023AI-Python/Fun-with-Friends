@@ -6,6 +6,8 @@ from scoreboard import Scoreboard
 from levelSelection import select_level
 from player import Player
 from controllers import controllers
+import os
+
 # from game_loop import player1_points, player2_points
 # pip install numpy
 
@@ -32,6 +34,7 @@ pygame.display.set_caption("Color Battle")
 
 # Initialise
 pygame.init()
+os.environ["XDG_RUNTIME_DIR"] = "/path/to/runtime/directory"
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 # initialize players
