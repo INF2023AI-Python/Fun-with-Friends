@@ -10,8 +10,8 @@ class Scoreboard:
         self.canvas = canvas
         self.player1 = player1
         self.player2 = player2
-        # self.player1_points = 0
-        # self.player2_points = 0
+        self.player1_points = 0
+        self.player2_points = 0
         self.start_time = time.time()
 
         blau = (0, 255, 255)
