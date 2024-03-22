@@ -9,10 +9,6 @@ ROWS = 8 # 2nd row is empty (distance between board and selection)
 COLS = 7 
 CHIP_SIZE = 3
 
-# Empty array for the board
-board = np.zeros((ROWS, COLS), dtype=int)
-
-
 # Displaying the board on the matrix
 def display_board(offset_canvas, matrix):
     for row in range(ROWS):
@@ -108,6 +104,9 @@ def vierGewinnt(offset_canvas, matrix):
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
+    # Empty array for the board
+    board = np.zeros((ROWS, COLS), dtype=int)
+
     # Displaying the chip at the beginning of the game
     player = 1
     col = 0
@@ -178,6 +177,7 @@ def vierGewinnt(offset_canvas, matrix):
             
             # Return to startbildschirm.py
             elif joystick.get_button(9) == 1:
+                matrix.Clear()
                 return
                 
         pygame.time.Clock().tick(7)
