@@ -112,7 +112,7 @@ def main():
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
     # Your original code for selecting the level
-    select_level(matrix, offset_canvas, joysticks)
+    # select_level(matrix, offset_canvas, joysticks)
 
     while running:
         for event in pygame.event.get():
