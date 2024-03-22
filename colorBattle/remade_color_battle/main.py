@@ -59,6 +59,7 @@ class Player:
         self.button_right_pressed = False
         self.button_down_pressed = False
         self.button_left_pressed = False
+        self.speed = 3
 
     def move(self, grid, canvas):
         # 获取当前位置
