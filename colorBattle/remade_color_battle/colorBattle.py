@@ -89,7 +89,7 @@ class Player:
                 pixel_x = x + round(x_diff * i / steps)
                 pixel_y = y + round(y_diff * i / steps)
                 grid[pixel_y][pixel_x] = self.trail_color
-                canvas.SetPixel(self.position[pixel_x], self.position[pixel_y], *self.trail_color)
+                # canvas.SetPixel(self.position[pixel_x], self.position[pixel_y], *self.trail_color)
         # Update the current position
         x = new_x
         y = new_y
