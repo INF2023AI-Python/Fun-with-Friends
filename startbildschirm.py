@@ -67,7 +67,7 @@ def draw_screen(x, y, offset_canvas, matrix):
         for i in range(16):
             offset_canvas.SetPixel(i + x_pos, 16 + y_pos, *orange)
             offset_canvas.SetPixel(31, 31, *orange)
-    elif y_pos == 0:
+    elif y_pos == 0 and x_pos == 15: 
         for i in range(16):
             offset_canvas.SetPixel(i + x_pos, 15 + y_pos, *orange)
     # Left line
