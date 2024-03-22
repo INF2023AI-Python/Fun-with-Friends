@@ -171,7 +171,7 @@ class Game:
         self.game_over_flag = True
         return
 
-    def handle_events(self, joystick):
+    def handle_events(self, matrix, joystick):
         """
         This method handles user input.
         It checks for quit events and joystick movements, and turns the snake accordingly.
