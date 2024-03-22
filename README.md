@@ -11,26 +11,45 @@
   ```
   sudo raspi-config
   ``` 
-  or by the gui
-  + get the newest updates using `sudo apt update`
+    or by the gui
+  + get the newest updates using 
+  ```
+  sudo apt update
+  ```
 + Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
+  ```
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
+  ```
   + choose Quality binding
-  + `sudo reboot`
+  ```
+  + sudo reboot
+  ```
   + add `isolcpus=3` at the end in the `/boot/cmdline.text`
 
 + Install Python3
+  ```
   + https://github.com/hzeller/rpi-rgb-led-matrix/tree/master/bindings/python
+  ```
 + Install Fun-with-Friends Repo
-  + ```git clone https://github.com/INF2023AI-Python/Fun-with-Friends.git```
-+ Set-up für Autostart
-  + startbildschrim.py Ausführungsrechte geben
-    + `chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py`
-  + Autostartdatei erweitern
-    + `sudo nano /etc/rc.local`
-    + vor "exit 0" folgenden Text ergänzen
-      + `python3  /home/pi/Fun-with-Friends/startbildschirm.py &`
-  + `sudo reboot`
+  ```
+  + git clone https://github.com/INF2023AI-Python/Fun-with-Friends.git
+  ```
++ Set-up for Autostart
+  + give startbildschrim.py execution rights
+      ```
+    + chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
+      ```
+  + Extend autostart file
+      ```
+    + sudo nano /etc/rc.local
+      ```
+    + Add the following text before "exit 0"
+        ```
+      + python3  /home/pi/Fun-with-Friends/startbildschirm.py &
+        ```
+  ```
+  + sudo reboot
+  ```
 
 ## Game description
 ### Start Screen
