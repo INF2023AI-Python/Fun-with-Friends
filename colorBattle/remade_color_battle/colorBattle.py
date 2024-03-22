@@ -66,8 +66,6 @@ class Player:
     # 根据方向键的轴值移动一个像素
         x = self.position[0]
         y = self.position[1]
-        new_x = x
-        new_y = y
         # Calculate the change in position based on speed and axis values
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
@@ -75,24 +73,19 @@ class Player:
         # Iterate over each pixel moved
         for _ in range(max(abs(dx), abs(dy))):
             # Update new position based on axis values and speed
-            new_x = (x + dx) % PLAY_WIDTH
-            new_y = (y + dy) % PLAY_HEIGHT
+            x = (x + dx) % PLAY_WIDTH
+            y = (y + dy) % PLAY_HEIGHT
             # Adjust new position to wrap around the play area
-            new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
-            new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
+            x = x if x >= 0 else PLAY_WIDTH + x
+            y = y if y >= 0 else PLAY_HEIGHT + y
             
             # Draw the line between the current position and the new position
-            x_diff = new_x - x
-            y_diff = new_y - y
-            steps = max(abs(x_diff), abs(y_diff))
-            for i in range(1, steps + 1):
-                pixel_x = x + round(x_diff * i / steps)
-                pixel_y = y + round(y_diff * i / steps)
-                grid[pixel_y][pixel_x] = self.trail_color
-                canvas.SetPixel(pixel_x, pixel_y, *self.trail_color)
+            grid[y][x] = self.trail_color
+            canvas.SetPixel(x, y, *self.trail_color)
+            
         # Update the current position
-        new_x = self.position[0]
-        new_y = self.position[1]
+        self.position = (x, y)
+
         
 
     def paint(self, canvas):
