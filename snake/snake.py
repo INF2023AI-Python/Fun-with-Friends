@@ -117,6 +117,9 @@ class Game:
         This method handles updating the game state.
         It moves the snake and checks if the snake has eaten the fruit or collided with itself.
         """
+        if self.game_over_flag:
+            return
+        
         if not self.snake.move():
             print("The snake ate itself!")
             self.game_over(matrix)
@@ -134,9 +137,6 @@ class Game:
         if time.time() - self.start_time > 60:
             print("Time's up!")
             self.game_over(matrix)
-            return
-        
-        if self.game_over_flag:
             return
 
     def game_over(self, matrix):
