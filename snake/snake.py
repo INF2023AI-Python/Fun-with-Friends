@@ -12,7 +12,6 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 # options.rows = ROWS
 # options.cols = COLS
 # options.drop_privileges = 0
-# # options.double_buffer = True  # Enable double buffering
 # matrix = RGBMatrix(options)
 
 options = RGBMatrixOptions()
@@ -34,7 +33,7 @@ class Snake:
          random direction and the color of the snake to blue.
         """
         self.length = 1
-        self.positions = [((ROWS // 2), (COLS // 2))]
+        self.positions = [((options.rows // 2), (options.cols // 2))]
         self.direction = self.random_direction()  # Set initial direction to a random direction
         self.color = (0, 0, 255)  # Blue color
         self.speed = 1
@@ -76,7 +75,7 @@ class Snake:
         """
         cur = self.get_head_position()
         x, y = self.direction
-        new = (((cur[0] + x * self.speed) % ROWS), (cur[1] + y * self.speed) % COLS)
+        new = (((cur[0] + x * self.speed) % options.rows), (cur[1] + y * self.speed) % options.cols)
         if len(self.positions) > 2 and new in self.positions[2:]:
             self.reset()
         else:
@@ -87,7 +86,7 @@ class Snake:
     def reset(self):
         # This method resets the snake to its initial state.
         self.length = 1
-        self.positions = [((ROWS // 2), (COLS // 2))]
+        self.positions = [((options.rows // 2), (options.cols // 2))]
         self.direction = self.random_direction()
 
     def draw(self, matrix):
