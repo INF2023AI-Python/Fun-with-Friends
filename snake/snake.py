@@ -209,7 +209,7 @@ def snake(offset_canvas, matrix):
         return
 
     game = Game(offset_canvas, matrix)
-    game.run()
+    game.run(offset_canvas, matrix)
 
 
 # if __name__ == "__main__":
