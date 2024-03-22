@@ -62,7 +62,7 @@ class Player:
         self.y_axis = 0
         self.speed = 5
 
-    def move(self, grid, maze_pattern, game_area):
+    def move(self, grid, canvas,maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
         x = self.position[0]
         y = self.position[1]
@@ -80,7 +80,9 @@ class Player:
             new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
             x = new_x
             y = new_y
+            x, y = self.position
             grid[y][x] = self.trail_color
+            canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
 
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
@@ -143,11 +145,11 @@ def main():
                             print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
-        player1.move(grid, maze_pattern, game_area)
-        player2.move(grid, maze_pattern, game_area)
+        player1.move(grid, offset_canvas, maze_pattern, game_area)
+        player2.move(grid, offset_canvas, maze_pattern, game_area)
 
-        player1.paint(offset_canvas)
-        player2.paint(offset_canvas)
+        # player1.paint(offset_canvas)
+        # player2.paint(offset_canvas)
 
         # player1.update_state(grid)
         # player2.update_state(grid)
