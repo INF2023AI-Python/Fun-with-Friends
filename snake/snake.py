@@ -3,17 +3,26 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
-ROWS = 32
-COLS = 32
+# ROWS = 32
+# COLS = 32
 
+
+# options = RGBMatrixOptions()
+# options.hardware_mapping = 'adafruit-hat-pwm'
+# options.rows = ROWS
+# options.cols = COLS
+# options.drop_privileges = 0
+# # options.double_buffer = True  # Enable double buffering
+# matrix = RGBMatrix(options)
 
 options = RGBMatrixOptions()
+options.cols = 32
+options.rows = 32
+options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat-pwm'
-options.rows = ROWS
-options.cols = COLS
 options.drop_privileges = 0
-# options.double_buffer = True  # Enable double buffering
-matrix = RGBMatrix(options)
+matrix = RGBMatrix(options=options)
+#offset_canvas = matrix.CreateFrameCanvas()
 
 
 class Snake:
