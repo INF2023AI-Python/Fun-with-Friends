@@ -184,7 +184,7 @@ class Game:
         while True:
             self.handle_events()
             self.update()
-            self.draw()
+            self.draw(offset_canvas, matrix)
             self.clock.tick(10)
 
 
