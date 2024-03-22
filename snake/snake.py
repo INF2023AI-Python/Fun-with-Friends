@@ -194,6 +194,7 @@ class Game:
                 if event.button == 9:
                     print("back to start")
                     matrix.Clear()
+                    self.game_over_flag = True
                     return
 
     def run(self, offset_canvas, matrix):
