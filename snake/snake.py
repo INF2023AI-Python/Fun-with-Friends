@@ -178,8 +178,8 @@ class Game:
             self.handle_events()
             self.update(matrix)
             self.draw(offset_canvas, matrix)
-            if time.time() - self.start_time > 60:
-                print("Time's up!")
+            if self.game_over_flag:
+                print("Game Over")
                 matrix.Clear()
                 return
             self.clock.tick(10)
