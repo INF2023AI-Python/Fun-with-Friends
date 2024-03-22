@@ -171,7 +171,7 @@ class Game:
         self.game_over_flag = True
         return
 
-    def handle_events(self, matrix, joystick):
+    def handle_events(self, matrix):
         """
         This method handles user input.
         It checks for quit events and joystick movements, and turns the snake accordingly.
@@ -190,17 +190,18 @@ class Game:
                         self.snake.turn((0, -1))
                     elif event.value > 0.5 and self.snake.direction != (0, -1):
                         self.snake.turn((0, 1))
-            if joystick.get_button(9) == 1:
-                matrix.Clear()
-                return
+            elif event.type == pygame.JOYBUTTONDOWN:
+                if event.button == 9:
+                    matrix.Clear()
+                    return
 
-    def run(self, offset_canvas, matrix, joystick):
+    def run(self, offset_canvas, matrix):
         """
         This method runs the main game loop.
         It repeatedly handles events, updates the game state, and draws the new game state to the screen.
         """
         while True:
-            self.handle_events(matrix, joystick)
+            self.handle_events(matrix)
             self.update(matrix)
             self.draw(offset_canvas, matrix)
             if self.game_over_flag:
@@ -231,4 +232,4 @@ def snake(offset_canvas, matrix):
         return
     
     game = Game(offset_canvas, matrix)
-    game.run(offset_canvas, matrix, joystick)
+    game.run(offset_canvas, matrix)
