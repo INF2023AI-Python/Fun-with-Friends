@@ -114,7 +114,7 @@ def count_points(grid, color1, color2):
 def winner(player1_points, player2_points):
     player1 = ["Player1",  "Won"]
     player2 = ["Player2", "Won"]
-    tie = ["tie"]
+    tie = ["A", "Tie"]
     if player1_points > player2_points:
         return player1
     elif player2_points > player1_points:
@@ -130,8 +130,8 @@ def display_text(text, color, offset_canvas, matrix):
     graphics.DrawText(offset_canvas, font, 2, 10, textColor, text[0])
     # Text in the second line
     graphics.DrawText(offset_canvas, font, 2, 20, textColor, text[1])
-    # Text in the third line
-    graphics.DrawText(offset_canvas, font, 2, 30, textColor, text[2])
+    # # Text in the third line
+    # graphics.DrawText(offset_canvas, font, 2, 30, textColor, text[2])
 
     matrix.SwapOnVSync(offset_canvas)
 
