@@ -156,7 +156,7 @@ def main():
 
         # Swap and delay
         matrix.SwapOnVSync(offset_canvas)
-        clock.tick(300)
+        clock.tick(600)
 
     pygame.quit()
 
