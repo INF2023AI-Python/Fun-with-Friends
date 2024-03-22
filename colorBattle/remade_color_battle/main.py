@@ -24,9 +24,6 @@ offset_canvas = matrix.CreateFrameCanvas()
 pygame.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-for i, joystick in enumerate(joysticks):
-    axis_x = joystick.get_axis(0)
-    axis_y = joystick.get_axis(1)
 
 # Initialize Scoreboard
 scoreboard = Scoreboard(offset_canvas)
@@ -68,8 +65,6 @@ class Player:
         x, y = self.position
         
         # 根据按钮按下情况移动
-        new_x = x
-        new_y = y
         if self.button_up_pressed:
             new_y = (y - 1) % PLAY_HEIGHT
         elif self.button_right_pressed:
@@ -107,7 +102,7 @@ def main():
     player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_WIDTH // 2 - 10, PLAY_HEIGHT // 2))
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
-    # Your original code for selecting the level
+    # selecting the level
     select_level(matrix, offset_canvas, joysticks)
 
     while running:
