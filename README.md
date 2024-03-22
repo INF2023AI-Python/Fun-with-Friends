@@ -16,7 +16,7 @@
   ```
   sudo apt update
   ```
-2. Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
+### 2. Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
   ```
   curl https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-
@@ -31,17 +31,17 @@
 
   + add `isolcpus=3` at the end in the `/boot/cmdline.text`
 
-3. Install Python3
+### 3. Install Python3
   ```
   sudo apt-get update && sudo apt-get install python3-dev python3-pillow -y
   make build-python PYTHON=$(command -v python3)
   sudo make install-python PYTHON=$(command -v python3)
   ```
-4. Install Fun-with-Friends Repo
+### 4. Install Fun-with-Friends Repo
   ```
   git clone https://github.com/INF2023AI-Python/Fun-with-Friends.git
   ```
-5. Set-up for Autostart
+### 5. Set-up for Autostart
   + give startbildschrim.py execution rights
       ```
     chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
@@ -91,4 +91,10 @@ How to Play:
 Two players attempt to fill in as much space as possible with their respective colours within a 60-second time limit.
 
 How to Play:
++ Open the terminal
++ start the game using this command
+```
+cd Fun-with-Friends/../
+sudo python colorbattle.py
+```
 + Use the arrow keys to move your colour.
