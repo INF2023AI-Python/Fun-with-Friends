@@ -94,7 +94,7 @@ class Player:
         
 
     def paint(self, canvas):
-        canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
+        canvas.SetPixel(self.position[0], self.position[1], *self.color)
 
     # def update_state(self, grid):
     #     x, y = self.position
