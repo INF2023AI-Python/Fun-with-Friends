@@ -155,6 +155,7 @@ class Game:
         # matrix.Fill(255, 0, 0)
         print("Game Over")
         pygame.quit()
+        return
 
     def handle_events(self):
         """
@@ -185,6 +186,9 @@ class Game:
             self.handle_events()
             self.update()
             self.draw(offset_canvas, matrix)
+            if time.time() - self.start_time > 60:
+                print("Time's up!")
+                return
             self.clock.tick(10)
 
 
