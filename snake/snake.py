@@ -26,6 +26,16 @@ matrix = RGBMatrix(options=options)
 # offset_canvas = matrix.CreateFrameCanvas()
 
 
+def random_direction():
+    """
+    This method returns a random direction that the snake can move in.
+    The directions are represented as tuples, where (0, -1) represents up, (0, 1) represents down,
+    (-1, 0) represents left, and (1, 0) represents right.
+    You should replace this with the correct logic for your joystick.
+    """
+    return random.choice([(0, -1), (0, 1), (-1, 0), (1, 0)])
+
+
 class Snake:
     def __init__(self):
         """ The constructor of the Snake class.
@@ -36,16 +46,8 @@ class Snake:
         """
         self.length = 4
         self.positions = [(ROWS // 2, COLS // 2)] * self.length
-        self.direction = self.random_direction()
+        self.direction = random_direction()
         self.color = (0, 0, 255)
-
-    def random_direction(self):
-        """
-        This method returns a random direction that the snake can move in.
-        The directions are represented as tuples, where (0, -1) represents up, (0, 1) represents down, (-1, 0) represents left, and (1, 0) represents right.
-        You should replace this with the correct logic for your joystick.
-        """
-        return random.choice([(0, -1), (0, 1), (-1, 0), (1, 0)])
 
     def get_head_position(self):
         # This method returns the current position of the head of the snake.
@@ -81,14 +83,14 @@ class Snake:
             self.reset()
         else:
             self.positions.insert(0, new)
-            while len(self.positions) > self.length:
+            if len(self.positions) > self.length:
                 self.positions.pop()
 
     def reset(self):
         # This method resets the snake to its initial state.
         self.length = 1
         self.positions = [((ROWS // 2), (COLS // 2))]
-        self.direction = self.random_direction()
+        self.direction = random_direction()
 
     def draw(self, matrix):
         """ This method draws the snake on the screen.
@@ -96,6 +98,13 @@ class Snake:
         the snake as a rectangle. """
         for p in self.positions:
             matrix.SetPixel(p[0], p[1], self.color[0], self.color[1], self.color[2])
+
+
+def game_over():
+    # Display "Game Over" on the matrix and stop the game
+    matrix.Fill(255, 0, 0)
+    matrix.display_text("Game Over")
+    pygame.quit()
 
 
 class Game:
@@ -134,17 +143,25 @@ class Game:
         # move snake
         self.snake.move()
         head_position = self.snake.get_head_position()
-        if head_position == self.fruit.position:
-            self.snake.length += 1
-            while self.fruit.position in self.snake.positions:
-                self.fruit = Fruit()
 
-    def game_over(self):
-        # Display "Game Over" on the matrix and stop the game
-        # You'll need to add a method to display text on the RGBMatrix
-        matrix.Fill(255, 0, 0)
-        matrix.display_text("Game Over")
-        pygame.quit()
+        # Game over if the snake hits the border
+        if head_position[0] < 0 or head_position[0] >= ROWS or head_position[1] < 0 or head_position[1] >= COLS:
+            game_over()
+            return
+
+        # Game over if the snake eats itself
+        if len(self.snake.positions) > self.snake.length:
+            game_over()
+            return
+
+        # Check if the snake has eaten the fruit
+        if self.fruit and head_position == self.fruit.position:
+            self.snake.length += 1
+            self.fruit = None  # Remove the current fruit
+
+        # Create a new fruit if there isn't one
+        if self.fruit is None:
+            self.fruit = Fruit()
 
     def handle_events(self):
         """
