@@ -74,13 +74,13 @@ class Player:
 
         # Iterate over each pixel moved
         for _ in range(max(abs(dx), abs(dy))):
-            # Update new position based on axis values and speed
             new_x = (x + dx) % PLAY_WIDTH
             new_y = (y + dy) % PLAY_HEIGHT
-            # Adjust new position to wrap around the play area
             new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
             new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
-            grid[new_y][new_x] = self.trail_color
+            x = new_x
+            y = new_y
+            grid[y][x] = self.trail_color
 
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)

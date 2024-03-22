@@ -9,6 +9,13 @@ orange_square_position = [1, 1]
 # Player 1 starts with 'X'
 current_player = 'X'
 
+# Function to reset game state
+def reset_game():
+    global orange_square_position
+    global current_player
+    orange_square_position = [1, 1]
+    current_player = 'X'
+
 # Function to draw the Tic Tac Toe board on the RGB LED matrix
 def draw_board(board_state, offset_canvas, matrix):
     for row in range(32):
@@ -156,13 +163,16 @@ def tictactoe(offset_canvas, matrix):
         update_board_with_joystick(board_state, joystick, offset_canvas, matrix)
 
         if check_winner(board_state):
+            reset_game()
             return
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state, offset_canvas, matrix)  # Update one last time before ending to display the draw
             offset_canvas = display_draw(offset_canvas, matrix)  # Display draw message on the LED matrix
+            reset_game()
             return
         
         if joystick.get_button(9) == 1:
+            reset_game()
             matrix.Clear()
             return
 
