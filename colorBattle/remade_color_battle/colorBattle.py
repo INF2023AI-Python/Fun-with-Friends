@@ -89,7 +89,7 @@ class Player:
                 pixel_x = x + round(x_diff * i / steps)
                 pixel_y = y + round(y_diff * i / steps)
                 grid[pixel_y][pixel_x] = self.trail_color
-            
+                canvas.SetPixel(self.position[pixel_x], self.position[pixel_y], *self.trail_color)
         # Update the current position
         x = new_x
         y = new_y
@@ -158,8 +158,8 @@ def main():
         player1.move(grid, offset_canvas)
         player2.move(grid, offset_canvas)
 
-        # player1.paint(offset_canvas)
-        # player2.paint(offset_canvas)
+        player1.paint(offset_canvas)
+        player2.paint(offset_canvas)
 
         # player1.update_state(grid)
         # player2.update_state(grid)
