@@ -41,6 +41,7 @@ class Snake:
         self.length = 4
         self.positions = [(ROWS // 2, COLS // 2)] * self.length
         self.direction = random_direction()
+        self.next_direction = self.direction
         self.color = (0, 0, 255)
 
     def get_head_position(self):
@@ -58,7 +59,7 @@ class Snake:
         if self.length > 1 and (point[0] * -1, point[1] * -1) == self.direction:
             return
         else:
-            self.direction = point
+            self.next_direction = point
 
     def move(self):
         """
@@ -70,10 +71,12 @@ class Snake:
         removes the last position if the length of the positions list is
         greater than the length of the snake.
         """
+        self.direction = self.next_direction  # Update the direction before moving
         cur = self.get_head_position()
         x, y = self.direction
         new = ((cur[0] + x) % ROWS, (cur[1] + y) % COLS)
         if new in self.positions:
+            print("The snake ate itself!")
             return False
         else:
             self.positions.insert(0, new)
@@ -129,32 +132,19 @@ class Game:
         This method handles updating the game state.
         It moves the snake and checks if the snake has eaten the fruit or collided with itself.
         """
-        # move snake
-        self.snake.move()
+        if not self.snake.move():
+            print("The snake ate itself!")
+            self.game_over()
+            return
+
         head_position = self.snake.get_head_position()
 
-        # Game over if the snake hits the border
-        if head_position[0] < 0 or head_position[0] >= ROWS or head_position[1] < 0 or head_position[1] >= COLS:
-            self.game_over()
-            return
-
-        # Game over if the snake eats itself
-        if len(self.snake.positions) > self.snake.length:
-            self.game_over()
-            return
-
-        # Check if the snake has eaten the fruit
         if self.fruit and head_position == self.fruit.position:
             self.snake.length += 1
             self.fruit = None  # Remove the current fruit
 
-        # Create a new fruit if there isn't one
         if self.fruit is None:
             self.fruit = Fruit()
-
-        if not self.snake.move():
-            self.game_over()
-            return
 
         if time.time() - self.start_time > 60:
             print("Time's up!")
