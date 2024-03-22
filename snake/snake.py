@@ -129,32 +129,19 @@ class Game:
         This method handles updating the game state.
         It moves the snake and checks if the snake has eaten the fruit or collided with itself.
         """
-        # move snake
-        self.snake.move()
+        if not self.snake.move():
+            print("The snake ate itself!")
+            self.game_over()
+            return
+
         head_position = self.snake.get_head_position()
 
-        # Game over if the snake hits the border
-        if head_position[0] < 0 or head_position[0] >= ROWS or head_position[1] < 0 or head_position[1] >= COLS:
-            self.game_over()
-            return
-
-        # Game over if the snake eats itself
-        if len(self.snake.positions) > self.snake.length:
-            self.game_over()
-            return
-
-        # Check if the snake has eaten the fruit
         if self.fruit and head_position == self.fruit.position:
             self.snake.length += 1
             self.fruit = None  # Remove the current fruit
 
-        # Create a new fruit if there isn't one
         if self.fruit is None:
             self.fruit = Fruit()
-
-        if not self.snake.move():
-            self.game_over()
-            return
 
         if time.time() - self.start_time > 60:
             print("Time's up!")
