@@ -7,13 +7,6 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 ROWS = 32
 COLS = 32
 
-# options = RGBMatrixOptions()
-# options.hardware_mapping = 'adafruit-hat-pwm'
-# options.rows = ROWS
-# options.cols = COLS
-# options.drop_privileges = 0
-# matrix = RGBMatrix(options)
-
 options = RGBMatrixOptions()
 options.cols = ROWS
 options.rows = COLS
@@ -163,7 +156,7 @@ class Game:
 
     def game_over(self):
         # Display "Game Over" on the matrix and stop the game
-        matrix.Fill(255, 0, 0)
+        # matrix.Fill(255, 0, 0)
         print("Game Over")
         pygame.quit()
 
