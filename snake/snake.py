@@ -101,13 +101,6 @@ class Snake:
             matrix.SetPixel(p[0], p[1], self.color[0], self.color[1], self.color[2])
 
 
-def game_over():
-    # Display "Game Over" on the matrix and stop the game
-    matrix.Fill(255, 0, 0)
-    matrix.display_text("Game Over")
-    pygame.quit()
-
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -167,6 +160,12 @@ class Game:
         if not self.snake.move():
             self.game_over()
             return
+
+    def game_over(self):
+        # Display "Game Over" on the matrix and stop the game
+        matrix.Fill(255, 0, 0)
+        matrix.display_text("Game Over")
+        pygame.quit()
 
     def handle_events(self):
         """

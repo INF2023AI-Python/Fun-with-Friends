@@ -64,9 +64,10 @@ class Player:
 
     def move(self, maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
-        new_x = self.position[0]
-        new_y = self.position[1]
-        
+        x = self.position[0]
+        y = self.position[1]
+        new_x = x
+        new_y = y
         # Calculate the change in position based on speed and axis values
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
@@ -74,13 +75,17 @@ class Player:
         # Iterate over each pixel moved
         for _ in range(max(abs(dx), abs(dy))):
             # Update new position based on axis values and speed
-            new_x = (new_x + dx) % PLAY_WIDTH
-            new_y = (new_y + dy) % PLAY_HEIGHT
+            new_x = (x + dx) % PLAY_WIDTH
+            new_y = (y + dy) % PLAY_HEIGHT
 
             # Adjust new position to wrap around the play area
             new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
             new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
-        self.position = (new_x, new_y)
+        
+        x = new_x
+        y = new_y
+
+        self.position = (x, y)
 
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
@@ -108,7 +113,7 @@ def main():
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
     # Your original code for selecting the level
-    select_level(matrix, offset_canvas, joysticks)
+    # select_level(matrix, offset_canvas, joysticks)
 
     while running:
         for event in pygame.event.get():
