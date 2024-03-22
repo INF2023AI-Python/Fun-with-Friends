@@ -157,6 +157,8 @@ def vierGewinnt(offset_canvas, matrix):
                         else:
                             player = 2 if player == 1 else 1
                             break
+            elif joystick.get_button(9) == 1:
+                return
 
                 # Checking for a win
                 if check_win(player):
