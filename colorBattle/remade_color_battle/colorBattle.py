@@ -1,7 +1,7 @@
 # Import necessary modules
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import pygame
-from obstacle import obstacle, maze
+# from obstacle import obstacle, maze
 from scoreboard import Scoreboard
 from levelSelection import select_level
 
@@ -32,8 +32,8 @@ for i, joystick in enumerate(joysticks):
 scoreboard = Scoreboard(offset_canvas)
 
 # Initialize Game Area
-game_area = obstacle(offset_canvas, matrix)
-maze_pattern = maze(offset_canvas, matrix)
+# game_area = obstacle(offset_canvas, matrix)
+# maze_pattern = maze(offset_canvas, matrix)
 
 # Define the grid
 grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
@@ -74,15 +74,25 @@ class Player:
 
         # Iterate over each pixel moved
         for _ in range(max(abs(dx), abs(dy))):
+            # Update new position based on axis values and speed
             new_x = (x + dx) % PLAY_WIDTH
             new_y = (y + dy) % PLAY_HEIGHT
+            # Adjust new position to wrap around the play area
             new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
             new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
-            x = new_x
-            y = new_y
-            x, y = self.position
-            grid[y][x] = self.trail_color
-            canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
+            
+            # Draw the line between the current position and the new position
+            x_diff = new_x - x
+            y_diff = new_y - y
+            steps = max(abs(x_diff), abs(y_diff))
+            for i in range(1, steps + 1):
+                pixel_x = x + round(x_diff * i / steps)
+                pixel_y = y + round(y_diff * i / steps)
+                grid[pixel_y][pixel_x] = self.trail_color
+            
+        # Update the current position
+        x = new_x
+        y = new_y
 
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
