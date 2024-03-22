@@ -58,11 +58,12 @@ def draw_maze(canvas, maze):
                 canvas.SetPixel(col, row, 0, 255, 255)  # Draw end point
             else:
                 canvas.SetPixel(col, row, 255, 255, 255)  # Draw passage
+        
+maze, _, _ = generate_maze(26, 32)
+draw_maze(offset_canvas, maze)
 
 def main():
     while True:
-        maze, _, _ = generate_maze(26, 32)
-        draw_maze(offset_canvas, maze)
         matrix.SwapOnVSync(offset_canvas)
 
 if __name__ == "__main__":
