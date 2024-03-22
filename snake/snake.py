@@ -186,6 +186,7 @@ class Game:
             self.update()
             self.draw(offset_canvas, matrix)
             self.clock.tick(10)
+            return
 
 
 class Fruit:
@@ -210,4 +211,3 @@ def snake(offset_canvas, matrix):
 
     game = Game(offset_canvas, matrix)
     game.run(offset_canvas, matrix)
-    return
