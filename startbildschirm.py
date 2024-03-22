@@ -1,7 +1,6 @@
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
-#import psutil
 from tictactoe.tictactoe import tictactoe
 from VierGewinnt.VierGewinnt import vierGewinnt
 
