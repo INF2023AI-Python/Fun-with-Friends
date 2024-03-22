@@ -138,7 +138,7 @@ class Game:
         if not self.snake.move():
             matrix.Clear()
             color = (255, 0, 0)
-            display_text(["Snake", "at", "itself!"], color, self.offset_canvas, matrix)
+            display_text(["Snake", "ate", "itself"], color, self.offset_canvas, matrix)
             time.sleep(3)
             print("The snake ate itself!")
             self.game_over(matrix)
@@ -202,7 +202,6 @@ class Game:
             self.update(matrix)
             self.draw(offset_canvas, matrix)
             if self.game_over_flag:
-                #display_text(offset_canvas, matrix)
                 print("Game Over")
                 matrix.Clear()
                 return
