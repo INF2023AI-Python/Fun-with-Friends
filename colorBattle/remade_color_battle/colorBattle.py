@@ -71,39 +71,37 @@ class Player:
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
 
-        # 迭代每个像素的移动
-        for _ in range(max(abs(dx), abs(dy))):
-            # 更新新位置
-            x = (x + dx) % PLAY_WIDTH
-            y = (y + dy) % PLAY_HEIGHT
-            
-            # 调整新位置以在游戏区域内移动
-            x = x if x >= 0 else PLAY_WIDTH + x
-            y = y if y >= 0 else PLAY_HEIGHT + y
-            
-            # 在当前位置和新位置之间绘制一条直线
-            # 使用 Bresenham's Line Algorithm（Bresenham直线算法）
-            x0, y0 = self.position
-            x1, y1 = x, y
-            dx = abs(x1 - x0)
-            dy = abs(y1 - y0)
-            sx = 1 if x0 < x1 else -1
-            sy = 1 if y0 < y1 else -1
-            err = dx - dy
-            while x0 != x1 or y0 != y1:
-                # 绘制像素
-                grid[y0][x0] = self.trail_color
-                canvas.SetPixel(x0, y0, *self.trail_color)
-                e2 = 2 * err
-                if e2 > -dy:
-                    err -= dy
-                    x0 += sx
-                if e2 < dx:
-                    err += dx
-                    y0 += sy
+        # 更新新位置
+        new_x = (x + dx) % PLAY_WIDTH
+        new_y = (y + dy) % PLAY_HEIGHT
+
+        # 调整新位置以在游戏区域内移动
+        new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
+        new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
+        
+        # 在当前位置和新位置之间绘制一条直线
+        # 使用 Bresenham's Line Algorithm（Bresenham直线算法）
+        x0, y0 = self.position
+        x1, y1 = new_x, new_y
+        dx = abs(x1 - x0)
+        dy = abs(y1 - y0)
+        sx = 1 if x0 < x1 else -1
+        sy = 1 if y0 < y1 else -1
+        err = dx - dy
+        while x0 != x1 or y0 != y1:
+            # 绘制像素
+            grid[y0][x0] = self.trail_color
+            canvas.SetPixel(x0, y0, *self.trail_color)
+            e2 = 2 * err
+            if e2 > -dy:
+                err -= dy
+                x0 += sx
+            if e2 < dx:
+                err += dx
+                y0 += sy
         
         # 更新当前位置
-        self.position = (x, y)
+        self.position = (new_x, new_y)
 
         
 
