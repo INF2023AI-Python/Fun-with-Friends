@@ -60,7 +60,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 10
+        self.speed = 2
 
     def move(self, grid, canvas):
         # 获取当前位置
@@ -75,9 +75,9 @@ class Player:
         new_x = (x + dx) % PLAY_WIDTH
         new_y = (y + dy) % PLAY_HEIGHT
 
-        # 调整新位置以在游戏区域内移动
-        new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
-        new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
+        # 边界检查
+        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  # 将新 x 位置限制在 0 和 PLAY_WIDTH - 1 之间
+        new_y = max(0, min(new_y, PLAY_HEIGHT - 1))  # 将新 y 位置限制在 0 和 PLAY_HEIGHT - 1 之间
 
         # 逐渐更新位置，实现顺滑移动
         steps = max(abs(dx), abs(dy))
@@ -174,7 +174,7 @@ def main():
 
         # Swap and delay
         matrix.SwapOnVSync(offset_canvas)
-        clock.tick(30)
+        clock.tick(3000)
 
     pygame.quit()
 
