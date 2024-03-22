@@ -230,3 +230,7 @@ def snake(offset_canvas, matrix):
 
     game = Game(offset_canvas, matrix)
     game.run(offset_canvas, matrix)
+
+    if joystick.get_button(9) == 1:
+            matrix.Clear()
+            return
