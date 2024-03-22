@@ -55,9 +55,10 @@ def draw_maze(canvas, maze):
                 canvas.SetPixel(col, row, *WHITE)  # Draw passage
 
 def main():
-    maze, _, _ = generate_maze(MAZE_HEIGHT, MAZE_WIDTH)
-    draw_maze(offset_canvas, maze)
-    matrix.SwapOnVSync(offset_canvas)
+    while True:
+        maze, _, _ = generate_maze(MAZE_HEIGHT, MAZE_WIDTH)
+        draw_maze(offset_canvas, maze)
+        matrix.SwapOnVSync(offset_canvas)
 
 if __name__ == "__main__":
     main()
