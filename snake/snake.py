@@ -210,3 +210,4 @@ def snake(offset_canvas, matrix):
 
     game = Game(offset_canvas, matrix)
     game.run(offset_canvas, matrix)
+    return
