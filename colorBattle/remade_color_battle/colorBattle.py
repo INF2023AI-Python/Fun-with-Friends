@@ -143,7 +143,7 @@ def main():
     player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_WIDTH // 2 - 10, PLAY_HEIGHT // 2))
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
-    # Your original code for selecting the level
+    # select the level but if applied muss check Collision! but check collsion causes Problem in movement 
     # select_level(matrix, offset_canvas, joysticks)
 
     while running:
@@ -205,6 +205,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    #show who wins
     player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
     result = winner(player1_points, player2_points)
     matrix.Clear()
