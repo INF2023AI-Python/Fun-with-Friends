@@ -58,13 +58,26 @@ class Player:
         self.color = color
         self.trail_color = trail_color
         self.position = start_pos
-        self.x_axis = 0
-        self.y_axis = 0
+        self.button_up_pressed = False
+        self.button_right_pressed = False
+        self.button_down_pressed = False
+        self.button_left_pressed = False
 
     def move(self, maze_pattern, game_area):
-    # 根据方向键的轴值移动一个像素
-        new_x = (self.position[0] + round(self.x_axis * 1)) % PLAY_WIDTH
-        new_y = (self.position[1] + round(self.y_axis * 1)) % PLAY_HEIGHT
+        # 保留原先的 x 和 y 坐标
+        x, y = self.position
+        
+        # 根据按钮按下情况移动
+        if self.button_up_pressed:
+            new_y = (y - 1) % PLAY_HEIGHT
+        elif self.button_right_pressed:
+            new_x = (x + 1) % PLAY_WIDTH
+        elif self.button_down_pressed:
+            new_y = (y + 1) % PLAY_HEIGHT
+        elif self.button_left_pressed:
+            new_x = (x - 1) % PLAY_WIDTH
+        
+        # 根据移动后的位置进行碰撞检查和更新位置
         if not self.is_collision(new_x, new_y, maze_pattern, game_area):
             self.position = (new_x, new_y)
 
