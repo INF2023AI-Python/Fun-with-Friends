@@ -194,13 +194,13 @@ class Game:
                 matrix.Clear()
                 return
 
-    def run(self, offset_canvas, matrix):
+    def run(self, offset_canvas, matrix, joystick):
         """
         This method runs the main game loop.
         It repeatedly handles events, updates the game state, and draws the new game state to the screen.
         """
         while True:
-            self.handle_events()
+            self.handle_events(joystick)
             self.update(matrix)
             self.draw(offset_canvas, matrix)
             if self.game_over_flag:
