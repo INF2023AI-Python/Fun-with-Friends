@@ -176,7 +176,7 @@ class Game:
                     elif event.value > 0.5 and self.snake.direction != (0, -1):
                         self.snake.turn((0, 1))
 
-    def run(self):
+    def run(self, offset_canvas, matrix):
         """
         This method runs the main game loop.
         It repeatedly handles events, updates the game state, and draws the new game state to the screen.
@@ -209,7 +209,7 @@ def snake(offset_canvas, matrix):
         return
 
     game = Game(offset_canvas, matrix)
-    game.run()
+    game.run(offset_canvas, matrix)
 
 
 # if __name__ == "__main__":
