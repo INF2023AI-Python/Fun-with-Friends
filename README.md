@@ -3,7 +3,7 @@
 ## Set-up
 + Hardware: 2 gamepads, Adafruit RGB Matrix + Real Time Clock HAT 32x32
 + Choose Storage e.g. 32 GB SD-Card
-1. Install Raspberry Pi OS using Raspberry Pi Imager
+### 1. Install Raspberry Pi OS using Raspberry Pi Imager
   + https://www.raspberrypi.com/software/
   + Choose Raspberry Pi OS with desktop and recommended software for 32-Bit if you use Raspberry Pi 3
 + Afer first boot
