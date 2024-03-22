@@ -78,13 +78,14 @@ class Snake:
         """
         cur = self.get_head_position()
         x, y = self.direction
-        new = (((cur[0] + x) % ROWS), (cur[1] + y) % COLS)
-        if new in self.positions:
-            self.reset()
+        new = (cur[0] + x, cur[1] + y)
+        if new in self.positions or new[0] < 0 or new[0] >= ROWS or new[1] < 0 or new[1] >= COLS:
+            return False
         else:
             self.positions.insert(0, new)
             if len(self.positions) > self.length:
                 self.positions.pop()
+            return True
 
     def reset(self):
         # This method resets the snake to its initial state.
@@ -162,6 +163,10 @@ class Game:
         # Create a new fruit if there isn't one
         if self.fruit is None:
             self.fruit = Fruit()
+
+        if not self.snake.move():
+            self.game_over()
+            return
 
     def handle_events(self):
         """
