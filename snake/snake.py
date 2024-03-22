@@ -231,4 +231,4 @@ def snake(offset_canvas, matrix):
         return
     
     game = Game(offset_canvas, matrix)
-    game.run(offset_canvas, matrix)
+    game.run(offset_canvas, matrix, joystick)
