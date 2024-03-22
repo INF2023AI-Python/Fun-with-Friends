@@ -93,7 +93,8 @@ class Player:
         # Update the current position
         x = new_x
         y = new_y
-
+        self.position(x, y)
+        
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
 
