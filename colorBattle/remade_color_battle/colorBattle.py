@@ -64,8 +64,13 @@ class Player:
 
     def move(self, maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
-        new_x = (self.position[0] + self.x_axis * self.speed) % PLAY_WIDTH
-        new_y = (self.position[1] + self.y_axis * self.speed) % PLAY_HEIGHT
+        new_x = (self.position[0] + round(self.x_axis * self.speed)) % PLAY_WIDTH
+        new_y = (self.position[1] + round(self.y_axis * self.speed)) % PLAY_HEIGHT
+
+        # Adjust new position to wrap around the play area
+        new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
+        new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
+
         if not self.is_collision(new_x, new_y, maze_pattern, game_area):
             self.position = (new_x, new_y)
 
