@@ -60,7 +60,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 10
+        self.speed = 2
 
     def move(self, grid, canvas):
         # 获取当前位置
@@ -174,7 +174,7 @@ def main():
 
         # Swap and delay
         matrix.SwapOnVSync(offset_canvas)
-        clock.tick(30)
+        clock.tick(1000)
 
     pygame.quit()
 
