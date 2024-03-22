@@ -78,9 +78,6 @@ def update_board_with_joystick(board_state, joystick, offset_canvas, matrix):
 
     if joystick.get_button(1) == 1:
         set_x_or_o(board_state, offset_canvas, matrix)
-    
-    elif joystick.get_button(9) == 1:
-        return
 
 # Function to set 'X' or 'O' on the Tic Tac Toe board
 def set_x_or_o(board_state, offset_canvas, matrix):
@@ -163,6 +160,10 @@ def tictactoe(offset_canvas, matrix):
         elif ' ' not in [cell for row in board_state for cell in row]:
             draw_board(board_state, offset_canvas, matrix)  # Update one last time before ending to display the draw
             offset_canvas = display_draw(offset_canvas, matrix)  # Display draw message on the LED matrix
+            return
+        
+        if joystick.get_button(9) == 1:
+            matrix.Clear()
             return
 
         pygame.time.Clock().tick(10)  # Add a delay to make the board more visible
