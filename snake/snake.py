@@ -200,7 +200,7 @@ class Game:
         It repeatedly handles events, updates the game state, and draws the new game state to the screen.
         """
         while True:
-            self.handle_events(joystick)
+            self.handle_events(matrix, joystick)
             self.update(matrix)
             self.draw(offset_canvas, matrix)
             if self.game_over_flag:
