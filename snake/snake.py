@@ -165,7 +165,7 @@ class Game:
     def game_over(self, matrix):
         # Display "Game Over" on the matrix and stop the game
         # matrix.Fill(255, 0, 0)
-        print("Game Over")
+        print("Game Over line 168")
         #pygame.quit()
         matrix.Clear()
         self.game_over_flag = True
@@ -202,7 +202,7 @@ class Game:
             self.update(matrix)
             self.draw(offset_canvas, matrix)
             if self.game_over_flag:
-                display_text(offset_canvas, matrix)
+                #display_text(offset_canvas, matrix)
                 print("Game Over")
                 matrix.Clear()
                 return
