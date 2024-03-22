@@ -35,8 +35,13 @@ scoreboard = Scoreboard(offset_canvas)
 
 
 class Player:
-    def __init__(self, color, start_pos):
-        self.color = color
+    # Class attributes for colors
+    YELLOW = (255, 255, 0)
+    GREEN = (0, 255, 0)
+    BLUE = (0, 0, 255)
+    WHITE = (255, 255, 255)
+
+    def __init__(self, start_pos):
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
@@ -66,8 +71,8 @@ class Player:
 
 class MazeGame:
     def __init__(self):
-        self.player1 = Player(YELLOW, GREEN, (0, 0))
-        self.player2 = Player(BLUE, WHITE, (PLAY_WIDTH - 1, PLAY_HEIGHT - 1))
+        self.player1 = Player((0, 0))  # 初始位置设为(0, 0)
+        self.player2 = Player((PLAY_WIDTH - 1, PLAY_HEIGHT - 1))  # 初始位置设为(PLAY_WIDTH - 1, PLAY_HEIGHT - 1)
         self.maze1 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
         self.maze2 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
 
