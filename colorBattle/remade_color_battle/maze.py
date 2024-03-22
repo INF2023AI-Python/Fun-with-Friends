@@ -48,7 +48,7 @@ class Player:
         self.speed = 2
         self.color = color
 
-    def move(self, maze, canvas):
+    def move(self, maze):
         # 获取当前位置
         x = self.position[0]
         y = self.position[1]
@@ -82,9 +82,8 @@ class MazeGame:
         self.player1_color = Player.GREEN
         self.player2_color = Player.BLUE
 
-        # Create player objects with colors
-        self.player1 = Player((0, 0))
-        self.player2 = Player((PLAY_WIDTH - 1, PLAY_HEIGHT - 1))
+        self.player1 = Player((0, 0), GREEN)
+        self.player2 = Player((PLAY_WIDTH - 1, PLAY_HEIGHT - 1), BLUE)
 
         # Generate mazes
         self.maze1 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
