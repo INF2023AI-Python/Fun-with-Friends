@@ -206,8 +206,8 @@ def snake(offset_canvas, matrix):
         print("No joystick found.")
         return
 
-    game = Game()
-    game.run(offset_canvas, matrix)
+    game = Game(offset_canvas, matrix)
+    game.run()
 
 
 # if __name__ == "__main__":
