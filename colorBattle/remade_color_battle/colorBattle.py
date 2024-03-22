@@ -8,7 +8,7 @@ from levelSelection import select_level
 # Constants and Configurations
 PLAY_HEIGHT = 26
 PLAY_WIDTH = 32
-GAME_DURATION = 60
+GAME_DURATION = 30
 
 # Initialize RGB Matrix
 options = RGBMatrixOptions()
