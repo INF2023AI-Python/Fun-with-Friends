@@ -171,15 +171,17 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP and self.snake.direction != (0, 1):
-                    self.snake.turn((0, -1))
-                elif event.key == pygame.K_DOWN and self.snake.direction != (0, -1):
-                    self.snake.turn((0, 1))
-                elif event.key == pygame.K_LEFT and self.snake.direction != (1, 0):
-                    self.snake.turn((-1, 0))
-                elif event.key == pygame.K_RIGHT and self.snake.direction != (-1, 0):
-                    self.snake.turn((1, 0))
+            elif event.type == pygame.JOYAXISMOTION:
+                if event.axis == 0:
+                    if event.value < -0.5 and self.snake.direction != (1, 0):
+                        self.snake.turn((-1, 0))
+                    elif event.value > 0.5 and self.snake.direction != (-1, 0):
+                        self.snake.turn((1, 0))
+                elif event.axis == 1:
+                    if event.value < -0.5 and self.snake.direction != (0, 1):
+                        self.snake.turn((0, -1))
+                    elif event.value > 0.5 and self.snake.direction != (0, -1):
+                        self.snake.turn((0, 1))
 
     def run(self):
         """
@@ -190,7 +192,7 @@ class Game:
             self.handle_events()
             self.update()
             self.draw()
-            self.clock.tick(20)
+            self.clock.tick(10)
 
 
 class Fruit:
