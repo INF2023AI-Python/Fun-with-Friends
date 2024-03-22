@@ -186,7 +186,6 @@ class Game:
             self.update()
             self.draw(offset_canvas, matrix)
             self.clock.tick(10)
-            return
 
 
 class Fruit:
