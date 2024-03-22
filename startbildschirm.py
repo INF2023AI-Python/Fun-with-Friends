@@ -41,40 +41,50 @@ def draw_screen(x, y, offset_canvas, matrix):
         offset_canvas.SetPixel(col, 15, *color)
         offset_canvas.SetPixel(col, 31, *color)
 
-    # Position of the orange square scaled to 0-15
-    x_pos = int(x * 15)
-    y_pos = int(y * 15)
+# Orange Quadrat positioniert, um mit den Linien deckungsgleich zu sein
+    x_pos = int(x * 15)  # x-Koordinate des Quadrats
+    y_pos = int(y * 15)  # y-Koordinate des Quadrats
 
-    # Orange square
-    # Top line
-    if x_pos % 16 == 0 and y_pos % 16 != 0:
-        for i in range(16):
-            offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
-            print(i + x_pos, y_pos, "1")
-    elif x_pos % 16 != 0 and y_pos % 16 == 0:
-        for i in range(16):
-            offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
-            print(x_pos, i + y_pos, "2")
-    elif x_pos % 16 != 0 and y_pos % 16 != 0:
-        for i in range(16):
-            offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
-            offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
-            print(i + x_pos, y_pos, "3")
-    else:
-        for i in range(16):
-            offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
-            offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
-            print(i + x_pos, y_pos, "4")
+    # Orange Quadrat
+    for i in range(16):
+        for j in range(16):
+            offset_canvas.SetPixel(x_pos + i, y_pos + j, *orange)
 
-    # Bottom line
-    for i in range(16):
-        offset_canvas.SetPixel(i + x_pos, 15 + y_pos, *orange)
-    # Left line
-    for i in range(16):
-        offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
-    # Right line
-    for i in range(16):
-        offset_canvas.SetPixel(15 + x_pos, i + y_pos, *orange)
+
+    # # Position of the orange square scaled to 0-15
+    # x_pos = int(x * 15)
+    # y_pos = int(y * 15)
+
+    # # Orange square
+    # # Top line
+    # if x_pos % 16 == 0 and y_pos % 16 != 0:
+    #     for i in range(16):
+    #         offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
+    #         print(i + x_pos, y_pos, "1")
+    # elif x_pos % 16 != 0 and y_pos % 16 == 0:
+    #     for i in range(16):
+    #         offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
+    #         print(x_pos, i + y_pos, "2")
+    # elif x_pos % 16 != 0 and y_pos % 16 != 0:
+    #     for i in range(16):
+    #         offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
+    #         offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
+    #         print(i + x_pos, y_pos, "3")
+    # else:
+    #     for i in range(16):
+    #         offset_canvas.SetPixel(i + x_pos, y_pos, *orange)
+    #         offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
+    #         print(i + x_pos, y_pos, "4")
+
+    # # Bottom line
+    # for i in range(16):
+    #     offset_canvas.SetPixel(i + x_pos, 15 + y_pos, *orange)
+    # # Left line
+    # for i in range(16):
+    #     offset_canvas.SetPixel(x_pos, i + y_pos, *orange)
+    # # Right line
+    # for i in range(16):
+    #     offset_canvas.SetPixel(15 + x_pos, i + y_pos, *orange)
 
     # Draw icons
     # Colorbattle
