@@ -3,7 +3,7 @@
 ## Set-up
 + Hardware: 2 gamepads, Adafruit RGB Matrix + Real Time Clock HAT 32x32
 + Choose Storage e.g. 32 GB SD-Card
-+ Install Raspberry Pi OS using Raspberry Pi Imager
+1. Install Raspberry Pi OS using Raspberry Pi Imager
   + https://www.raspberrypi.com/software/
   + Choose Raspberry Pi OS with desktop and recommended software for 32-Bit if you use Raspberry Pi 3
 + Afer first boot
@@ -16,7 +16,7 @@
   ```
   sudo apt update
   ```
-+ Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
+2. Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
   ```
   curl https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-
@@ -31,17 +31,17 @@
 
   + add `isolcpus=3` at the end in the `/boot/cmdline.text`
 
-+ Install Python3
+3. Install Python3
   ```
   sudo apt-get update && sudo apt-get install python3-dev python3-pillow -y
   make build-python PYTHON=$(command -v python3)
   sudo make install-python PYTHON=$(command -v python3)
   ```
-+ Install Fun-with-Friends Repo
+4. Install Fun-with-Friends Repo
   ```
   git clone https://github.com/INF2023AI-Python/Fun-with-Friends.git
   ```
-+ Set-up for Autostart
+5. Set-up for Autostart
   + give startbildschrim.py execution rights
       ```
     chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
