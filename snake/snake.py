@@ -87,16 +87,18 @@ class Snake:
         self.positions = [((32 // 2), (32 // 2))]
         self.direction = random_direction()
 
-    def draw(self, offset_canvas, matrix):
+    def draw(self, matrix):
         """ This method draws the snake on the screen.
         It uses the pygame.draw.rect function to draw each segment of
         the snake as a rectangle. """
         for p in self.positions:
-            offset_canvas.SetPixel(p[0], p[1], self.color[0], self.color[1], self.color[2])
-        return matrix.SwapOnVSync(offset_canvas)
+            matrix.SetPixel(p[0], p[1], self.color[0], self.color[1], self.color[2])
+
 
 class Game:
-    def __init__(self):
+    def __init__(self, offset_canvas, matrix):
+        self.offset_canvas = offset_canvas
+        self.matrix = matrix
         pygame.init()
         self.clock = pygame.time.Clock()
         self.snake = Snake()
@@ -108,21 +110,21 @@ class Game:
         This method handles rendering the game state to the matrix.
         It clears the matrix, then draws the snake and the fruit.
         """
-        # # Create a new off-screen buffer (canvas)
-        # canvas = matrix.CreateFrameCanvas()
+        # Create a new off-screen buffer (canvas)
+        canvas = matrix.CreateFrameCanvas()
 
-        # # Clear the canvas
-        offset_canvas.Clear()
+        # Clear the canvas
+        canvas.Clear()
 
         # Draw the snake
-        self.snake.draw(offset_canvas, matrix)
+        self.snake.draw(canvas)
 
         # Draw the fruit
         if self.fruit is not None:
-            self.fruit.draw(offset_canvas, matrix)
+            self.fruit.draw(canvas)
 
         # Swap the buffers
-        matrix.SwapOnVSync(offset_canvas)
+        matrix.SwapOnVSync(self.offset_canvas)
 
     def update(self):
         """
@@ -182,7 +184,7 @@ class Game:
         while True:
             self.handle_events()
             self.update()
-            self.draw(offset_canvas, matrix)
+            self.draw()
             self.clock.tick(10)
 
 
@@ -191,9 +193,9 @@ class Fruit:
         self.position = (random.randint(0, 32 - 1), random.randint(0, 32 - 1))
         self.color = random.choice([(255, 0, 0), (0, 255, 0)])  # Red or green
 
-    def draw(self, offset_canvas,matrix):
-        offset_canvas.SetPixel(self.position[0], self.position[1], self.color[0], self.color[1], self.color[2])
-        return matrix.SwapOnVSync(offset_canvas)
+    def draw(self, matrix):
+        matrix.SetPixel(self.position[0], self.position[1], self.color[0], self.color[1], self.color[2])
+
 
 def snake(offset_canvas, matrix):
     pygame.init()
@@ -206,7 +208,7 @@ def snake(offset_canvas, matrix):
         print("No joystick found.")
         return
 
-    game = Game()
+    game = Game(offset_canvas, matrix)
     game.run()
 
 
