@@ -78,6 +78,9 @@ def update_board_with_joystick(board_state, joystick, offset_canvas, matrix):
 
     if joystick.get_button(1) == 1:
         set_x_or_o(board_state, offset_canvas, matrix)
+    
+    elif joystick.get_button(9) == 1:
+        return
 
 # Function to set 'X' or 'O' on the Tic Tac Toe board
 def set_x_or_o(board_state, offset_canvas, matrix):

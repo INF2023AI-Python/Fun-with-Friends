@@ -1,6 +1,6 @@
 import random
 import pygame
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
@@ -140,12 +140,12 @@ class Game:
 
         # Game over if the snake hits the border
         if head_position[0] < 0 or head_position[0] >= ROWS or head_position[1] < 0 or head_position[1] >= COLS:
-            game_over()
+            self.game_over()
             return
 
         # Game over if the snake eats itself
         if len(self.snake.positions) > self.snake.length:
-            game_over()
+            self.game_over()
             return
 
         # Check if the snake has eaten the fruit
@@ -164,7 +164,7 @@ class Game:
     def game_over(self):
         # Display "Game Over" on the matrix and stop the game
         matrix.Fill(255, 0, 0)
-        matrix.display_text("Game Over")
+        print("Game Over")
         pygame.quit()
 
     def handle_events(self):
