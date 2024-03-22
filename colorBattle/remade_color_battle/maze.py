@@ -88,6 +88,9 @@ class MazeGame:
         # Generate mazes
         self.maze1 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
         self.maze2 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
+        # Draw mazes initially
+        self.draw_maze(offset_canvas, self.maze1)
+        self.draw_maze(offset_canvas, self.maze2)
 
     def generate_maze(self, height, width):
         maze = [['#'] * width for _ in range(height)]  # 使用'#'填充迷宫
@@ -164,13 +167,12 @@ class MazeGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                
 
-            # 移动玩家并检查游戏状态
+            # Move players and check game status
             running = self.move_players()
 
-            # 绘制迷宫和玩家
-            self.draw_maze(offset_canvas, self.maze1)
-            self.draw_maze(offset_canvas, self.maze2)
+            # Draw players
             self.player1.paint(offset_canvas)
             self.player2.paint(offset_canvas)
 
