@@ -184,6 +184,8 @@ class Game:
         """
         while True:
             self.handle_events()
+            if not self.snake.move():
+                return  # Return from the method when the game is over
             self.update()
             self.draw(offset_canvas, matrix)
             if time.time() - self.start_time > 60:
