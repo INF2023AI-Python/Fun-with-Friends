@@ -134,7 +134,7 @@ class Game:
         if not self.snake.move():
             print("The snake ate itself!")
             self.game_over()
-           # return
+            return
 
         head_position = self.snake.get_head_position()
 
@@ -148,7 +148,7 @@ class Game:
         if time.time() - self.start_time > 60:
             print("Time's up!")
             self.game_over()
-           # return
+            return
 
     def game_over(self):
         # Display "Game Over" on the matrix and stop the game
@@ -184,12 +184,16 @@ class Game:
         """
         while True:
             self.handle_events()
+            if not self.snake.move():
+                return  # Return from the method when the game is over
             self.update()
             self.draw(offset_canvas, matrix)
             if time.time() - self.start_time > 60:
                 print("Time's up!")
                 return
             self.clock.tick(10)
+            # if self.game_over(self):
+            #     return
 
 
 class Fruit:
