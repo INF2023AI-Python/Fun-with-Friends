@@ -32,11 +32,11 @@ class Snake:
         It also sets the initial direction of the snake to a
          random direction and the color of the snake to blue.
         """
-        self.length = 1
-        self.positions = [((options.rows // 2), (options.cols // 2))]
+        self.length = 4
+        self.positions = [((ROWS // 2), (COLS // 2))]
         self.direction = self.random_direction()  # Set initial direction to a random direction
         self.color = (0, 0, 255)  # Blue color
-        self.speed = 1
+        self.speed = 0.7
 
     def random_direction(self):
         """
@@ -75,7 +75,7 @@ class Snake:
         """
         cur = self.get_head_position()
         x, y = self.direction
-        new = (((cur[0] + x * self.speed) % options.rows), (cur[1] + y * self.speed) % options.cols)
+        new = (((cur[0] + x * self.speed) % ROWS), (cur[1] + y * self.speed) % COLS)
         if len(self.positions) > 2 and new in self.positions[2:]:
             self.reset()
         else:
@@ -86,7 +86,7 @@ class Snake:
     def reset(self):
         # This method resets the snake to its initial state.
         self.length = 1
-        self.positions = [((options.rows // 2), (options.cols // 2))]
+        self.positions = [((ROWS // 2), (COLS // 2))]
         self.direction = self.random_direction()
 
     def draw(self, matrix):
@@ -130,31 +130,30 @@ class Game:
         This method handles updating the game state.
         It moves the snake and checks if the snake has eaten the fruit or collided with itself.
         """
-        # Move the snake
+        # move snake
         self.snake.move()
 
-        # Get the head position
         head_position = self.snake.get_head_position()
 
-        # Check if the snake has crossed the border
+        # Game over if the snake hits the border
         if head_position[0] < 0 or head_position[0] >= ROWS or head_position[1] < 0 or head_position[1] >= COLS:
             self.game_over()
             return
 
-        # Check if the snake has eaten the fruit
-        if self.fruit is not None and head_position == self.fruit.position:
-            self.snake.length += 1
-            self.fruit = Fruit()  # Create a new fruit
-
-        # Check if the snake has collided with itself
+        # Game over if the snake eats itself
         if len(self.snake.positions) > self.snake.length:
             self.game_over()
             return
 
+        if self.fruit is not None and head_position == self.fruit.position:
+            self.snake.length += 1
+            self.fruit = Fruit()
+
     def game_over(self):
         # Display "Game Over" on the matrix and stop the game
         # You'll need to add a method to display text on the RGBMatrix
-        self.matrix.display_text("Game Over")
+        matrix.Fill(255, 0, 0)
+        matrix.display_text("Game Over")
         pygame.quit()
 
     def handle_events(self):
@@ -200,12 +199,11 @@ class Fruit:
 
 def main():
     pygame.init()
-    pygame.joystick.init()  # Initialize the joystick module
+    pygame.joystick.init()
 
-    # Check if there are any joysticks
     if pygame.joystick.get_count() > 0:
-        joystick = pygame.joystick.Joystick(0)  # Get the first joystick
-        joystick.init()  # Initialize the joystick
+        joystick = pygame.joystick.Joystick(0)
+        joystick.init()
     else:
         print("No joystick found.")
         return
