@@ -1,3 +1,24 @@
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+import random
+
+# Initialize RGB Matrix
+options = RGBMatrixOptions()
+options.rows = 32
+options.chain_length = 1
+options.parallel = 1
+options.hardware_mapping = "adafruit-hat-pwm"
+options.drop_privileges = 0
+matrix = RGBMatrix(options=options)
+offset_canvas = matrix.CreateFrameCanvas()
+
+# Constants for maze size
+MAZE_HEIGHT = 10
+MAZE_WIDTH = 10
+
+# Define colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
 def generate_maze(height, width):
     maze = [['#'] * width for _ in range(height)]  # Initialize maze with walls
 
