@@ -60,25 +60,35 @@ class Player:
         self.button_down_pressed = False
         self.button_left_pressed = False
 
-    def move(self, maze_pattern, game_area):
-        # 保留原先的 x 和 y 坐标
-        x, y = self.position
-        # 初始化新位置为当前位置
-        new_x = x
-        new_y = y
-        # 根据按钮按下情况移动
-        if self.button_up_pressed:
-            new_y = (y - 1) % PLAY_HEIGHT
-        elif self.button_right_pressed:
-            new_x = (x + 1) % PLAY_WIDTH
-        elif self.button_down_pressed:
-            new_y = (y + 1) % PLAY_HEIGHT
-        elif self.button_left_pressed:
-            new_x = (x - 1) % PLAY_WIDTH
+    def move(self, grid, canvas):
+        # 获取当前位置
+        x = self.position[0]
+        y = self.position[1]
         
-        # 根据移动后的位置进行碰撞检查和更新位置
-        if not self.is_collision(new_x, new_y, maze_pattern, game_area):
-            self.position = (new_x, new_y)
+        # 计算位置变化量
+        dx = round(self.x_axis * self.speed)
+        dy = round(self.y_axis * self.speed)
+
+        # 更新新位置
+        new_x = (x + dx) % PLAY_WIDTH
+        new_y = (y + dy) % PLAY_HEIGHT
+
+        # 调整新位置以在游戏区域内移动
+        new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
+        new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
+
+        # 逐渐更新位置，实现顺滑移动
+        steps = max(abs(dx), abs(dy))
+        for i in range(steps):
+            interp_x = round(x + (dx * i) / steps)
+            interp_y = round(y + (dy * i) / steps)
+            if 0 <= interp_x < PLAY_WIDTH and 0 <= interp_y < PLAY_HEIGHT:
+                grid[interp_y][interp_x] = self.trail_color
+                canvas.SetPixel(interp_x, interp_y, *self.trail_color)
+            pygame.time.delay(10)  # Add a small delay for smooth movement
+        
+        # 更新当前位置
+        self.position = (new_x, new_y)
 
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
