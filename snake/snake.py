@@ -3,19 +3,6 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import time
 
-# from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
-
-# options = RGBMatrixOptions()
-# options.cols = 32
-# options.rows = 32
-# options.chain_length = 1
-# options.hardware_mapping = 'adafruit-hat-pwm'
-# options.drop_privileges = 0
-# matrix = RGBMatrix(options=options)
-
-
-# offset_canvas = matrix.CreateFrameCanvas()
-
 
 def random_direction():
     """
@@ -110,8 +97,6 @@ class Game:
         This method handles rendering the game state to the matrix.
         It clears the matrix, then draws the snake and the fruit.
         """
-        # Create a new off-screen buffer (canvas)
-        #canvas = matrix.CreateFrameCanvas()
 
         # Clear the canvas
         matrix.Clear()
@@ -154,7 +139,7 @@ class Game:
         # Display "Game Over" on the matrix and stop the game
         # matrix.Fill(255, 0, 0)
         print("Game Over")
-        #pygame.quit()
+        pygame.quit()
         return
 
     def handle_events(self):
@@ -177,17 +162,17 @@ class Game:
                     elif event.value > 0.5 and self.snake.direction != (0, -1):
                         self.snake.turn((0, 1))
 
-    def is_game_over(self):
-        """
-        This method checks if the game is over.
-        It returns True if the game is over, and False otherwise.
-        """
-        # Check if the snake has collided with itself or if time is up
-        if not self.snake.move() or time.time() - self.start_time > 60:
-            print("Game Over")
-            return True
-        else:
-            return False
+    # def is_game_over(self):
+    #     """
+    #     This method checks if the game is over.
+    #     It returns True if the game is over, and False otherwise.
+    #     """
+    #     # Check if the snake has collided with itself or if time is up
+    #     if not self.snake.move() or time.time() - self.start_time > 60:
+    #         print("Game Over")
+    #         return True
+    #     else:
+    #         return False
 
     def run(self, offset_canvas, matrix):
         """
@@ -201,8 +186,8 @@ class Game:
             if time.time() - self.start_time > 60:
                 print("Time's up!")
                 return
-            if self.is_game_over():
-                return
+            # if self.is_game_over():
+            #     return
             self.clock.tick(10)
 
 
