@@ -140,6 +140,7 @@ class Game:
         # matrix.Fill(255, 0, 0)
         print("Game Over")
         #pygame.quit()
+        matrix.Clear()
         return
 
     def handle_events(self):
