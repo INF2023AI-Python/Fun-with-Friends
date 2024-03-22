@@ -3,8 +3,8 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
-# ROWS = 32
-# COLS = 32
+ROWS = 32
+COLS = 32
 
 
 # options = RGBMatrixOptions()
@@ -16,8 +16,8 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 # matrix = RGBMatrix(options)
 
 options = RGBMatrixOptions()
-options.cols = 32
-options.rows = 32
+options.cols = ROWS
+options.rows = COLS
 options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
