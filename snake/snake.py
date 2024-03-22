@@ -171,7 +171,7 @@ class Game:
         """
         while True:
             self.handle_events()
-            self.update()
+            self.update(matrix)
             self.draw(offset_canvas, matrix)
             if time.time() - self.start_time > 60:
                 print("Time's up!")
