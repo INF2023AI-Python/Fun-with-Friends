@@ -68,6 +68,8 @@ class Player:
         x, y = self.position
         
         # 根据按钮按下情况移动
+        new_x = x
+        new_y = y
         if self.button_up_pressed:
             new_y = (y - 1) % PLAY_HEIGHT
         elif self.button_right_pressed:
@@ -87,7 +89,6 @@ class Player:
     def update_state(self, grid):
         x, y = self.position
         grid[y][x] = self.trail_color
-
 
     def is_collision(self, x, y, maze_pattern, game_area):
         if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
@@ -153,18 +154,6 @@ def main():
                             player2.button_down_pressed = False
                         elif event.button == 3:  # Button 3 (Left)
                             player2.button_left_pressed = False
-            # joysticks movement
-            # if event.type == pygame.JOYAXISMOTION:
-            #         for i, joystick in enumerate(joysticks):
-            #             if i == 0:  # Player 1 controls
-            #                 player1.x_axis = joystick.get_axis(0)
-            #                 player1.y_axis = joystick.get_axis(1)
-            #                 print("Player 1 - X Axis:", player1.x_axis, "Y Axis:", player1.y_axis)
-            #             elif i == 1:  # Player 2 controls
-            #                 player2.x_axis = joystick.get_axis(0)
-            #                 player2.y_axis = joystick.get_axis(1)
-            #                 print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
-
 
         player1.move(maze_pattern, game_area)
         player2.move(maze_pattern, game_area)
