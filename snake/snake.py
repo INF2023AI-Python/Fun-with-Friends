@@ -139,7 +139,8 @@ class Game:
         # Display "Game Over" on the matrix and stop the game
         # matrix.Fill(255, 0, 0)
         print("Game Over")
-        pygame.quit()
+        #pygame.quit()
+        matrix.Clear()
         return
 
     def handle_events(self):
