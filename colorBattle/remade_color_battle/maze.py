@@ -67,12 +67,25 @@ class Player:
 
     # 绘制玩家
     def paint(self, canvas):
-        canvas.SetPixel(self.position[0], self.position[1], *self.color)
+        # 根据当前对象的类别选择颜色
+        if self.__class__ == Player:
+            color = Player.YELLOW  # 默认为黄色
+        else:
+            color = self.__class__.color
+
+        canvas.SetPixel(self.position[0], self.position[1], *color)
 
 class MazeGame:
     def __init__(self):
-        self.player1 = Player((0, 0))  # 初始位置设为(0, 0)
-        self.player2 = Player((PLAY_WIDTH - 1, PLAY_HEIGHT - 1))  # 初始位置设为(PLAY_WIDTH - 1, PLAY_HEIGHT - 1)
+        # Define colors for each player
+        self.player1_color = Player.GREEN
+        self.player2_color = Player.BLUE
+
+        # Create player objects with colors
+        self.player1 = Player((0, 0))
+        self.player2 = Player((PLAY_WIDTH - 1, PLAY_HEIGHT - 1))
+
+        # Generate mazes
         self.maze1 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
         self.maze2 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
 
