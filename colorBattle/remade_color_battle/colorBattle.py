@@ -62,7 +62,7 @@ class Player:
         self.y_axis = 0
         self.speed = 3
 
-    def move(self, maze_pattern, game_area):
+    def move(self, canvas, maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
         x = self.position[0]
         y = self.position[1]
@@ -73,20 +73,27 @@ class Player:
         dy = round(self.y_axis * self.speed)
 
         # Iterate over each pixel moved
+        # Iterate over each pixel moved
         for _ in range(max(abs(dx), abs(dy))):
             # Update new position based on axis values and speed
             new_x = (x + dx) % PLAY_WIDTH
+            new_y = (y + dy) % PLAY_HEIGHT
+            
             # Adjust new position to wrap around the play area
             new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
-            new_y = (y + dy) % PLAY_HEIGHT
             new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
-            grid[new_y][new_x] = self.trail_color
             
+            # Update the trail coordinates
+            self.position = (new_x, new_y)
+            self.trail.append(self.position)
+
+            # Paint the trail at the new position
+            canvas.SetPixel(new_x, new_y, *self.trail_color)
         
 
 
-    def paint(self, canvas):
-        canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
+    # def paint(self, canvas):
+    #     canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
 
     def update_state(self, grid):
         x, y = self.position
@@ -146,11 +153,11 @@ def main():
                             print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
-        player1.move(maze_pattern, game_area)
-        player2.move(maze_pattern, game_area)
+        player1.move(offset_canvas, maze_pattern, game_area)
+        player2.move(offset_canvas, maze_pattern, game_area)
 
-        player1.paint(offset_canvas)
-        player2.paint(offset_canvas)
+        # player1.paint(offset_canvas)
+        # player2.paint(offset_canvas)
 
         # player1.update_state(grid)
         # player2.update_state(grid)
