@@ -200,6 +200,7 @@ class Game:
             self.update(matrix)
             self.draw(offset_canvas, matrix)
             if self.game_over_flag:
+                display_text(offset_canvas, matrix)
                 print("Game Over")
                 matrix.Clear()
                 return
