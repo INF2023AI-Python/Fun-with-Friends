@@ -192,6 +192,7 @@ class Game:
                         self.snake.turn((0, 1))
             elif event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 9:
+                    print("back to start")
                     matrix.Clear()
                     return
 
