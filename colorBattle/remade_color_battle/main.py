@@ -106,9 +106,11 @@ def main():
                         if i == 0:  # Player 1 controls
                             player1.x_axis = joystick.get_axis(0)
                             player1.y_axis = joystick.get_axis(1)
+                            print("Player 1 - X Axis:", player1.x_axis, "Y Axis:", player1.y_axis)
                         elif i == 1:  # Player 2 controls
                             player2.x_axis = joystick.get_axis(0)
                             player2.y_axis = joystick.get_axis(1)
+                            print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
         player1.move(maze_pattern, game_area)
