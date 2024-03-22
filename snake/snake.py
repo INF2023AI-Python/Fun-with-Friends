@@ -111,17 +111,17 @@ class Game:
         It clears the matrix, then draws the snake and the fruit.
         """
         # Create a new off-screen buffer (canvas)
-        canvas = matrix.CreateFrameCanvas()
+        #canvas = matrix.CreateFrameCanvas()
 
         # Clear the canvas
-        canvas.Clear()
+        matrix.Clear()
 
         # Draw the snake
-        self.snake.draw(canvas)
+        self.snake.draw(offset_canvas)
 
         # Draw the fruit
         if self.fruit is not None:
-            self.fruit.draw(canvas)
+            self.fruit.draw(offset_canvas)
 
         # Swap the buffers
         matrix.SwapOnVSync(self.offset_canvas)
@@ -210,7 +210,3 @@ def snake(offset_canvas, matrix):
 
     game = Game(offset_canvas, matrix)
     game.run(offset_canvas, matrix)
-
-
-# if __name__ == "__main__":
-#     main()
