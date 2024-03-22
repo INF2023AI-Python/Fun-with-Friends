@@ -5,16 +5,13 @@ import time
 
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
-ROWS = 32
-COLS = 32
-
-options = RGBMatrixOptions()
-options.cols = ROWS
-options.rows = COLS
-options.chain_length = 1
-options.hardware_mapping = 'adafruit-hat-pwm'
-options.drop_privileges = 0
-matrix = RGBMatrix(options=options)
+# options = RGBMatrixOptions()
+# options.cols = 32
+# options.rows = 32
+# options.chain_length = 1
+# options.hardware_mapping = 'adafruit-hat-pwm'
+# options.drop_privileges = 0
+# matrix = RGBMatrix(options=options)
 
 
 # offset_canvas = matrix.CreateFrameCanvas()
@@ -39,7 +36,7 @@ class Snake:
          random direction and the color of the snake to blue.
         """
         self.length = 4
-        self.positions = [(ROWS // 2, COLS // 2)] * self.length
+        self.positions = [(32 // 2, 32 // 2)] * self.length
         self.direction = random_direction()
         self.next_direction = self.direction
         self.color = (0, 0, 255)
@@ -74,7 +71,7 @@ class Snake:
         self.direction = self.next_direction  # Update the direction before moving
         cur = self.get_head_position()
         x, y = self.direction
-        new = ((cur[0] + x) % ROWS, (cur[1] + y) % COLS)
+        new = ((cur[0] + x) % 32, (cur[1] + y) % 32)
         if new in self.positions:
             print("The snake ate itself!")
             return False
@@ -87,16 +84,16 @@ class Snake:
     def reset(self):
         # This method resets the snake to its initial state.
         self.length = 1
-        self.positions = [((ROWS // 2), (COLS // 2))]
+        self.positions = [((32 // 2), (32 // 2))]
         self.direction = random_direction()
 
-    def draw(self, matrix):
+    def draw(self, offset_canvas, matrix):
         """ This method draws the snake on the screen.
         It uses the pygame.draw.rect function to draw each segment of
         the snake as a rectangle. """
         for p in self.positions:
-            matrix.SetPixel(p[0], p[1], self.color[0], self.color[1], self.color[2])
-
+            offset_canvas.SetPixel(p[0], p[1], self.color[0], self.color[1], self.color[2])
+        return matrix.SwapOnVSync(offset_canvas)
 
 class Game:
     def __init__(self):
@@ -106,26 +103,26 @@ class Game:
         self.fruit = Fruit()
         self.start_time = time.time()
 
-    def draw(self):
+    def draw(self, offset_canvas, matrix):
         """
         This method handles rendering the game state to the matrix.
         It clears the matrix, then draws the snake and the fruit.
         """
-        # Create a new off-screen buffer (canvas)
-        canvas = matrix.CreateFrameCanvas()
+        # # Create a new off-screen buffer (canvas)
+        # canvas = matrix.CreateFrameCanvas()
 
-        # Clear the canvas
-        canvas.Clear()
+        # # Clear the canvas
+        # canvas.Clear()
 
         # Draw the snake
-        self.snake.draw(canvas)
+        self.snake.draw(offset_canvas)
 
         # Draw the fruit
         if self.fruit is not None:
-            self.fruit.draw(canvas)
+            self.fruit.draw(offset_canvas)
 
         # Swap the buffers
-        matrix.SwapOnVSync(canvas)
+        matrix.SwapOnVSync(offset_canvas)
 
     def update(self):
         """
@@ -185,20 +182,20 @@ class Game:
         while True:
             self.handle_events()
             self.update()
-            self.draw()
+            self.draw(offset_canvas, matrix)
             self.clock.tick(10)
 
 
 class Fruit:
     def __init__(self):
-        self.position = (random.randint(0, ROWS - 1), random.randint(0, COLS - 1))
+        self.position = (random.randint(0, 32 - 1), random.randint(0, 32 - 1))
         self.color = random.choice([(255, 0, 0), (0, 255, 0)])  # Red or green
 
-    def draw(self, matrix):
-        matrix.SetPixel(self.position[0], self.position[1], self.color[0], self.color[1], self.color[2])
+    def draw(self, offset_canvas,matrix):
+        offset_canvas.SetPixel(self.position[0], self.position[1], self.color[0], self.color[1], self.color[2])
+        return matrix.SwapOnVSync(offset_canvas)
 
-
-def main():
+def snake(offset_canvas, matrix):
     pygame.init()
     pygame.joystick.init()
 
@@ -210,8 +207,8 @@ def main():
         return
 
     game = Game()
-    game.run()
+    game.run(offset_canvas, matrix)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

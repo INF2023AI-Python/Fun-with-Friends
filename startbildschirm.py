@@ -3,6 +3,7 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 import subprocess
 from tictactoe.tictactoe import tictactoe
 from VierGewinnt.VierGewinnt import vierGewinnt
+from snake.snake import snake
 
 orange_square_position = [0, 0]
 
@@ -160,7 +161,9 @@ def select_option(new_position):
     global offset_canvas
     global matrix
     if new_position[0] == 0 and new_position[1] == 0:
-        print("Colorbattle selected")
+        clear_screen()
+        snake(offset_canvas, matrix)
+        print("Snake selected")
         
     elif new_position[0] == 1 and new_position[1] == 0:
         clear_screen()
