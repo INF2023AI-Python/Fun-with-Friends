@@ -112,14 +112,14 @@ class Game:
         # canvas = matrix.CreateFrameCanvas()
 
         # # Clear the canvas
-        # canvas.Clear()
+        offset_canvas.Clear()
 
         # Draw the snake
-        self.snake.draw(offset_canvas)
+        self.snake.draw(offset_canvas, matrix)
 
         # Draw the fruit
         if self.fruit is not None:
-            self.fruit.draw(offset_canvas)
+            self.fruit.draw(offset_canvas, matrix)
 
         # Swap the buffers
         matrix.SwapOnVSync(offset_canvas)
@@ -206,7 +206,7 @@ def snake(offset_canvas, matrix):
         print("No joystick found.")
         return
 
-    game = Game(offset_canvas, matrix)
+    game = Game()
     game.run()
 
 
