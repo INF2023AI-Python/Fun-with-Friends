@@ -172,6 +172,7 @@ def tictactoe(offset_canvas, matrix):
             return
         
         if joystick.get_button(9) == 1:
+            reset_game()
             matrix.Clear()
             return
 
