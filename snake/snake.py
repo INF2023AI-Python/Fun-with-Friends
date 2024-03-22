@@ -192,8 +192,8 @@ class Game:
                 print("Time's up!")
                 return
             self.clock.tick(10)
-            if self.game_over(self):
-                return
+            # if self.game_over(self):
+            #     return
 
 
 class Fruit:
