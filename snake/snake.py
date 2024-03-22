@@ -13,6 +13,21 @@ def random_direction():
     """
     return random.choice([(0, -1), (0, 1), (-1, 0), (1, 0)])
 
+# Displaying text in the matrix
+def display_text(text, color, offset_canvas, matrix):
+    font = graphics.Font()
+    font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+    textColor = graphics.Color(*color)
+
+    # Text in the first line
+    graphics.DrawText(offset_canvas, font, 2, 10, textColor, text[0])
+    # Text in the second line
+    graphics.DrawText(offset_canvas, font, 2, 20, textColor, text[1])
+    # Text in the third line
+    graphics.DrawText(offset_canvas, font, 2, 30, textColor, text[2])
+
+    matrix.SwapOnVSync(offset_canvas)
+
 
 class Snake:
     def __init__(self):
@@ -121,6 +136,10 @@ class Game:
             return
         
         if not self.snake.move():
+            matrix.Clear()
+            color = (255, 0, 0)
+            display_text(["Snake", "ate", "itself"], color, self.offset_canvas, matrix)
+            time.sleep(3)
             print("The snake ate itself!")
             self.game_over(matrix)
             return
@@ -135,6 +154,10 @@ class Game:
             self.fruit = Fruit()
 
         if time.time() - self.start_time > 60:
+            matrix.Clear()
+            color = (255, 0, 0)
+            display_text(["Time","is", "up!"], color, self.offset_canvas, matrix)
+            time.sleep(3)
             print("Time's up!")
             self.game_over(matrix)
             return
@@ -142,7 +165,7 @@ class Game:
     def game_over(self, matrix):
         # Display "Game Over" on the matrix and stop the game
         # matrix.Fill(255, 0, 0)
-        print("Game Over")
+        print("Game Over line 168")
         #pygame.quit()
         matrix.Clear()
         self.game_over_flag = True
@@ -178,8 +201,8 @@ class Game:
             self.handle_events()
             self.update(matrix)
             self.draw(offset_canvas, matrix)
-            if time.time() - self.start_time > 60:
-                print("Time's up!")
+            if self.game_over_flag:
+                print("Game Over")
                 matrix.Clear()
                 return
             self.clock.tick(10)
