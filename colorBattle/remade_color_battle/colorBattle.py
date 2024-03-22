@@ -112,9 +112,9 @@ def count_points(grid, color1, color2):
     player2_points = sum(row.count(color2) for row in grid)
     return player1_points, player2_points
 def winner(player1_points, player2_points):
-    player1 = "Player1"
-    player2 = "Player2"
-    tie = "tie"
+    player1 = ["Player1",  "Won"]
+    player2 = ["Player2", "Won"]
+    tie = ["tie"]
     if player1_points > player2_points:
         return player1
     elif player2_points > player1_points:
@@ -207,5 +207,6 @@ if __name__ == "__main__":
     main()
     player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
     result = winner(player1_points, player2_points)
-    display_text([result, "Won"], player1_color, offset_canvas, matrix)
+    matrix.Clear()
+    display_text(result, player1_color, offset_canvas, matrix)
     time.sleep(5)
