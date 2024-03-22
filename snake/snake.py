@@ -186,7 +186,7 @@ class Game:
             self.handle_events()
             self.update()
             self.draw()
-            self.clock.tick(3)
+            self.clock.tick(10)
 
 
 class Fruit:
