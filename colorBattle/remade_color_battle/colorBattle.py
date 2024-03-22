@@ -1,5 +1,5 @@
 # Import necessary modules
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import pygame
 # from obstacle import obstacle, maze
 from scoreboard import Scoreboard
@@ -204,6 +204,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-    player1_points, player2_points = count_points(grid, color1, color2)
+    player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
     result = winner(player1_points, player2_points)
-    display_text([result, "Won"], color, self.offset_canvas, matrix)
+    display_text([result, "Won"], player1_color, offset_canvas, matrix)
