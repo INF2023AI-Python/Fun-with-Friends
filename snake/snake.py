@@ -1,6 +1,7 @@
 import random
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+import time
 
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
@@ -100,6 +101,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.snake = Snake()
         self.fruit = Fruit()
+        self.start_time = time.time()
 
     def draw(self):
         """
@@ -151,6 +153,11 @@ class Game:
             self.fruit = Fruit()
 
         if not self.snake.move():
+            self.game_over()
+            return
+
+        if time.time() - self.start_time > 60:
+            print("Time's up!")
             self.game_over()
             return
 
