@@ -7,7 +7,11 @@
   + https://www.raspberrypi.com/software/
   + Choose Raspberry Pi OS with desktop and recommended software for 32-Bit if you use Raspberry Pi 3
 + Afer first boot
-  + connect to wifi using ```sudo raspi-config``` or by the gui
+  + connect to wifi using 
+  ```
+  sudo raspi-config
+  ``` 
+  or by the gui
   + get the newest updates using `sudo apt update`
 + Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
