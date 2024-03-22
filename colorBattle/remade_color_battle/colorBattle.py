@@ -86,7 +86,7 @@ class Player:
             interp_y = round(y + (dy * i) / steps)
             grid[interp_y][interp_x] = self.trail_color
             canvas.SetPixel(interp_x, interp_y, *self.trail_color)
-            pygame.time.delay(50)  # Add a small delay for smooth movement
+            pygame.time.delay(100)  # Add a small delay for smooth movement
         
         # 更新当前位置
         self.position = (new_x, new_y)
@@ -174,7 +174,7 @@ def main():
 
         # Swap and delay
         matrix.SwapOnVSync(offset_canvas)
-        clock.tick(600)
+        clock.tick(30)
 
     pygame.quit()
 
