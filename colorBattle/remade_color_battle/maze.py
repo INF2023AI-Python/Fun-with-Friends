@@ -59,12 +59,37 @@ class Player:
 
 class MazeGame:
     def __init__(self):
-        self.maze1, self.start1, self.end1 = self.generate_maze(PLAY_HEIGHT // 2, PLAY_WIDTH)
-        self.maze2, self.start2, self.end2 = self.generate_maze(PLAY_HEIGHT // 2, PLAY_WIDTH)
+        self.player1 = Player(YELLOW, GREEN, (0, 0))
+        self.player2 = Player(BLUE, WHITE, (PLAY_WIDTH - 1, PLAY_HEIGHT - 1))
+        self.maze1 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
+        self.maze2 = self.generate_maze(PLAY_HEIGHT, PLAY_WIDTH)
 
-        # 创建玩家对象并赋值给self.player1和self.player2
-        self.player1 = Player(YELLOW, GREEN, self.start1)
-        self.player2 = Player(BLUE, WHITE, self.start2)
+    def generate_maze(self, height, width):
+        maze = [['#'] * width for _ in range(height)]  # 使用'#'填充迷宫
+
+        # 在迷宫中随机生成起始点和结束点
+        start_row, start_col = random.randint(0, height - 1), random.randint(0, width - 1)
+        end_row, end_col = random.randint(0, height - 1), random.randint(0, width - 1)
+
+        # 设置起始点和结束点
+        maze[start_row][start_col] = 'S'
+        maze[end_row][end_col] = 'E'
+
+        # 递归生成迷宫
+        self.generate_maze_recursive(maze, start_row, start_col)
+
+        return maze
+
+    def generate_maze_recursive(self, maze, row, col):
+        directions = [(0, -2), (0, 2), (-2, 0), (2, 0)]  # 上下左右四个方向
+        random.shuffle(directions)
+
+        for dr, dc in directions:
+            new_row, new_col = row + dr, col + dc
+            if 0 <= new_row < len(maze) and 0 <= new_col < len(maze[0]) and maze[new_row][new_col] == '#':
+                maze[new_row][new_col] = ' '  # 设置为通道
+                maze[row + dr // 2][col + dc // 2] = ' '  # 中间位置也设置为通道
+                self.generate_maze_recursive(maze, new_row, new_col)
     def move_players(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -95,6 +120,17 @@ class MazeGame:
                                      min(max(self.player2.position[1], 0), PLAY_HEIGHT - 1))
 
         return True
+    def draw_maze(self, canvas, maze):
+        for row in range(len(maze)):
+            for col in range(len(maze[0])):
+                if maze[row][col] == '#':
+                    canvas.SetPixel(col, row, *BLACK)  # 绘制墙壁
+                elif maze[row][col] == 'S':
+                    canvas.SetPixel(col, row, *YELLOW)  # 绘制起始点
+                elif maze[row][col] == 'E':
+                    canvas.SetPixel(col, row, *BLUE)  # 绘制结束点
+                else:
+                    canvas.SetPixel(col, row, *WHITE)  # 绘制通道
     def main(self):
         running = True
         clock = pygame.time.Clock()
