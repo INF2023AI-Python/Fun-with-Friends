@@ -145,8 +145,13 @@ class Game:
             self.game_over()
             return
 
-        if self.fruit is not None and head_position == self.fruit.position:
+        # Check if the snake has eaten the fruit
+        if self.fruit and head_position == self.fruit.position:
             self.snake.length += 1
+            self.fruit = None  # Remove the current fruit
+
+        # Create a new fruit if there isn't one
+        if self.fruit is None:
             self.fruit = Fruit()
 
     def game_over(self):
