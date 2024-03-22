@@ -118,7 +118,7 @@ class Game:
         """
         if not self.snake.move():
             print("The snake ate itself!")
-            self.game_over()
+            self.game_over(matrix)
             return
 
         head_position = self.snake.get_head_position()
