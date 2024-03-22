@@ -60,7 +60,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 5
+        self.speed = 3
 
     def move(self, maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
@@ -76,16 +76,14 @@ class Player:
         for _ in range(max(abs(dx), abs(dy))):
             # Update new position based on axis values and speed
             new_x = (x + dx) % PLAY_WIDTH
-            new_y = (y + dy) % PLAY_HEIGHT
-
             # Adjust new position to wrap around the play area
             new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
+            new_y = (y + dy) % PLAY_HEIGHT
             new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
+            grid[new_y][new_x] = self.trail_color
+            
         
-        x = new_x
-        y = new_y
 
-        self.position = (x, y)
 
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
@@ -154,8 +152,8 @@ def main():
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)
 
-        player1.update_state(grid)
-        player2.update_state(grid)
+        # player1.update_state(grid)
+        # player2.update_state(grid)
         
         player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
 

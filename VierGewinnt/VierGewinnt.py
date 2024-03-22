@@ -175,5 +175,9 @@ def vierGewinnt(offset_canvas, matrix):
                 # Changing the player
                 player = 2 if player == 1 else 1
                 board[0][col] = player
+            
+            # Return to startbildschirm.py
+            elif joystick.get_button(9) == 1:
+                return
                 
         pygame.time.Clock().tick(7)
