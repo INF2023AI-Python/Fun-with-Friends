@@ -17,38 +17,45 @@
   sudo apt update
   ```
 + Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
-  ```
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
   ```
-  + choose Quality binding
+  curl https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/main/rgb-matrix.sh >rgb-matrix.sh
+  sudo bash rgb-matrix.sh
   ```
-  + sudo reboot
-  ```
+  + Questions will be asked. If you have the same hardware as us, the response would be as follows:
+    + CONTINUE? -y
+    + Select interface board type: -2 (Adafruit RGB Matrix HAT + RTC)
+    + What is thy bidding? -1 (Quality (disables sound, requires solderin))
+    + A reboot is required after installation.
+
   + add `isolcpus=3` at the end in the `/boot/cmdline.text`
 
 + Install Python3
   ```
-  + https://github.com/hzeller/rpi-rgb-led-matrix/tree/master/bindings/python
+  sudo apt-get update && sudo apt-get install python3-dev python3-pillow -y
+  make build-python PYTHON=$(command -v python3)
+  sudo make install-python PYTHON=$(command -v python3)
   ```
 + Install Fun-with-Friends Repo
   ```
-  + git clone https://github.com/INF2023AI-Python/Fun-with-Friends.git
+  git clone https://github.com/INF2023AI-Python/Fun-with-Friends.git
   ```
 + Set-up for Autostart
   + give startbildschrim.py execution rights
       ```
-    + chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
+    chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
       ```
   + Extend autostart file
       ```
-    + sudo nano /etc/rc.local
+      sudo nano /etc/rc.local
       ```
     + Add the following text before "exit 0"
-        ```
-      + python3  /home/pi/Fun-with-Friends/startbildschirm.py &
-        ```
+      ```
+       python3  /home/pi/Fun-with-Friends/startbildschirm.py &
+      ```
+  + finish with rebooting
   ```
-  + sudo reboot
+   sudo reboot
   ```
 
 ## Game description
