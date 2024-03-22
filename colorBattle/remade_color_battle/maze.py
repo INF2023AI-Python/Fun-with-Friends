@@ -58,6 +58,13 @@ class Player:
         canvas.SetPixel(self.position[0], self.position[1], *self.color)
 
 class MazeGame:
+    def __init__(self):
+        self.maze1, self.start1, self.end1 = self.generate_maze(PLAY_HEIGHT // 2, PLAY_WIDTH)
+        self.maze2, self.start2, self.end2 = self.generate_maze(PLAY_HEIGHT // 2, PLAY_WIDTH)
+
+        # 创建玩家对象并赋值给self.player1和self.player2
+        self.player1 = Player(YELLOW, GREEN, self.start1)
+        self.player2 = Player(BLUE, WHITE, self.start2)
     def move_players(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
