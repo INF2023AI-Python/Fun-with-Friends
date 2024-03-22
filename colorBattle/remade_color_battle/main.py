@@ -63,9 +63,8 @@ class Player:
 
     def move(self, maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
-        new_x = (self.position[0] + int(self.x_axis * 1)) % PLAY_WIDTH
-        new_y = (self.position[1] + int(self.y_axis * 1)) % PLAY_HEIGHT
-
+        new_x = (self.position[0] + round(self.x_axis * 1)) % PLAY_WIDTH
+        new_y = (self.position[1] + round(self.y_axis * 1)) % PLAY_HEIGHT
         if not self.is_collision(new_x, new_y, maze_pattern, game_area):
             self.position = (new_x, new_y)
 
