@@ -12,7 +12,7 @@ options.hardware_mapping = 'adafruit-hat-pwm'
 options.rows = ROWS
 options.cols = COLS
 options.drop_privileges = 0
-options.double_buffer = True  # Enable double buffering
+# options.double_buffer = True  # Enable double buffering
 matrix = RGBMatrix(options)
 
 
