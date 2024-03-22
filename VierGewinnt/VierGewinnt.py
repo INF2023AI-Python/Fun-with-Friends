@@ -108,7 +108,7 @@ def vierGewinnt(offset_canvas, matrix):
     joystick.init()
 
     # Resetting the array for a new game
-    board = np.zeros_like(board)
+    board[:] = np.zeros_like(board)
 
     # Displaying the chip at the beginning of the game
     player = 1
