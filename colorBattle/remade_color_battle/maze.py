@@ -41,11 +41,12 @@ class Player:
     BLUE = (0, 0, 255)
     WHITE = (255, 255, 255)
 
-    def __init__(self, start_pos):
+    def __init__(self, start_pos, color):
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
         self.speed = 2
+        self.color = color
 
     def move(self, maze, canvas):
         # 获取当前位置
