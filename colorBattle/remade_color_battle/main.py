@@ -45,7 +45,7 @@ player1_cells_painted = 0
 
 player2_color = (0, 0, 255)
 player2_trail_color = (0, 255, 0)
-player2_start_pos = (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 10)
+player2_start_pos = (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 6)
 player2_position = player2_start_pos
 player2_trail = [player2_start_pos]
 player2_cells_painted = 0
