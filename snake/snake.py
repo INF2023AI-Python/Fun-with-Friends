@@ -91,6 +91,7 @@ class Game:
         self.snake = Snake()
         self.fruit = Fruit()
         self.start_time = time.time()
+        self.game_over_flag = False
 
     def draw(self, offset_canvas, matrix):
         """
@@ -134,6 +135,9 @@ class Game:
             print("Time's up!")
             self.game_over(matrix)
             return
+        
+        if self.game_over_flag:
+            return
 
     def game_over(self, matrix):
         # Display "Game Over" on the matrix and stop the game
@@ -141,6 +145,7 @@ class Game:
         print("Game Over")
         #pygame.quit()
         matrix.Clear()
+        self.game_over_flag = True
         return
 
     def handle_events(self):
@@ -148,25 +153,20 @@ class Game:
         This method handles user input.
         It checks for quit events and joystick movements, and turns the snake accordingly.
         """
-        while not self.game_over:  # Continue handling events until game_over is True
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    self.game_over = True  # Set game_over to True when quitting
-                elif event.type == pygame.JOYAXISMOTION:
-                    if event.axis == 0:
-                        if event.value < -0.5 and self.snake.direction != (1, 0):
-                            self.snake.turn((-1, 0))
-                        elif event.value > 0.5 and self.snake.direction != (-1, 0):
-                            self.snake.turn((1, 0))
-                    elif event.axis == 1:
-                        if event.value < -0.5 and self.snake.direction != (0, 1):
-                            self.snake.turn((0, -1))
-                        elif event.value > 0.5 and self.snake.direction != (0, -1):
-                            self.snake.turn((0, 1))
-                        
-        if self.game_over:  # Check if game_over flag is set
-            return  # Exit the event loop if game is over
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.JOYAXISMOTION:
+                if event.axis == 0:
+                    if event.value < -0.5 and self.snake.direction != (1, 0):
+                        self.snake.turn((-1, 0))
+                    elif event.value > 0.5 and self.snake.direction != (-1, 0):
+                        self.snake.turn((1, 0))
+                elif event.axis == 1:
+                    if event.value < -0.5 and self.snake.direction != (0, 1):
+                        self.snake.turn((0, -1))
+                    elif event.value > 0.5 and self.snake.direction != (0, -1):
+                        self.snake.turn((0, 1))
 
 
     def run(self, offset_canvas, matrix):
