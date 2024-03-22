@@ -148,20 +148,25 @@ class Game:
         This method handles user input.
         It checks for quit events and joystick movements, and turns the snake accordingly.
         """
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            elif event.type == pygame.JOYAXISMOTION:
-                if event.axis == 0:
-                    if event.value < -0.5 and self.snake.direction != (1, 0):
-                        self.snake.turn((-1, 0))
-                    elif event.value > 0.5 and self.snake.direction != (-1, 0):
-                        self.snake.turn((1, 0))
-                elif event.axis == 1:
-                    if event.value < -0.5 and self.snake.direction != (0, 1):
-                        self.snake.turn((0, -1))
-                    elif event.value > 0.5 and self.snake.direction != (0, -1):
-                        self.snake.turn((0, 1))
+        while not self.game_over:  # Continue handling events until game_over is True
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    self.game_over = True  # Set game_over to True when quitting
+                elif event.type == pygame.JOYAXISMOTION:
+                    if event.axis == 0:
+                        if event.value < -0.5 and self.snake.direction != (1, 0):
+                            self.snake.turn((-1, 0))
+                        elif event.value > 0.5 and self.snake.direction != (-1, 0):
+                            self.snake.turn((1, 0))
+                    elif event.axis == 1:
+                        if event.value < -0.5 and self.snake.direction != (0, 1):
+                            self.snake.turn((0, -1))
+                        elif event.value > 0.5 and self.snake.direction != (0, -1):
+                            self.snake.turn((0, 1))
+                        
+        if self.game_over:  # Check if game_over flag is set
+            return  # Exit the event loop if game is over
 
 
     def run(self, offset_canvas, matrix):
@@ -175,6 +180,7 @@ class Game:
             self.draw(offset_canvas, matrix)
             if time.time() - self.start_time > 60:
                 print("Time's up!")
+                matrix.Clear()
                 return
             self.clock.tick(10)
 
