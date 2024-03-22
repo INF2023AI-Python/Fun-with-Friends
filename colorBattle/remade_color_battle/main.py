@@ -100,17 +100,57 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.JOYBUTTONDOWN:
+                for i, _ in enumerate(joysticks):
+                    if i == 0:  # Player 1 controls
+                        if event.button == 0:  # Button 0 (Up)
+                            player1.button_up_pressed = True
+                        elif event.button == 1:  # Button 1 (Right)
+                            player1.button_right_pressed = True
+                        elif event.button == 2:  # Button 2 (Down)
+                            player1.button_down_pressed = True
+                        elif event.button == 3:  # Button 3 (Left)
+                            player1.button_left_pressed = True
+                    elif i == 1:  # Player 2 controls
+                        if event.button == 0:  # Button 0 (Up)
+                            player2.button_up_pressed = True
+                        elif event.button == 1:  # Button 1 (Right)
+                            player2.button_right_pressed = True
+                        elif event.button == 2:  # Button 2 (Down)
+                            player2.button_down_pressed = True
+                        elif event.button == 3:  # Button 3 (Left)
+                            player2.button_left_pressed = True
+            elif event.type == pygame.JOYBUTTONUP:
+                for i, _ in enumerate(joysticks):
+                    if i == 0:  # Player 1 controls
+                        if event.button == 0:  # Button 0 (Up)
+                            player1.button_up_pressed = False
+                        elif event.button == 1:  # Button 1 (Right)
+                            player1.button_right_pressed = False
+                        elif event.button == 2:  # Button 2 (Down)
+                            player1.button_down_pressed = False
+                        elif event.button == 3:  # Button 3 (Left)
+                            player1.button_left_pressed = False
+                    elif i == 1:  # Player 2 controls
+                        if event.button == 0:  # Button 0 (Up)
+                            player2.button_up_pressed = False
+                        elif event.button == 1:  # Button 1 (Right)
+                            player2.button_right_pressed = False
+                        elif event.button == 2:  # Button 2 (Down)
+                            player2.button_down_pressed = False
+                        elif event.button == 3:  # Button 3 (Left)
+                            player2.button_left_pressed = False
             # joysticks movement
-            if event.type == pygame.JOYAXISMOTION:
-                    for i, joystick in enumerate(joysticks):
-                        if i == 0:  # Player 1 controls
-                            player1.x_axis = joystick.get_axis(0)
-                            player1.y_axis = joystick.get_axis(1)
-                            print("Player 1 - X Axis:", player1.x_axis, "Y Axis:", player1.y_axis)
-                        elif i == 1:  # Player 2 controls
-                            player2.x_axis = joystick.get_axis(0)
-                            player2.y_axis = joystick.get_axis(1)
-                            print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
+            # if event.type == pygame.JOYAXISMOTION:
+            #         for i, joystick in enumerate(joysticks):
+            #             if i == 0:  # Player 1 controls
+            #                 player1.x_axis = joystick.get_axis(0)
+            #                 player1.y_axis = joystick.get_axis(1)
+            #                 print("Player 1 - X Axis:", player1.x_axis, "Y Axis:", player1.y_axis)
+            #             elif i == 1:  # Player 2 controls
+            #                 player2.x_axis = joystick.get_axis(0)
+            #                 player2.y_axis = joystick.get_axis(1)
+            #                 print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
         player1.move(maze_pattern, game_area)
