@@ -53,7 +53,7 @@ class Scoreboard:
         graphics.DrawText(offset_canvas, self.font, 1, SCREEN_HEIGHT, self.pointsColor, str(self.player1_points))
 
         # Draw player 2's points on the right side
-        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 6, SCREEN_HEIGHT, self.pointsColor, str(self.player2_points))
+        graphics.DrawText(offset_canvas, self.font, SCREEN_WIDTH - 10, SCREEN_HEIGHT, self.pointsColor, str(self.player2_points))
 
         # Draw remaining time in the middle
         time_text = f"{int(remaining_seconds):02d}"
