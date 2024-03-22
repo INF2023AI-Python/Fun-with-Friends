@@ -1,11 +1,11 @@
 import random
 import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
+
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 ROWS = 32
 COLS = 32
-
 
 # options = RGBMatrixOptions()
 # options.hardware_mapping = 'adafruit-hat-pwm'
@@ -21,7 +21,9 @@ options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat-pwm'
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
-#offset_canvas = matrix.CreateFrameCanvas()
+
+
+# offset_canvas = matrix.CreateFrameCanvas()
 
 
 class Snake:
@@ -32,11 +34,10 @@ class Snake:
         It also sets the initial direction of the snake to a
          random direction and the color of the snake to blue.
         """
-        self.length = 1
-        self.positions = [((options.rows // 2), (options.cols // 2))]
-        self.direction = self.random_direction()  # Set initial direction to a random direction
-        self.color = (0, 0, 255)  # Blue color
-        self.speed = 1
+        self.length = 4
+        self.positions = [(ROWS // 2, COLS // 2)] * self.length
+        self.direction = self.random_direction()
+        self.color = (0, 0, 255)
 
     def random_direction(self):
         """
@@ -75,18 +76,18 @@ class Snake:
         """
         cur = self.get_head_position()
         x, y = self.direction
-        new = (((cur[0] + x * self.speed) % options.rows), (cur[1] + y * self.speed) % options.cols)
-        if len(self.positions) > 2 and new in self.positions[2:]:
+        new = (((cur[0] + x) % ROWS), (cur[1] + y) % COLS)
+        if new in self.positions:
             self.reset()
         else:
             self.positions.insert(0, new)
-            if len(self.positions) > self.length:
+            while len(self.positions) > self.length:
                 self.positions.pop()
 
     def reset(self):
         # This method resets the snake to its initial state.
         self.length = 1
-        self.positions = [((options.rows // 2), (options.cols // 2))]
+        self.positions = [((ROWS // 2), (COLS // 2))]
         self.direction = self.random_direction()
 
     def draw(self, matrix):
@@ -130,31 +131,19 @@ class Game:
         This method handles updating the game state.
         It moves the snake and checks if the snake has eaten the fruit or collided with itself.
         """
-        # Move the snake
+        # move snake
         self.snake.move()
-
-        # Get the head position
         head_position = self.snake.get_head_position()
-
-        # Check if the snake has crossed the border
-        if head_position[0] < 0 or head_position[0] >= ROWS or head_position[1] < 0 or head_position[1] >= COLS:
-            self.game_over()
-            return
-
-        # Check if the snake has eaten the fruit
-        if self.fruit is not None and head_position == self.fruit.position:
+        if head_position == self.fruit.position:
             self.snake.length += 1
-            self.fruit = Fruit()  # Create a new fruit
-
-        # Check if the snake has collided with itself
-        if len(self.snake.positions) > self.snake.length:
-            self.game_over()
-            return
+            while self.fruit.position in self.snake.positions:
+                self.fruit = Fruit()
 
     def game_over(self):
         # Display "Game Over" on the matrix and stop the game
         # You'll need to add a method to display text on the RGBMatrix
-        self.matrix.display_text("Game Over")
+        matrix.Fill(255, 0, 0)
+        matrix.display_text("Game Over")
         pygame.quit()
 
     def handle_events(self):
@@ -165,17 +154,15 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            elif event.type == pygame.JOYAXISMOTION:
-                if event.axis == 0:
-                    if event.value < -0.5 and self.snake.direction != (1, 0):
-                        self.snake.turn((-1, 0))
-                    elif event.value > 0.5 and self.snake.direction != (-1, 0):
-                        self.snake.turn((1, 0))
-                elif event.axis == 1:
-                    if event.value < -0.5 and self.snake.direction != (0, 1):
-                        self.snake.turn((0, -1))
-                    elif event.value > 0.5 and self.snake.direction != (0, -1):
-                        self.snake.turn((0, 1))
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP and self.snake.direction != (0, 1):
+                    self.snake.turn((0, -1))
+                elif event.key == pygame.K_DOWN and self.snake.direction != (0, -1):
+                    self.snake.turn((0, 1))
+                elif event.key == pygame.K_LEFT and self.snake.direction != (1, 0):
+                    self.snake.turn((-1, 0))
+                elif event.key == pygame.K_RIGHT and self.snake.direction != (-1, 0):
+                    self.snake.turn((1, 0))
 
     def run(self):
         """
@@ -186,7 +173,7 @@ class Game:
             self.handle_events()
             self.update()
             self.draw()
-            self.clock.tick(10)
+            self.clock.tick(20)
 
 
 class Fruit:
@@ -200,12 +187,11 @@ class Fruit:
 
 def main():
     pygame.init()
-    pygame.joystick.init()  # Initialize the joystick module
+    pygame.joystick.init()
 
-    # Check if there are any joysticks
     if pygame.joystick.get_count() > 0:
-        joystick = pygame.joystick.Joystick(0)  # Get the first joystick
-        joystick.init()  # Initialize the joystick
+        joystick = pygame.joystick.Joystick(0)
+        joystick.init()
     else:
         print("No joystick found.")
         return
