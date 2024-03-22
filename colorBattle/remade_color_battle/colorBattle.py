@@ -60,7 +60,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 1
+        self.speed = 10
 
     def move(self, grid, canvas):
         # 获取当前位置
@@ -86,7 +86,7 @@ class Player:
             interp_y = round(y + (dy * i) / steps)
             grid[interp_y][interp_x] = self.trail_color
             canvas.SetPixel(interp_x, interp_y, *self.trail_color)
-            pygame.time.delay(20)  # Add a small delay for smooth movement
+            pygame.time.delay(50)  # Add a small delay for smooth movement
         
         # 更新当前位置
         self.position = (new_x, new_y)
