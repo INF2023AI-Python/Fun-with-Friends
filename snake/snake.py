@@ -1,7 +1,7 @@
 import random
 import pygame
-# from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+# from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
 ROWS = 32
 COLS = 32
