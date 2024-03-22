@@ -66,7 +66,8 @@ class Player:
     # 根据方向键的轴值移动一个像素
         x = self.position[0]
         y = self.position[1]
-        
+        new_x = x
+        new_y = y
         # Calculate the change in position based on speed and axis values
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
