@@ -63,7 +63,9 @@ class Player:
     def move(self, maze_pattern, game_area):
         # 保留原先的 x 和 y 坐标
         x, y = self.position
-        
+        # 初始化新位置为当前位置
+        new_x = x
+        new_y = y
         # 根据按钮按下情况移动
         if self.button_up_pressed:
             new_y = (y - 1) % PLAY_HEIGHT

@@ -3,16 +3,26 @@ import pygame
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 # from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
 
-ROWS = 32
-COLS = 32
+# ROWS = 32
+# COLS = 32
 
+
+# options = RGBMatrixOptions()
+# options.hardware_mapping = 'adafruit-hat-pwm'
+# options.rows = ROWS
+# options.cols = COLS
+# options.drop_privileges = 0
+# # options.double_buffer = True  # Enable double buffering
+# matrix = RGBMatrix(options)
 
 options = RGBMatrixOptions()
+options.cols = 32
+options.rows = 32
+options.chain_length = 1
 options.hardware_mapping = 'adafruit-hat-pwm'
-options.rows = ROWS
-options.cols = COLS
-options.drop_privileges = False
+options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
+#offset_canvas = matrix.CreateFrameCanvas()
 
 
 class Snake:
@@ -32,8 +42,7 @@ class Snake:
     def random_direction(self):
         """
         This method returns a random direction that the snake can move in.
-        The directions are represented as tuples, where (0, -1) represents up, (0, 1) represents down, (-1, 0)
-        represents left, and (1, 0) represents right.
+        The directions are represented as tuples, where (0, -1) represents up, (0, 1) represents down, (-1, 0) represents left, and (1, 0) represents right.
         You should replace this with the correct logic for your joystick.
         """
         return random.choice([(0, -1), (0, 1), (-1, 0), (1, 0)])
@@ -192,11 +201,12 @@ class Fruit:
 
 def main():
     pygame.init()
-    pygame.joystick.init()
+    pygame.joystick.init()  # Initialize the joystick module
 
+    # Check if there are any joysticks
     if pygame.joystick.get_count() > 0:
-        joystick = pygame.joystick.Joystick(0)
-        joystick.init()
+        joystick = pygame.joystick.Joystick(0)  # Get the first joystick
+        joystick.init()  # Initialize the joystick
     else:
         print("No joystick found.")
         return
