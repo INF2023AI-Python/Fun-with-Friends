@@ -177,6 +177,18 @@ class Game:
                     elif event.value > 0.5 and self.snake.direction != (0, -1):
                         self.snake.turn((0, 1))
 
+    def is_game_over(self):
+        """
+        This method checks if the game is over.
+        It returns True if the game is over, and False otherwise.
+        """
+        # Check if the snake has collided with itself or if time is up
+        if not self.snake.move() or time.time() - self.start_time > 60:
+            print("Game Over")
+            return True
+        else:
+            return False
+
     def run(self, offset_canvas, matrix):
         """
         This method runs the main game loop.
@@ -184,16 +196,14 @@ class Game:
         """
         while True:
             self.handle_events()
-            if not self.snake.move():
-                return  # Return from the method when the game is over
             self.update()
             self.draw(offset_canvas, matrix)
             if time.time() - self.start_time > 60:
                 print("Time's up!")
                 return
+            if self.is_game_over():
+                return
             self.clock.tick(10)
-            # if self.game_over(self):
-            #     return
 
 
 class Fruit:
