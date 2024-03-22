@@ -66,7 +66,8 @@ class Player:
     # 根据方向键的轴值移动一个像素
         x = self.position[0]
         y = self.position[1]
-        
+        new_x = x
+        new_y = y
         # Calculate the change in position based on speed and axis values
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
@@ -112,7 +113,7 @@ def main():
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
     # Your original code for selecting the level
-    select_level(matrix, offset_canvas, joysticks)
+    # select_level(matrix, offset_canvas, joysticks)
 
     while running:
         for event in pygame.event.get():
