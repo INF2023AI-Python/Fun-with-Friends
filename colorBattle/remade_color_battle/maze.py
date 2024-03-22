@@ -132,7 +132,7 @@ class MazeGame:
                 self.player2.y_axis = joystick.get_axis(1)
 
         # 移动玩家1
-        self.player1.move(self.maze1, offset_canvas)
+        self.player1.move(self.maze1)
         if self.player1.position[0] < 0 or self.player1.position[0] >= PLAY_WIDTH \
                 or self.player1.position[1] < 0 or self.player1.position[1] >= PLAY_HEIGHT:
             # 玩家1移动超出边界，将其移回边界内
@@ -140,7 +140,7 @@ class MazeGame:
                                      min(max(self.player1.position[1], 0), PLAY_HEIGHT - 1))
 
         # 移动玩家2
-        self.player2.move(self.maze2, offset_canvas)
+        self.player2.move(self.maze2)
         if self.player2.position[0] < 0 or self.player2.position[0] >= PLAY_WIDTH \
                 or self.player2.position[1] < 0 or self.player2.position[1] >= PLAY_HEIGHT:
             # 玩家2移动超出边界，将其移回边界内
