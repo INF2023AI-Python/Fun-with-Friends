@@ -175,7 +175,7 @@ class MazeGame:
             self.player2.paint(offset_canvas)
 
             # 更新屏幕显示
-            matrix.SwapOnVSync()
+            matrix.SwapOnVSync(offset_canvas)
 
             # 设置游戏帧率
             clock.tick(30)
