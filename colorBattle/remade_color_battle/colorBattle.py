@@ -60,7 +60,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 1
+        self.speed = 5
 
     def move(self, maze_pattern, game_area):
     # 根据方向键的轴值移动一个像素
