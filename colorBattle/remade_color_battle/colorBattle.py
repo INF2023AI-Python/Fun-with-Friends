@@ -91,10 +91,10 @@ class Player:
                 grid[pixel_y][pixel_x] = self.trail_color
                 canvas.SetPixel(pixel_x, pixel_y, *self.trail_color)
         # Update the current position
-        x = new_x
-        y = new_y
-        self.position(x, y)
+        new_x = self.position[0]
+        new_y = self.position[1]
         
+
     def paint(self, canvas):
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
 
