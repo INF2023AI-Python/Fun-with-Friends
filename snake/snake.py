@@ -71,8 +71,8 @@ class Snake:
         """
         cur = self.get_head_position()
         x, y = self.direction
-        new = (cur[0] + x, cur[1] + y)
-        if new in self.positions or new[0] < 0 or new[0] >= ROWS or new[1] < 0 or new[1] >= COLS:
+        new = ((cur[0] + x) % ROWS, (cur[1] + y) % COLS)
+        if new in self.positions:
             return False
         else:
             self.positions.insert(0, new)
@@ -189,7 +189,7 @@ class Game:
             self.handle_events()
             self.update()
             self.draw()
-            self.clock.tick(10)
+            self.clock.tick(3)
 
 
 class Fruit:
