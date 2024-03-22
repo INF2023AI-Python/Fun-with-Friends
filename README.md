@@ -92,7 +92,7 @@ Two players attempt to fill in as much space as possible with their respective c
 
 How to Play:
 + Open the terminal
-+ start the game using this command
++ start the game using this command:
 ```
 cd Fun-with-Friends/../
 sudo python colorbattle.py
