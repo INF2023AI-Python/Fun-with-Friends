@@ -139,6 +139,7 @@ class Game:
             matrix.Clear()
             color = (255, 0, 0)
             display_text(["Snake", "at", "itself!"], color, self.offset_canvas, matrix)
+            time.sleep(3)
             print("The snake ate itself!")
             self.game_over(matrix)
             return
@@ -156,6 +157,7 @@ class Game:
             matrix.Clear()
             color = (255, 0, 0)
             display_text(["Time","is", "up!"], color, self.offset_canvas, matrix)
+            time.sleep(3)
             print("Time's up!")
             self.game_over(matrix)
             return
