@@ -78,27 +78,15 @@ class Player:
         # 调整新位置以在游戏区域内移动
         new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
         new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
-        
-        # 在当前位置和新位置之间绘制一条直线
-        # 使用 Bresenham's Line Algorithm（Bresenham直线算法）
-        x0, y0 = self.position
-        x1, y1 = new_x, new_y
-        dx = abs(x1 - x0)
-        dy = abs(y1 - y0)
-        sx = 1 if x0 < x1 else -1
-        sy = 1 if y0 < y1 else -1
-        err = dx - dy
-        while x0 != x1 or y0 != y1:
-            # 绘制像素
-            grid[y0][x0] = self.trail_color
-            canvas.SetPixel(x0, y0, *self.trail_color)
-            e2 = 2 * err
-            if e2 > -dy:
-                err -= dy
-                x0 += sx
-            if e2 < dx:
-                err += dx
-                y0 += sy
+
+        # 逐渐更新位置，实现顺滑移动
+        steps = max(abs(dx), abs(dy))
+        for i in range(steps):
+            interp_x = round(x + (dx * i) / steps)
+            interp_y = round(y + (dy * i) / steps)
+            grid[interp_y][interp_x] = self.trail_color
+            canvas.SetPixel(interp_x, interp_y, *self.trail_color)
+            pygame.time.delay(10)  # Add a small delay for smooth movement
         
         # 更新当前位置
         self.position = (new_x, new_y)
