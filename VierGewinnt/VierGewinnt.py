@@ -107,6 +107,9 @@ def vierGewinnt(offset_canvas, matrix):
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
 
+    # Resetting the array for a new game
+    board[:] = np.zeros_like(board)
+
     # Displaying the chip at the beginning of the game
     player = 1
     col = 0
@@ -160,8 +163,6 @@ def vierGewinnt(offset_canvas, matrix):
                 # Checking for a win
                 if check_win(player):
                     matrix.Clear()
-                    # Resetting the array for the next game
-                    board[:] = np.zeros_like(board)
                     display_winner(player, offset_canvas, matrix)
                     matrix.Clear()
                     return
@@ -169,8 +170,6 @@ def vierGewinnt(offset_canvas, matrix):
                 # Checking for a draw
                 if check_draw():
                     matrix.Clear()
-                    # Resetting the array for the next game
-                    board[:] = np.zeros_like(board)
                     display_draw(offset_canvas, matrix)
                     matrix.Clear()
                     return
