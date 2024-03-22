@@ -1,18 +1,16 @@
-import pygame
-import random
+# Import necessary modules
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
+import pygame
+from obstacle import obstacle, maze
+from scoreboard import Scoreboard
+from levelSelection import select_level
 
-# Initialize Pygame
-pygame.init()
+# Constants and Configurations
+PLAY_HEIGHT = 26
+PLAY_WIDTH = 32
+GAME_DURATION = 60
 
-# Constants
-SCREEN_WIDTH = 32
-SCREEN_HEIGHT = 32
-BLOCK_SIZE = 1
-APPLE_THICKNESS = 1
-FPS = 30
-
-# Initialize the RGBMatrix
+# Initialize RGB Matrix
 options = RGBMatrixOptions()
 options.rows = 32
 options.chain_length = 1
@@ -20,168 +18,141 @@ options.parallel = 1
 options.hardware_mapping = "adafruit-hat-pwm"
 options.drop_privileges = 0
 matrix = RGBMatrix(options=options)
-gameDisplay = matrix.CreateFrameCanvas()
+offset_canvas = matrix.CreateFrameCanvas()
 
-# Colors
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+# Initialize Pygame
+pygame.init()
+pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+for i, joystick in enumerate(joysticks):
+    axis_x = joystick.get_axis(0)
+    axis_y = joystick.get_axis(1)
 
-# Define apple color
-apple_color = RED  # You can change this to any color you like
+# Initialize Scoreboard
+scoreboard = Scoreboard(offset_canvas)
+
+# Initialize Game Area
+game_area = obstacle(offset_canvas, matrix)
+maze_pattern = maze(offset_canvas, matrix)
+
+# Define the grid
+grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
+
+# Initialize Players
+player1_color = (255, 255, 0)
+player1_trail_color = (255, 0, 0)
+player1_start_pos = (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 - 10)
+player1_position = player1_start_pos
+player1_trail = [player1_start_pos]
+player1_cells_painted = 0
+
+player2_color = (0, 0, 255)
+player2_trail_color = (0, 255, 0)
+player2_start_pos = (PLAY_HEIGHT // 2, PLAY_WIDTH // 2 + 10)
+player2_position = player2_start_pos
+player2_trail = [player2_start_pos]
+player2_cells_painted = 0
+
+class Player:
+    def __init__(self, color, trail_color, start_pos):
+        self.color = color
+        self.trail_color = trail_color
+        self.position = start_pos
+        self.x_axis = 0
+        self.y_axis = 0
+        self.speed = 1
+
+    def move(self, maze_pattern, game_area):
+    # 根据方向键的轴值移动一个像素
+        new_x = (self.position[0] + self.x_axis * self.speed) % PLAY_WIDTH
+        new_y = (self.position[1] + self.y_axis * self.speed) % PLAY_HEIGHT
+        if not self.is_collision(new_x, new_y, maze_pattern, game_area):
+            self.position = (new_x, new_y)
+
+    def paint(self, canvas):
+        canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
+
+    def update_state(self, grid):
+        x, y = self.position
+        grid[y][x] = self.trail_color
 
 
-clock = pygame.time.Clock()
+    def is_collision(self, x, y, maze_pattern, game_area):
+        if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
+            return True
+        return False
 
-# Directions for each player
-direction_p1 = "right"
-direction_p2 = "left"
+def count_points(grid, color1, color2):
+    player1_points = sum(row.count(color1) for row in grid)
+    player2_points = sum(row.count(color2) for row in grid)
+    return player1_points, player2_points
 
-# Function to display score on RGBMatrix
-def score(score):
-    pass  # Placeholder for displaying score on RGBMatrix
+def main():
+    running = True
+    clock = pygame.time.Clock()
 
-# Function to generate a random apple position
-def rand_apple_gen():
-    rand_apple_x = random.randrange(0, SCREEN_WIDTH - APPLE_THICKNESS)
-    rand_apple_y = random.randrange(0, SCREEN_HEIGHT - APPLE_THICKNESS)
-    return rand_apple_x, rand_apple_y
+    player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_WIDTH // 2 - 10, PLAY_HEIGHT // 2))
+    player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
-rand_apple_x, rand_apple_y = rand_apple_gen()
+    # Your original code for selecting the level
+    select_level(matrix, offset_canvas, joysticks)
 
-# Main game loop
-# Main game loop
-def game_loop():
-    global direction_p1, direction_p2
-    game_exit = False
-    game_over = False
-
-    # Will be the leader of the #1 block of the snake
-    lead_x_p1 = SCREEN_WIDTH / 4
-    lead_y_p1 = SCREEN_HEIGHT / 2
-    lead_x_change_p1 = BLOCK_SIZE
-    lead_y_change_p1 = 0
-
-    lead_x_p2 = (SCREEN_WIDTH / 4) * 3
-    lead_y_p2 = SCREEN_HEIGHT / 2
-    lead_x_change_p2 = -BLOCK_SIZE
-    lead_y_change_p2 = 0
-
-    # list is for the length of the snake (Note: the last item in list is the head)
-    snake_list_p1 = []
-    snake_list_p2 = []
-    snake_length_p1 = 1
-    snake_length_p2 = 1
-
-    rand_apple_x, rand_apple_y = rand_apple_gen()
-
-    # Main game loop
-    while not game_exit:
-        if game_over:
-            # Handle game over logic here
-            pass
-
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game_exit = True
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    game_exit = True
-
-        # Read gamepad inputs
-        for joystick in joysticks:
-            if joystick.get_name() == "YourFirstGamepadName":
-                # Handle gamepad inputs for player 1
-                if joystick.get_button(0):
-                    direction_p1 = "left"
-                    lead_x_change_p1 = -BLOCK_SIZE
-                    lead_y_change_p1 = 0
-                elif joystick.get_button(1):
-                    direction_p1 = "right"
-                    lead_x_change_p1 = BLOCK_SIZE
-                    lead_y_change_p1 = 0
-                elif joystick.get_button(2):
-                    direction_p1 = "up"
-                    lead_y_change_p1 = -BLOCK_SIZE
-                    lead_x_change_p1 = 0
-                elif joystick.get_button(3):
-                    direction_p1 = "down"
-                    lead_y_change_p1 = BLOCK_SIZE
-                    lead_x_change_p1 = 0
-
-            elif joystick.get_name() == "YourSecondGamepadName":
-                # Handle gamepad inputs for player 2
-                if joystick.get_button(0):
-                    direction_p2 = "left"
-                    lead_x_change_p2 = -BLOCK_SIZE
-                    lead_y_change_p2 = 0
-                elif joystick.get_button(1):
-                    direction_p2 = "right"
-                    lead_x_change_p2 = BLOCK_SIZE
-                    lead_y_change_p2 = 0
-                elif joystick.get_button(2):
-                    direction_p2 = "up"
-                    lead_y_change_p2 = -BLOCK_SIZE
-                    lead_x_change_p2 = 0
-                elif joystick.get_button(3):
-                    direction_p2 = "down"
-                    lead_y_change_p2 = BLOCK_SIZE
-                    lead_x_change_p2 = 0
-
-        # Handle snake movement and collision detection for player 1
-        lead_x_p1 += lead_x_change_p1
-        lead_y_p1 += lead_y_change_p1
-        # Update snake position, check for collisions, etc. for player 1
-
-        # Handle snake movement and collision detection for player 2
-        lead_x_p2 += lead_x_change_p2
-        lead_y_p2 += lead_y_change_p2
-
-        # Creates the boundaries for the game
-        if lead_x >= SCREEN_WIDTH or lead_x < 0 or lead_y >= SCREEN_HEIGHT or lead_y < 0:
-            game_over = True
-
-        # Adds or subtracts from lead_x
-        lead_x += lead_x_change_p1
-        lead_y += lead_y_change_p1
-
-      # Draw a rectangle representing the apple
-        for x in range(rand_apple_x, rand_apple_x + APPLE_THICKNESS):
-            for y in range(rand_apple_y, rand_apple_y + APPLE_THICKNESS):
-                gameDisplay.SetPixel(x, y, *apple_color)
+                running = False
+            # joysticks movement
+            if event.type == pygame.JOYAXISMOTION:
+                    for i, joystick in enumerate(joysticks):
+                        if i == 0:  # Player 1 controls
+                            player1.x_axis = joystick.get_axis(0)
+                            player1.y_axis = joystick.get_axis(1)
+                            if -0.2 < player1.x_axis < 0.2 and player1.y_axis < -0.8:
+                                player1.y_axis = -1  # Move up
+                            elif -0.2 < player1.x_axis < 0.2 and player1.y_axis > 0.8:
+                                player1.y_axis = 1  # Move down
+                            elif player1.x_axis > 0.8 and -0.2 < player1.y_axis < 0.2:
+                                player1.x_axis = 1  # Move right
+                            elif player1.x_axis < -0.8 and -0.2 < player1.y_axis < 0.2:
+                                player1.x_axis = -1  # Move left
+                            print("Player 1 - X Axis:", player1.x_axis, "Y Axis:", player1.y_axis)
+                        elif i == 1:  # Player 2 controls
+                            player2.x_axis = joystick.get_axis(0)
+                            player2.y_axis = joystick.get_axis(1)
+                            if -0.2 < player2.x_axis < 0.2 and player2.y_axis < -0.8:
+                                player2.y_axis = -1  # Move up
+                            elif -0.2 < player2.x_axis < 0.2 and player2.y_axis > 0.8:
+                                player2.y_axis = 1  # Move down
+                            elif player2.x_axis > 0.8 and -0.2 < player2.y_axis < 0.2:
+                                player2.x_axis = 1  # Move right
+                            elif player2.x_axis < -0.8 and -0.2 < player2.y_axis < 0.2:
+                                player2.x_axis = -1  # Move left
+                            print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
+        player1.move(maze_pattern, game_area)
+        player2.move(maze_pattern, game_area)
 
-        # creates the snake and will make it longer by appending last known place
-        snake_head_p1 = []
-        snake_head_p1.append(lead_x)
-        snake_head_p1.append(lead_y)
-        snake_list_p1.append(snake_head_p1)
+        player1.paint(offset_canvas)
+        player2.paint(offset_canvas)
 
-        if len(snake_list_p1) > snake_length_p1:
-            del snake_list_p1[0]
+        player1.update_state(grid)
+        player2.update_state(grid)
+        
+        player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
 
-        for each_segment in snake_list_p1[:-1]:
-            if each_segment == snake_head_p1:
-                game_over = True
+        # Draw scoreboard
+        remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
 
-        # Draw player 1's snake
-        for XnY in snake_list_p1:
-            gameDisplay.SetPixel(XnY[0], XnY[1], *GREEN)
+        # Check if remaining time is zero
+        if remaining_seconds == 0:
+            running = False
 
-        # Draw player 2's snake
-        for XnY in snake_list_p2:
-            gameDisplay.SetPixel(XnY[0], XnY[1], *WHITE)
+        # Swap and delay
+        matrix.SwapOnVSync(offset_canvas)
+        clock.tick(300)
 
-
-        # Update the display
-        matrix.SwapOnVSync(gameDisplay)
-
-        # Specify FPS
-        clock.tick(FPS)
-
-    # Uninitialize the module
     pygame.quit()
-    quit()
 
-game_loop()
+if __name__ == "__main__":
+    main()
