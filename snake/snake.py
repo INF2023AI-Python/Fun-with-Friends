@@ -134,7 +134,7 @@ class Game:
         if not self.snake.move():
             print("The snake ate itself!")
             self.game_over()
-            return
+           # return
 
         head_position = self.snake.get_head_position()
 
@@ -148,13 +148,13 @@ class Game:
         if time.time() - self.start_time > 60:
             print("Time's up!")
             self.game_over()
-            return
+           # return
 
     def game_over(self):
         # Display "Game Over" on the matrix and stop the game
         # matrix.Fill(255, 0, 0)
         print("Game Over")
-        pygame.quit()
+        #pygame.quit()
         return
 
     def handle_events(self):
