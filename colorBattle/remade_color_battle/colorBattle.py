@@ -8,7 +8,7 @@ from levelSelection import select_level
 # Constants and Configurations
 PLAY_HEIGHT = 26
 PLAY_WIDTH = 32
-GAME_DURATION = 30
+GAME_DURATION = 10
 
 # Initialize RGB Matrix
 options = RGBMatrixOptions()
@@ -110,6 +110,30 @@ def count_points(grid, color1, color2):
     player1_points = sum(row.count(color1) for row in grid)
     player2_points = sum(row.count(color2) for row in grid)
     return player1_points, player2_points
+def winner(player1_points, player2_points):
+    player1 = "Player1"
+    player2 = "Player2"
+    tie = "tie"
+    if player1_points > player2_points:
+        return player1
+    elif player2_points > player1_points:
+        return player2
+    else:
+        return tie
+def display_text(text, color, offset_canvas, matrix):
+    font = graphics.Font()
+    font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+    textColor = graphics.Color(*color)
+
+    # Text in the first line
+    graphics.DrawText(offset_canvas, font, 2, 10, textColor, text[0])
+    # Text in the second line
+    graphics.DrawText(offset_canvas, font, 2, 20, textColor, text[1])
+    # Text in the third line
+    graphics.DrawText(offset_canvas, font, 2, 30, textColor, text[2])
+
+    matrix.SwapOnVSync(offset_canvas)
+
 
 def main():
     running = True
@@ -180,3 +204,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    player1_points, player2_points = count_points(grid, color1, color2)
+    result = winner(player1_points, player2_points)
+    display_text([result, "Won"], color, self.offset_canvas, matrix)
