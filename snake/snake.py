@@ -111,14 +111,14 @@ class Game:
         # Swap the buffers
         matrix.SwapOnVSync(self.offset_canvas)
 
-    def update(self):
+    def update(self, matrix):
         """
         This method handles updating the game state.
         It moves the snake and checks if the snake has eaten the fruit or collided with itself.
         """
         if not self.snake.move():
             print("The snake ate itself!")
-            self.game_over()
+            self.game_over(matrix)
             return
 
         head_position = self.snake.get_head_position()
@@ -132,7 +132,7 @@ class Game:
 
         if time.time() - self.start_time > 60:
             print("Time's up!")
-            self.game_over()
+            self.game_over(matrix)
             return
 
     def game_over(self, matrix):
