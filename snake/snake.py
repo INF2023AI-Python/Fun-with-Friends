@@ -182,7 +182,7 @@ class Game:
         while True:
             self.handle_events()
             self.update()
-            self.draw()
+            self.draw(offset_canvas, matrix)
             self.clock.tick(10)
 
 
@@ -207,7 +207,7 @@ def snake(offset_canvas, matrix):
         return
 
     game = Game()
-    game.run()
+    game.run(offset_canvas, matrix)
 
 
 # if __name__ == "__main__":
