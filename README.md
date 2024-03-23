@@ -96,6 +96,19 @@ How to Play:
 
 Color Battle: Two players attempt to fill in as much space as possible with their respective colours within a 30-second time limit. Areas that have been covered by opponents can be re-coloured.
 
+#### How to Play:
++ two gamepads required
++ Open the terminal
++ start the game using this command:
+    cd /home/pi/Fun-with-Friends/colorBattle
+    sudo python colorBattle.py
++ first select your level, use the buttons to choose easy or hard
+    + Blue for easy, Yellow for hard
+    + using the Red button to confirm your choice
++ Game start, use the arrow keys to move your colour
++ After 30 sec, game over, and whoever gets more points(area painted on the screen), is the winner, or it can be a tie.
+
+#### About the files
 In colorBattle Folder there are 2 more folders.
 
 /game_file/ includes 6 functions for the game colorBattle 
@@ -110,15 +123,3 @@ Description:
 + endPage shows who is the winner after game over
 
 /testfile_and_unused/ includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
-
-How to Play:
-+ two gamepads required
-+ Open the terminal
-+ start the game using this command:
-    cd /home/pi/Fun-with-Friends/colorBattle
-    sudo python colorBattle.py
-+ first select your level, use the buttons to choose easy or hard
-    + Blue for easy, Yellow for hard
-    + using the Red button to confirm your choice
-+ Game start, use the arrow keys to move your colour
-+ After 30 sec, game over, and whoever gets more points(area painted on the screen), is the winner, or it can be a tie.
