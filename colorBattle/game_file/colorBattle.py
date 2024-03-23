@@ -3,8 +3,9 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import time
 import pygame
 from obstacle import obstacle, maze
-from scoreboard import Scoreboard
+from scoreboard import Scoreboard, count_points
 from levelSelection import select_level
+from movement import Player
 
 # Constants and Configurations
 PLAY_HEIGHT = 26 # 6x32 will be left for the scoreboard 
@@ -54,68 +55,68 @@ player2_position = player2_start_pos
 player2_trail = [player2_start_pos]
 player2_cells_painted = 0
 
-class Player:
-    def __init__(self, color, trail_color, start_pos):
-        self.color = color
-        self.trail_color = trail_color
-        self.position = start_pos
-        self.x_axis = 0
-        self.y_axis = 0
-        self.speed = 2
+# class Player:
+#     def __init__(self, color, trail_color, start_pos):
+#         self.color = color
+#         self.trail_color = trail_color
+#         self.position = start_pos
+#         self.x_axis = 0
+#         self.y_axis = 0
+#         self.speed = 2
 
-    def is_collision(self, x, y, level):
-        # collision check, it ought to be added in move-function, to make sure the player will not cross the barriers
-        if level == "hard":
-            if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
-                return True
-        elif level == "easy":
-            if game_area[y][x] == 1:
-                return True
-        return False
+#     def is_collision(self, x, y, level):
+#         # collision check, it ought to be added in move-function, to make sure the player will not cross the barriers
+#         if level == "hard":
+#             if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
+#                 return True
+#         elif level == "easy":
+#             if game_area[y][x] == 1:
+#                 return True
+#         return False
     
-    def move(self, level, grid, canvas):
-        # get current postion
-        x = self.position[0]
-        y = self.position[1]
+#     def move(self, level, grid, canvas):
+#         # get current postion
+#         x = self.position[0]
+#         y = self.position[1]
         
-        # calculate the amount of position change
-        dx = round(self.x_axis * self.speed)
-        dy = round(self.y_axis * self.speed)
+#         # calculate the amount of position change
+#         dx = round(self.x_axis * self.speed)
+#         dy = round(self.y_axis * self.speed)
 
-        # check collision and update the new pos
-        if not self.is_collision(new_y, new_x, level):
-            new_x = (x + dx) % PLAY_WIDTH
-            new_y = (y + dy) % PLAY_HEIGHT
-        else:
-            new_x = x
-            new_y = y
+#         # check collision and update the new pos
+#         if not self.is_collision(new_y, new_x, level):
+#             new_x = (x + dx) % PLAY_WIDTH
+#             new_y = (y + dy) % PLAY_HEIGHT
+#         else:
+#             new_x = x
+#             new_y = y
             
-        # wrap the player in play field
-        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
-        new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
+#         # wrap the player in play field
+#         new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
+#         new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
 
-        # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
-        steps = max(abs(dx), abs(dy))
-        for i in range(steps):
-            interp_x = round(x + (dx * i) / steps)
-            interp_y = round(y + (dy * i) / steps)
-            grid[interp_y][interp_x] = self.trail_color  # Update grid with trail color
-            canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
-            pygame.time.delay(5)  # a small delay for smooth movement
+#         # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
+#         steps = max(abs(dx), abs(dy))
+#         for i in range(steps):
+#             interp_x = round(x + (dx * i) / steps)
+#             interp_y = round(y + (dy * i) / steps)
+#             grid[interp_y][interp_x] = self.trail_color  # Update grid with trail color
+#             canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
+#             pygame.time.delay(5)  # a small delay for smooth movement
         
-        # update position
-        self.position = (new_x, new_y)
+#         # update position
+#         self.position = (new_x, new_y)
         
 
-    def paint(self, canvas):
-        # paint the postion of the player, trail and player color are not the same, in oder to identify the current position
-        canvas.SetPixel(self.position[0], self.position[1], *self.color)
+#     def paint(self, canvas):
+#         # paint the postion of the player, trail and player color are not the same, in oder to identify the current position
+#         canvas.SetPixel(self.position[0], self.position[1], *self.color)
 
 
-def count_points(grid, color1, color2):
-    player1_points = sum(row.count(color1) for row in grid)
-    player2_points = sum(row.count(color2) for row in grid)
-    return player1_points, player2_points
+# def count_points(grid, color1, color2):
+#     player1_points = sum(row.count(color1) for row in grid)
+#     player2_points = sum(row.count(color2) for row in grid)
+#     return player1_points, player2_points
 
 def winner(player1_points, player2_points):
     #define the winner
@@ -148,8 +149,8 @@ def main():
     running = True
     clock = pygame.time.Clock()
 
-    player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_WIDTH // 2 - 10, PLAY_HEIGHT // 2))
-    player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
+    player1 = Player(player1_color, player1_trail_color, player1_start_pos)
+    player2 = Player(player2_color, player2_trail_color, player2_start_pos)
 
     # Problem in selecting the level: if applied muss check Collision! but check collsion causes Problem in movement 
     level = select_level(matrix, offset_canvas, joysticks)
@@ -218,5 +219,5 @@ if __name__ == "__main__":
     player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
     result = winner(player1_points, player2_points)
     matrix.Clear()
-    display_text(result, player1_color, offset_canvas, matrix)
+    display_text(result, (255, 255, 0), offset_canvas, matrix)
     time.sleep(5)

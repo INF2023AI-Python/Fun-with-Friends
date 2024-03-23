@@ -63,3 +63,8 @@ class Scoreboard:
         graphics.DrawText(offset_canvas, self.font, self.time_text_x, self.time_text_y, self.timeColor, time_text)
 
         return remaining_seconds
+    
+def count_points(grid, color1, color2):
+    player1_points = sum(row.count(color1) for row in grid)
+    player2_points = sum(row.count(color2) for row in grid)
+    return player1_points, player2_points

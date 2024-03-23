@@ -71,9 +71,9 @@ class Player:
         dy = round(self.y_axis * self.speed)
 
         # new position
-        if is_collision(new_x, new_y, )
-        new_x = (x + dx) % PLAY_WIDTH
-        new_y = (y + dy) % PLAY_HEIGHT
+        if not is_collision(new_x, new_y):
+            new_x = (x + dx) % PLAY_WIDTH
+            new_y = (y + dy) % PLAY_HEIGHT
 
         # wrap the player in play field
         new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
