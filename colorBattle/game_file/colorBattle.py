@@ -11,7 +11,9 @@ from endPage import display_text, winner
 # Constants and Configurations
 PLAY_HEIGHT = 26 # 6x32 will be left for the scoreboard 
 PLAY_WIDTH = 32
-GAME_DURATION = 10
+
+# can change the duration according to need
+GAME_DURATION = 30
 
 # Initialize RGB Matrix
 options = RGBMatrixOptions()
