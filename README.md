@@ -31,7 +31,7 @@
 
   + add `isolcpus=3` at the end in the `/boot/cmdline.text`
 
-    ![rc.local](cmdline.png)
+    ![rc.local](/screenshots/cmdline.png)
 
 ### 3. Install Python3
   ```
@@ -56,7 +56,7 @@
       ```
        python3  /home/pi/Fun-with-Friends/startbildschirm.py &
       ```
-      ![rc.local](extendAutostartFile.png)
+      ![rc.local](/screenshots/extendAutostartFile.png)
   + finish with rebooting
     ```
     sudo reboot
