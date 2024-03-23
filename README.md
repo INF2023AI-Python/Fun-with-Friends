@@ -94,7 +94,7 @@ How to Play:
 + Open the terminal
 + start the game using this command:
 ```
-cd Fun-with-Friends/colorBattle
+cd /home/pi/Fun-with-Friends/colorBattle
 sudo python main.py
 ```
 + Use the arrow keys to move your colour.
