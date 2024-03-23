@@ -4,7 +4,6 @@ from emulator import Emulator
 from controllers import controllers
 # from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from obstacle import maze, obstacle
-from RGBMatrixEmulator import RGBMatrix
 
 
 def count_points(grid, player1_color, player2_color):
@@ -51,9 +50,9 @@ def run_game():
                 running = False
 
         # Check if 60 seconds have passed
-        seconds = (pygame.time.get_ticks() - start_ticks) / 1000
-        if seconds > 60:  # if more than 60 seconds close the game
-            break
+        # seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+        # if seconds > 60:  # if more than 60 seconds close the game
+        #     break
 
         # Player controls
         controllers(joysticks, player1, player2, maze_pattern, game_area)

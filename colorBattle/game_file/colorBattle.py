@@ -7,7 +7,7 @@ from scoreboard import Scoreboard
 from levelSelection import select_level
 
 # Constants and Configurations
-PLAY_HEIGHT = 26
+PLAY_HEIGHT = 26 # 6x32 will be left for the scoreboard 
 PLAY_WIDTH = 32
 GAME_DURATION = 10
 
@@ -64,45 +64,43 @@ class Player:
         self.speed = 2
 
     def move(self, grid, canvas):
-        # 获取当前位置
+        # get current postion
         x = self.position[0]
         y = self.position[1]
         
-        # 计算位置变化量
+        # calculate the amount of position change
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
 
-        # 更新新位置
+        # new pos
         new_x = (x + dx) % PLAY_WIDTH
         new_y = (y + dy) % PLAY_HEIGHT
 
-        # 边界检查
-        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  # 将新 x 位置限制在 0 和 PLAY_WIDTH - 1 之间
-        new_y = max(0, min(new_y, PLAY_HEIGHT - 1))  # 将新 y 位置限制在 0 和 PLAY_HEIGHT - 1 之间
+        # wrap the player in play field
+        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
+        new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
 
-        # 逐渐更新位置，实现顺滑移动
+        # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
         steps = max(abs(dx), abs(dy))
         for i in range(steps):
             interp_x = round(x + (dx * i) / steps)
             interp_y = round(y + (dy * i) / steps)
             grid[interp_y][interp_x] = self.trail_color  # Update grid with trail color
-            canvas.SetPixel(interp_x, interp_y, *self.trail_color)
-            pygame.time.delay(10)  # Add a small delay for smooth movement
+            canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
+            pygame.time.delay(5)  # a small delay for smooth movement
         
-        # 更新当前位置
+        # update position
         self.position = (new_x, new_y)
 
         
 
     def paint(self, canvas):
+        # paint the postion of the player, trail and player color are not the same, in oder to identify the current position
         canvas.SetPixel(self.position[0], self.position[1], *self.color)
 
-    # def update_state(self, grid):
-    #     x, y = self.position
-    #     grid[y][x] = self.trail_color
-
-
     # def is_collision(self, x, y, maze_pattern, game_area):
+    #     # collision check, it ought to be added in move-function, to make sure the player will not cross the barriers
+    #     # PROBLEM: if add is_collision, player movement will be more worse
     #     if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
     #         return True
     #     return False
@@ -111,7 +109,9 @@ def count_points(grid, color1, color2):
     player1_points = sum(row.count(color1) for row in grid)
     player2_points = sum(row.count(color2) for row in grid)
     return player1_points, player2_points
+
 def winner(player1_points, player2_points):
+    #define the winner
     player1 = ["Player", "1", "Won"]
     player2 = ["Player", "2", "Won"]
     tie = ["It's", "A", "Tie"]
@@ -122,6 +122,7 @@ def winner(player1_points, player2_points):
     else:
         return tie
 def display_text(text, color, offset_canvas, matrix):
+    #display end page: who wins
     font = graphics.Font()
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
     textColor = graphics.Color(*color)
@@ -143,7 +144,7 @@ def main():
     player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_WIDTH // 2 - 10, PLAY_HEIGHT // 2))
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
-    # select the level but if applied muss check Collision! but check collsion causes Problem in movement 
+    # Problem in selecting the level: if applied muss check Collision! but check collsion causes Problem in movement 
     # select_level(matrix, offset_canvas, joysticks)
 
     while running:
@@ -184,16 +185,13 @@ def main():
 
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)
-
-        # player1.update_state(grid)
-        # player2.update_state(grid)
         
         player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
 
         # Draw scoreboard
         remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
 
-        # Check if remaining time is zero
+        # Check if remaining time is zero, if zero end the game loop
         if remaining_seconds == 0:
             running = False
 
@@ -205,7 +203,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-    #show who wins
+    #show who wins after game finish
     player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
     result = winner(player1_points, player2_points)
     matrix.Clear()
