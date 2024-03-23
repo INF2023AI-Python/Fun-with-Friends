@@ -8,21 +8,21 @@
   + Choose Raspberry Pi OS with desktop and recommended software for 32-Bit if you use Raspberry Pi 3
 + Afer first boot
   + connect to wifi using 
-  ```
-  sudo raspi-config
-  ``` 
+    ```
+    sudo raspi-config
+    ``` 
     or by the gui
   + get the newest updates using 
-  ```
-  sudo apt update
-  ```
+    ```
+    sudo apt update
+    ```
 ### 2. Install Adafruit RGB Matrix + Real Time Clock HAT for Raspberry Pi
   + https://learn.adafruit.com/adafruit-rgb-matrix-plus-real-time-clock-hat-for-raspberry-pi
-  ```
-  curl https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-
-  Scripts/main/rgb-matrix.sh >rgb-matrix.sh
-  sudo bash rgb-matrix.sh
-  ```
+    ```
+    curl https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-
+    Scripts/main/rgb-matrix.sh >rgb-matrix.sh
+    sudo bash rgb-matrix.sh
+    ```
   + Questions will be asked. If you have the same hardware as us, the response would be as follows:
     + CONTINUE? -y
     + Select interface board type: -2 (Adafruit RGB Matrix HAT + RTC)
@@ -55,9 +55,9 @@
        python3  /home/pi/Fun-with-Friends/startbildschirm.py &
       ```
   + finish with rebooting
-  ```
-   sudo reboot
-  ```
+    ```
+    sudo reboot
+    ```
 
 ## Game description
 ### Start Screen
