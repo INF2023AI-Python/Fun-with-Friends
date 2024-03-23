@@ -88,13 +88,13 @@ How to Play:
 + Player 2 is shown in blue.
 
 ### Color Battle
-Two players attempt to fill in as much space as possible with their respective colours within a 60-second time limit.
+Two players attempt to fill in as much space as possible with their respective colours within a 30-second time limit.
 
 How to Play:
 + Open the terminal
 + start the game using this command:
 ```
-cd Fun-with-Friends/../
-sudo python colorbattle.py
+cd Fun-with-Friends/colorBattle
+sudo python main.py
 ```
 + Use the arrow keys to move your colour.
