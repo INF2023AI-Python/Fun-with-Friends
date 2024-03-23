@@ -71,6 +71,7 @@ class Player:
         dy = round(self.y_axis * self.speed)
 
         # new position
+        if is_collision(new_x, new_y, )
         new_x = (x + dx) % PLAY_WIDTH
         new_y = (y + dy) % PLAY_HEIGHT
 

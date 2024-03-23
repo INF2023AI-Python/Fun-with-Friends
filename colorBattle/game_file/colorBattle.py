@@ -2,7 +2,7 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import time
 import pygame
-# from obstacle import obstacle, maze
+from obstacle import obstacle, maze
 from scoreboard import Scoreboard
 from levelSelection import select_level
 
@@ -33,8 +33,8 @@ for i, joystick in enumerate(joysticks):
 scoreboard = Scoreboard(offset_canvas)
 
 # Initialize Game Area
-# game_area = obstacle(offset_canvas, matrix)
-# maze_pattern = maze(offset_canvas, matrix)
+game_area = obstacle(offset_canvas, matrix)
+maze_pattern = maze(offset_canvas, matrix)
 
 # Define the grid
 grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
@@ -63,7 +63,17 @@ class Player:
         self.y_axis = 0
         self.speed = 2
 
-    def move(self, grid, canvas):
+    def is_collision(self, x, y, level):
+        # collision check, it ought to be added in move-function, to make sure the player will not cross the barriers
+        if level == "hard":
+            if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
+                return True
+        elif level == "easy":
+            if game_area[y][x] == 1:
+                return True
+        return False
+    
+    def move(self, level, grid, canvas):
         # get current postion
         x = self.position[0]
         y = self.position[1]
@@ -72,10 +82,14 @@ class Player:
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
 
-        # new pos
-        new_x = (x + dx) % PLAY_WIDTH
-        new_y = (y + dy) % PLAY_HEIGHT
-
+        # check collision and update the new pos
+        if not self.is_collision(new_y, new_x, level):
+            new_x = (x + dx) % PLAY_WIDTH
+            new_y = (y + dy) % PLAY_HEIGHT
+        else:
+            new_x = x
+            new_y = y
+            
         # wrap the player in play field
         new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
         new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
@@ -91,19 +105,12 @@ class Player:
         
         # update position
         self.position = (new_x, new_y)
-
         
 
     def paint(self, canvas):
         # paint the postion of the player, trail and player color are not the same, in oder to identify the current position
         canvas.SetPixel(self.position[0], self.position[1], *self.color)
 
-    # def is_collision(self, x, y, maze_pattern, game_area):
-    #     # collision check, it ought to be added in move-function, to make sure the player will not cross the barriers
-    #     # PROBLEM: if add is_collision, player movement will be more worse
-    #     if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
-    #         return True
-    #     return False
 
 def count_points(grid, color1, color2):
     player1_points = sum(row.count(color1) for row in grid)
@@ -145,8 +152,12 @@ def main():
     player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
 
     # Problem in selecting the level: if applied muss check Collision! but check collsion causes Problem in movement 
-    # select_level(matrix, offset_canvas, joysticks)
-
+    level = select_level(matrix, offset_canvas, joysticks)
+    if level == "hard":
+        maze(offset_canvas, matrix)
+    if level == "easy":
+        obstacle(offset_canvas, matrix)
+    
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -180,8 +191,8 @@ def main():
                             print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
-        player1.move(grid, offset_canvas)
-        player2.move(grid, offset_canvas)
+        player1.move(level, grid, offset_canvas)
+        player2.move(level, grid, offset_canvas)
 
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)

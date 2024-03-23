@@ -11,7 +11,7 @@ def draw_level(matrix, offset_canvas, selected_level):
     # Clear the canvas
     offset_canvas.Clear()
 
-    # Draw the level selection options
+    # Set the font for the selection page
     font = graphics.Font()
     font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
 
@@ -19,16 +19,16 @@ def draw_level(matrix, offset_canvas, selected_level):
     center_x = SCREEN_WIDTH // 2
     center_y = SCREEN_HEIGHT // 2
 
-    # Calculate the positions for centering the text options
+    # Calculate the positions for the "Easy" option
     x_position_easy = center_x - 10
     y_position_easy = center_y - 1
 
-    # Add vertical spacing if necessary for additional options
+    # Add vertical spacing
     y_spacing = 4
 
     # Calculate the position for the "Hard" option
     x_position_hard = center_x - 10
-    y_position_hard = y_spacing + y_position_easy + 4  # 4 is the height of one option, so adjust accordingly
+    y_position_hard = y_spacing + y_position_easy + 4
     
     # Set the default color
     default_color = graphics.Color(255, 255, 255)
@@ -52,7 +52,9 @@ def draw_level(matrix, offset_canvas, selected_level):
     matrix.SwapOnVSync(offset_canvas)
     
 def select_level(matrix, offset_canvas, joysticks):
+    # initialise the level to be easy
     selected_level = "easy"
+    # draw the selection page
     draw_level(matrix, offset_canvas, selected_level)
 
     while True:
@@ -61,15 +63,16 @@ def select_level(matrix, offset_canvas, joysticks):
                 if event.button == 0:
                     selected_level = "easy"
                     draw_level(matrix, offset_canvas, selected_level)
-                    # return obstacle(offset_canvas, matrix)  # Draw obstacles for easy level
                 if event.button == 2:
                     selected_level = "hard"
                     draw_level(matrix, offset_canvas, selected_level)
-                      # Draw maze for hard level
                 if event.button == 1:
+                    # submit the choice
                     if selected_level == "hard":
-                        return maze(offset_canvas, matrix)
+                        return "hard"
+                        # return maze(offset_canvas, matrix)
                     if selected_level == "easy":
-                        return obstacle(offset_canvas, matrix)
+                        return "easy"
+                        # return obstacle(offset_canvas, matrix)
 
         pygame.time.Clock().tick(10)
