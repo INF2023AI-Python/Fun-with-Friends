@@ -93,8 +93,8 @@ Two players attempt to fill in as much space as possible with their respective c
 How to Play:
 + Open the terminal
 + start the game using this command:
-```
-cd /home/pi/Fun-with-Friends/colorBattle
-sudo python main.py
-```
+  ```
+  cd /home/pi/Fun-with-Friends/colorBattle
+  sudo python main.py
+  ```
 + Use the arrow keys to move your colour.
