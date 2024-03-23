@@ -111,7 +111,8 @@ Color Battle: Two players attempt to fill in as much space as possible with thei
 #### About the files
 In colorBattle Folder there are 2 more folders.
 
-/game_file/ includes 6 functions for the game colorBattle 
+##### /game_file/ 
+includes 6 functions for the game colorBattle.
 Description:
 + colorBattle for the main gameloop
 + levelSelection for the user to choose the level
@@ -122,4 +123,5 @@ Description:
 + scoreboard to show the remaining time and the points of each player
 + endPage shows who is the winner after game over
 
-/testfile_and_unused/ includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
+##### /testfile_and_unused/
+includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
