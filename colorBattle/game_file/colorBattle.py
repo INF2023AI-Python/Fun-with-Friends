@@ -2,14 +2,18 @@
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 import time
 import pygame
-# from obstacle import obstacle, maze
-from scoreboard import Scoreboard
+from obstacle import obstacle, maze
+from scoreboard import Scoreboard, count_points
 from levelSelection import select_level
+from movement import Player
+from endPage import display_text, winner
 
 # Constants and Configurations
-PLAY_HEIGHT = 26
+PLAY_HEIGHT = 26 # 6x32 will be left for the scoreboard 
 PLAY_WIDTH = 32
-GAME_DURATION = 10
+
+# can change the duration according to need
+GAME_DURATION = 30
 
 # Initialize RGB Matrix
 options = RGBMatrixOptions()
@@ -33,8 +37,8 @@ for i, joystick in enumerate(joysticks):
 scoreboard = Scoreboard(offset_canvas)
 
 # Initialize Game Area
-# game_area = obstacle(offset_canvas, matrix)
-# maze_pattern = maze(offset_canvas, matrix)
+game_area = obstacle(offset_canvas, matrix)
+maze_pattern = maze(offset_canvas, matrix)
 
 # Define the grid
 grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
@@ -54,98 +58,22 @@ player2_position = player2_start_pos
 player2_trail = [player2_start_pos]
 player2_cells_painted = 0
 
-class Player:
-    def __init__(self, color, trail_color, start_pos):
-        self.color = color
-        self.trail_color = trail_color
-        self.position = start_pos
-        self.x_axis = 0
-        self.y_axis = 0
-        self.speed = 2
-
-    def move(self, grid, canvas):
-        # 获取当前位置
-        x = self.position[0]
-        y = self.position[1]
-        
-        # 计算位置变化量
-        dx = round(self.x_axis * self.speed)
-        dy = round(self.y_axis * self.speed)
-
-        # 更新新位置
-        new_x = (x + dx) % PLAY_WIDTH
-        new_y = (y + dy) % PLAY_HEIGHT
-
-        # 边界检查
-        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  # 将新 x 位置限制在 0 和 PLAY_WIDTH - 1 之间
-        new_y = max(0, min(new_y, PLAY_HEIGHT - 1))  # 将新 y 位置限制在 0 和 PLAY_HEIGHT - 1 之间
-
-        # 逐渐更新位置，实现顺滑移动
-        steps = max(abs(dx), abs(dy))
-        for i in range(steps):
-            interp_x = round(x + (dx * i) / steps)
-            interp_y = round(y + (dy * i) / steps)
-            grid[interp_y][interp_x] = self.trail_color  # Update grid with trail color
-            canvas.SetPixel(interp_x, interp_y, *self.trail_color)
-            pygame.time.delay(10)  # Add a small delay for smooth movement
-        
-        # 更新当前位置
-        self.position = (new_x, new_y)
-
-        
-
-    def paint(self, canvas):
-        canvas.SetPixel(self.position[0], self.position[1], *self.color)
-
-    # def update_state(self, grid):
-    #     x, y = self.position
-    #     grid[y][x] = self.trail_color
-
-
-    # def is_collision(self, x, y, maze_pattern, game_area):
-    #     if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
-    #         return True
-    #     return False
-
-def count_points(grid, color1, color2):
-    player1_points = sum(row.count(color1) for row in grid)
-    player2_points = sum(row.count(color2) for row in grid)
-    return player1_points, player2_points
-def winner(player1_points, player2_points):
-    player1 = ["Player", "1", "Won"]
-    player2 = ["Player", "2", "Won"]
-    tie = ["It's", "A", "Tie"]
-    if player1_points > player2_points:
-        return player1
-    elif player2_points > player1_points:
-        return player2
-    else:
-        return tie
-def display_text(text, color, offset_canvas, matrix):
-    font = graphics.Font()
-    font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
-    textColor = graphics.Color(*color)
-
-    # Text in the first line
-    graphics.DrawText(offset_canvas, font, 2, 10, textColor, text[0])
-    # Text in the second line
-    graphics.DrawText(offset_canvas, font, 2, 20, textColor, text[1])
-    # Text in the third line
-    graphics.DrawText(offset_canvas, font, 2, 30, textColor, text[2])
-
-    matrix.SwapOnVSync(offset_canvas)
 
 
 def main():
     running = True
     clock = pygame.time.Clock()
 
-    player1 = Player((255, 255, 0), (255, 0, 0), (PLAY_WIDTH // 2 - 10, PLAY_HEIGHT // 2))
-    player2 = Player((0, 0, 255), (0, 255, 0), (PLAY_WIDTH // 2 + 10, PLAY_HEIGHT // 2))
+    player1 = Player(player1_color, player1_trail_color, player1_start_pos)
+    player2 = Player(player2_color, player2_trail_color, player2_start_pos)
 
-    # select the level but if applied muss check Collision! but check collsion causes Problem in movement 
-    # select_level(matrix, offset_canvas, joysticks)
-
+    # Problem in selecting the level: if applied muss check Collision! but check collsion causes Problem in movement 
+    level = select_level(matrix, offset_canvas, joysticks)
+    if level == "hard":
+        maze(offset_canvas, matrix)
+    if level == "easy":
+        obstacle(offset_canvas, matrix)
+    
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -179,21 +107,18 @@ def main():
                             print("Player 2 - X Axis:", player2.x_axis, "Y Axis:", player2.y_axis)
 
 
-        player1.move(grid, offset_canvas)
-        player2.move(grid, offset_canvas)
+        player1.move(level, grid, offset_canvas)
+        player2.move(level, grid, offset_canvas)
 
         player1.paint(offset_canvas)
         player2.paint(offset_canvas)
-
-        # player1.update_state(grid)
-        # player2.update_state(grid)
         
         player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
 
         # Draw scoreboard
         remaining_seconds = scoreboard.draw(offset_canvas, GAME_DURATION, player1_points, player2_points)
 
-        # Check if remaining time is zero
+        # Check if remaining time is zero, if zero end the game loop
         if remaining_seconds == 0:
             running = False
 
@@ -205,9 +130,9 @@ def main():
 
 if __name__ == "__main__":
     main()
-    #show who wins
+    #show who wins after game finish
     player1_points, player2_points = count_points(grid, player1_trail_color, player2_trail_color)
     result = winner(player1_points, player2_points)
     matrix.Clear()
-    display_text(result, player1_color, offset_canvas, matrix)
+    display_text(result, (255, 255, 0), offset_canvas, matrix)
     time.sleep(5)

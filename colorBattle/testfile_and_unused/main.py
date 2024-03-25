@@ -32,7 +32,7 @@ scoreboard = Scoreboard(offset_canvas)
 game_area = obstacle(offset_canvas, matrix)
 maze_pattern = maze(offset_canvas, matrix)
 
-# Define the grid
+# Define the grid to save the points
 grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
 
 # Initialize Players
@@ -62,36 +62,38 @@ class Player:
         self.speed = 3
 
     def move(self, grid, canvas):
-        # 获取当前位置
+        # get current postion
         x = self.position[0]
         y = self.position[1]
         
-        # 计算位置变化量
+        # calculate the amount of position change
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
 
-        # 更新新位置
-        new_x = (x + dx) % PLAY_WIDTH
-        new_y = (y + dy) % PLAY_HEIGHT
+        # new position
+        if not is_collision(new_x, new_y):
+            new_x = (x + dx) % PLAY_WIDTH
+            new_y = (y + dy) % PLAY_HEIGHT
 
-        # 调整新位置以在游戏区域内移动
+        # wrap the player in play field
         new_x = new_x if new_x >= 0 else PLAY_WIDTH + new_x
         new_y = new_y if new_y >= 0 else PLAY_HEIGHT + new_y
 
-        # 逐渐更新位置，实现顺滑移动
+        # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
         steps = max(abs(dx), abs(dy))
         for i in range(steps):
             interp_x = round(x + (dx * i) / steps)
             interp_y = round(y + (dy * i) / steps)
             if 0 <= interp_x < PLAY_WIDTH and 0 <= interp_y < PLAY_HEIGHT:
-                grid[interp_y][interp_x] = self.trail_color
+                grid[interp_y][interp_x] = self.trail_color #leave the trail of the player
                 canvas.SetPixel(interp_x, interp_y, *self.trail_color)
-            pygame.time.delay(10)  # Add a small delay for smooth movement
+            pygame.time.delay(5)  # a small delay for smooth movement
         
-        # 更新当前位置
+        # update position
         self.position = (new_x, new_y)
 
     def paint(self, canvas):
+        # paint the postion of the player
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
 
     def update_state(self, grid):
@@ -99,6 +101,8 @@ class Player:
         grid[y][x] = self.trail_color
 
     def is_collision(self, x, y, maze_pattern, game_area):
+        # collision check, it ought to be added in move function, to make sure the player will not cross the barriers
+        # PROBLEM: if add is_collision, player movement will be more worse
         if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
             return True
         return False
@@ -124,6 +128,7 @@ def main():
                 running = False
             elif event.type == pygame.JOYBUTTONDOWN:
                 for i, _ in enumerate(joysticks):
+                    # check get pressed 
                     if i == 0:  # Player 1 controls
                         if event.button == 0:  # Button 0 (Up)
                             player1.button_up_pressed = True
@@ -144,6 +149,7 @@ def main():
                             player2.button_left_pressed = True
             elif event.type == pygame.JOYBUTTONUP:
                 for i, _ in enumerate(joysticks):
+                    # check button realse
                     if i == 0:  # Player 1 controls
                         if event.button == 0:  # Button 0 (Up)
                             player1.button_up_pressed = False
