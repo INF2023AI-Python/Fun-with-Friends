@@ -63,7 +63,7 @@ class Player:
         #     pygame.time.delay(5)  # a small delay for smooth movement
         
         grid[y][x] = self.trail_color  # Update grid with trail color
-        canvas.SetPixel(y, x, *self.trail_color)
+        canvas.SetPixel(x, y, *self.trail_color)
         # update position
         self.position = (new_x, new_y)
         
