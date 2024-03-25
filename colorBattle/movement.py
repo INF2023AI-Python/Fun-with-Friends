@@ -49,6 +49,9 @@ class Player:
         if not self.is_collision(new_y, new_x, level):
             # go
             self.position = (new_x, new_y)
+            print(x)
+            print(y)
+
             grid[y][x] = self.trail_color  # Update grid with trail color
             
         else:
