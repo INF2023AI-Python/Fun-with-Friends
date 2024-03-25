@@ -54,7 +54,6 @@ def maze(offset_canvas, matrix):
 
     # Draw maze pattern
     maze_pattern = [
-        # "################################",
         "#                              #",
         "######## ##### #################",
         "#                 #            #",
@@ -81,7 +80,6 @@ def maze(offset_canvas, matrix):
         "#                              #",
         "######## ######## ######## #####",
         "#                              #",
-        # "################################",
     ]
 
     for y, row in enumerate(maze_pattern):
