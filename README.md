@@ -46,7 +46,7 @@
 ### 5. Set-up for Autostart
   + give startbildschrim.py execution rights
       ```
-    chmod +x / /home/pi/Fun-with-Friends/startbildschirm.py
+    chmod +x /home/pi/Fun-with-Friends/startbildschirm.py
       ```
   + Extend autostart file
       ```
