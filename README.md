@@ -111,9 +111,6 @@ Color Battle: Two players attempt to fill in as much space as possible with thei
 + After 30 sec, game over, and whoever gets more points(area painted on the screen), is the winner, or it can be a tie.
 
 #### About the files
-In colorBattle Folder there are 2 more folders.
-
-##### /game_file/ 
 includes 6 functions for the game colorBattle.
 Description:
 + colorBattle for the main gameloop
