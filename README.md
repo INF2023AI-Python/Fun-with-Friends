@@ -123,5 +123,5 @@ Description:
 + scoreboard to show the remaining time and the points of each player
 + endPage shows who is the winner after game over
 
-##### /testfile_and_unused/
-includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
+<!-- ##### /testfile_and_unused/
+includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished. -->
