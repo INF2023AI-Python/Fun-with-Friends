@@ -31,6 +31,10 @@ class Player:
         x = self.position[0]
         y = self.position[1]
         
+        new_x = x
+        new_y = y
+
+
         # calculate the amount of position change
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
