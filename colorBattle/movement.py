@@ -12,7 +12,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 1
+        self.speed = 5
         self.maze_pattern = maze_pattern
         self.game_area = game_area
 
@@ -49,15 +49,12 @@ class Player:
         if not self.is_collision(new_y, new_x, level):
             # go
             self.position = (new_x, new_y)
-            print(x)
-            print(y)
-
-            # grid[y][x] = self.trail_color  # Update grid with trail color
-            
+            canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)          
         else:
             # stay
             self.position(x, y)
             
+        grid[self.position[1]][self.position[0]] = self.trail_color  # Update grid with trail color
             
 
         # # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
@@ -69,7 +66,6 @@ class Player:
         #     canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
         #     pygame.time.delay(5)  # a small delay for smooth movement
         
-        canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
         # update position
         
 
