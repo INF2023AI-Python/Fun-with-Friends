@@ -100,10 +100,10 @@ Color Battle: Two players attempt to fill in as much space as possible with thei
 + two gamepads required
 + Open the terminal
 + start the game using this command:
-  ´´´
+  ```
     cd /home/pi/Fun-with-Friends/colorBattle
     sudo python colorBattle.py
-  ´´´
+  ````
 + first select your level, use the buttons to choose easy or hard
     + Blue for easy, Yellow for hard
     + using the Red button to confirm your choice
