@@ -41,32 +41,29 @@ class Player:
         new_x = (x + dx) % PLAY_WIDTH
         new_y = (y + dy) % PLAY_HEIGHT
 
+        # check collision and update the new pos
+        if not self.is_collision(new_y, new_x, level):
+            x = new_x
+            y = new_y
+        else:
+            new_x = x
+            new_y = y
+            
         # wrap the player in play field
         new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
         new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
-        
-        # check collision and update the new pos
-        if not self.is_collision(new_y, new_x, level):
-            # go
-            self.position = (new_x, new_y)
-            canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)          
-        else:
-            # stay
-            self.position(x, y)
-            
-        grid[self.position[1]][self.position[0]] = self.trail_color  # Update grid with trail color
-            
 
-        # # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
-        # steps = max(abs(dx), abs(dy))
-        # for i in range(steps):
-        #     interp_x = round(x + (dx * i) / steps)
-        #     interp_y = round(y + (dy * i) / steps)
-        #     grid[interp_y][interp_x] = self.trail_color  # Update grid with trail color
-        #     canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
-        #     pygame.time.delay(5)  # a small delay for smooth movement
+        # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
+        steps = max(abs(dx), abs(dy))
+        for i in range(steps):
+            interp_x = round(x + (dx * i) / steps)
+            interp_y = round(y + (dy * i) / steps)
+            grid[interp_y][interp_x] = self.trail_color  # Update grid with trail color
+            canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
+            pygame.time.delay(5)  # a small delay for smooth movement
         
         # update position
+        self.position = (new_x, new_y)
         
 
     def paint(self, canvas):
