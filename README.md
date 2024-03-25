@@ -68,7 +68,7 @@ Use the arrow keys to move the orange square.
 Select a game or power off by pressing the red 'A' key.
 
 ### Snake
-Snake is a game where the player manoeuvres a 'snake' around the board. The objective is to maximize the size of the snake before the game ends.  The snake grows in size by consuming food and the game ends when the  snake collides with itself or when the time limit of 60 seconds is reached.  
+Snake is a game where the player maneuvers  a 'snake' around the board. The objective is to maximize the size of the snake before the game ends.  The snake grows in size by consuming food and the game ends when the  snake collides with itself or when the time limit of 60 seconds is reached.  
 
 How to Play:
 + Use the arrow keys to move the snake around.
