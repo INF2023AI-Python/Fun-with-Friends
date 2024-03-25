@@ -68,7 +68,7 @@ Use the arrow keys to move the orange square.
 Select a game or power off by pressing the red 'A' key.
 
 ### Snake
-Snake is a game where the player maneuvers  a 'snake' around the board. The objective is to maximize the size of the snake before the game ends.  The snake grows in size by consuming food and the game ends when the  snake collides with itself or when the time limit of 60 seconds is reached.  
+Snake is a game where the player manoeuvres a 'snake' around the board. The objective is to maximize the size of the snake before the game ends.  The snake grows in size by consuming food and the game ends when the  snake collides with itself or when the time limit of 60 seconds is reached.  
 
 How to Play:
 + Use the arrow keys to move the snake around.
@@ -100,10 +100,10 @@ Color Battle: Two players attempt to fill in as much space as possible with thei
 + two gamepads required
 + Open the terminal
 + start the game using this command:
-  ´´´
+  ```
     cd /home/pi/Fun-with-Friends/colorBattle
     sudo python colorBattle.py
-  ´´´
+  ````
 + first select your level, use the buttons to choose easy or hard
     + Blue for easy, Yellow for hard
     + using the Red button to confirm your choice
@@ -125,5 +125,5 @@ Description:
 + scoreboard to show the remaining time and the points of each player
 + endPage shows who is the winner after game over
 
-<!-- ##### /testfile_and_unused/
-includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished. -->
+##### /testfile_and_unused/
+includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
