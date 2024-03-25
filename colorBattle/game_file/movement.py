@@ -34,15 +34,17 @@ class Player:
         new_x = x
         new_y = y
 
-
         # calculate the amount of position change
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
+        
+        new_x = (x + dx) % PLAY_WIDTH
+        new_y = (y + dy) % PLAY_HEIGHT
 
         # check collision and update the new pos
         if not self.is_collision(new_y, new_x, level):
-            new_x = (x + dx) % PLAY_WIDTH
-            new_y = (y + dy) % PLAY_HEIGHT
+            x = new_x
+            y = new_y
         else:
             new_x = x
             new_y = y
