@@ -52,7 +52,7 @@ class Player:
             print(x)
             print(y)
 
-            grid[y][x] = self.trail_color  # Update grid with trail color
+            # grid[y][x] = self.trail_color  # Update grid with trail color
             
         else:
             # stay
