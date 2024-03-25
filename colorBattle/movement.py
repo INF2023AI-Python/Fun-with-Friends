@@ -27,31 +27,29 @@ class Player:
         return False
     
     def move(self, level, grid, canvas):
-        # get current postion
+        # Get current position
         x = self.position[0]
         y = self.position[1]
         
-        new_x = x
-        new_y = y
-
-        # calculate the amount of position change
+        # Calculate the amount of position change
         dx = round(self.x_axis * self.speed)
         dy = round(self.y_axis * self.speed)
         
+        # Calculate new position
         new_x = (x + dx) % PLAY_WIDTH
         new_y = (y + dy) % PLAY_HEIGHT
         
-        # wrap the player in play field
+        # Wrap the player in play field
         new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
         new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
 
-        # check collision and update the new pos
+        # Check collision with walls in the level
         if not self.is_collision(new_y, new_x, level):
-            new_x = new_x
-            new_y = new_y
+            # Update position if no collision
+            self.position = (new_x, new_y)
         else:
-            new_x = x
-            new_y = y
+            # Reset position if collision occurs
+            self.position = (x, y)
             
 
         # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
@@ -63,8 +61,8 @@ class Player:
             canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
             pygame.time.delay(5)  # a small delay for smooth movement
         
-        # update position
-        self.position = (new_x, new_y)
+        # # update position
+        # self.position = (new_x, new_y)
         
 
     def paint(self, canvas):
