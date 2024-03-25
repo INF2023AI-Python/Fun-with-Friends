@@ -1,7 +1,7 @@
 # Fun-with-Friends
 
 ## Set-up
-+ Hardware: 2 gamepads, Adafruit RGB Matrix + Real Time Clock HAT 32x32
++ Hardware: 2 gamepads, Adafruit RGB Matrix + Real Time Clock HAT 32x32, Raspberry Pi 3 Model B
 + Choose Storage e.g. 32 GB SD-Card
 ### 1. Install Raspberry Pi OS using Raspberry Pi Imager
   + https://www.raspberrypi.com/software/
