@@ -43,8 +43,8 @@ class Player:
 
         # check collision and update the new pos
         if not self.is_collision(new_y, new_x, level):
-            x = new_x
-            y = new_y
+            new_x = new_x
+            new_y = new_y
         else:
             new_x = x
             new_y = y
