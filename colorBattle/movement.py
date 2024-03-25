@@ -12,7 +12,7 @@ class Player:
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
-        self.speed = 5
+        self.speed = 1
         self.maze_pattern = maze_pattern
         self.game_area = game_area
 
