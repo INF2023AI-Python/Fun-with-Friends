@@ -49,6 +49,7 @@ class Player:
         if not self.is_collision(new_y, new_x, level):
             # go
             self.position = (new_x, new_y)
+            grid[y][x] = self.trail_color  # Update grid with trail color
             
         else:
             # stay
@@ -65,7 +66,6 @@ class Player:
         #     canvas.SetPixel(interp_x, interp_y, *self.trail_color) # paint the trail
         #     pygame.time.delay(5)  # a small delay for smooth movement
         
-        grid[y][x] = self.trail_color  # Update grid with trail color
         canvas.SetPixel(self.position[0], self.position[1], *self.trail_color)
         # update position
         
