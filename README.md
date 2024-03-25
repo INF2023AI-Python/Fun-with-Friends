@@ -124,6 +124,3 @@ Description:
 + movement for the movement and the postion update of the player
 + scoreboard to show the remaining time and the points of each player
 + endPage shows who is the winner after game over
-
-##### /testfile_and_unused/
-includes all the test files and those not be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
