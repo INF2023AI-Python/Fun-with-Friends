@@ -103,7 +103,7 @@ Color Battle: Two players attempt to fill in as much space as possible with thei
   ```
     cd /home/pi/Fun-with-Friends/colorBattle
     sudo python colorBattle.py
-  ````
+  ```
 + first select your level, use the buttons to choose easy or hard
     + Blue for easy, Yellow for hard
     + using the Red button to confirm your choice
@@ -126,4 +126,4 @@ Description:
 + endPage shows who is the winner after game over
 
 ##### /testfile_and_unused/
-includes all the test files and those no be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
+includes all the test files and those not be used or not finished functions. Originally we want a bonus-point function to increase the playability but we encountered too many difficulties in the process so it cannot be finished.
