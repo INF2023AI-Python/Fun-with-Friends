@@ -41,6 +41,10 @@ class Player:
         new_x = (x + dx) % PLAY_WIDTH
         new_y = (y + dy) % PLAY_HEIGHT
 
+        # wrap the player in play field
+        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
+        new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
+        
         # check collision and update the new pos
         if not self.is_collision(new_y, new_x, level):
             x = new_x
@@ -49,9 +53,6 @@ class Player:
             new_x = x
             new_y = y
             
-        # wrap the player in play field
-        new_x = max(0, min(new_x, PLAY_WIDTH - 1))  
-        new_y = max(0, min(new_y, PLAY_HEIGHT - 1)) 
 
         # # gradually update position for smooth movement, to make it look like it move one pixel by one pixel
         # steps = max(abs(dx), abs(dy))
