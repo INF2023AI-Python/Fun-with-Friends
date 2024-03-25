@@ -51,7 +51,7 @@ def draw_level(matrix, offset_canvas, selected_level):
     # Update the display
     matrix.SwapOnVSync(offset_canvas)
     
-def select_level(matrix, offset_canvas, joysticks):
+def select_level(matrix, offset_canvas):
     # initialise the level to be easy
     selected_level = "easy"
     # draw the selection page
@@ -70,9 +70,7 @@ def select_level(matrix, offset_canvas, joysticks):
                     # submit the choice
                     if selected_level == "hard":
                         return "hard"
-                        # return maze(offset_canvas, matrix)
                     if selected_level == "easy":
                         return "easy"
-                        # return obstacle(offset_canvas, matrix)
 
         pygame.time.Clock().tick(10)

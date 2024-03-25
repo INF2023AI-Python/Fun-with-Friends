@@ -45,7 +45,6 @@ def obstacle(offset_canvas, matrix):
 
     # Update the matrix
     matrix.SwapOnVSync(offset_canvas)
-    # or offset_canvas = matrix.SwapOnVSync(offset_canvas)
     return game_area
 
 

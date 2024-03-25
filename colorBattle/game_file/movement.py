@@ -1,26 +1,28 @@
 import pygame 
-from obstacle import maze_pattern, game_area
+
 
 PLAY_WIDTH = 32
 PLAY_HEIGHT = 26
 
 
 class Player:
-    def __init__(self, color, trail_color, start_pos):
+    def __init__(self, color, trail_color, start_pos, game_area, maze_pattern):
         self.color = color
         self.trail_color = trail_color
         self.position = start_pos
         self.x_axis = 0
         self.y_axis = 0
         self.speed = 2
+        self.maze_pattern = maze_pattern
+        self.game_area = game_area
 
     def is_collision(self, x, y, level):
         # collision check, it ought to be added in move-function, to make sure the player will not cross the barriers
         if level == "hard":
-            if maze_pattern[y][x] == "#" or game_area[y][x] == 1:
+            if self.maze_pattern[y][x] == "#":
                 return True
         elif level == "easy":
-            if game_area[y][x] == 1:
+            if self.game_area[y][x] == 1:
                 return True
         return False
     

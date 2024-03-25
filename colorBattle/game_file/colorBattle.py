@@ -37,8 +37,6 @@ for i, joystick in enumerate(joysticks):
 scoreboard = Scoreboard(offset_canvas)
 
 # Initialize Game Area
-game_area = obstacle(offset_canvas, matrix)
-maze_pattern = maze(offset_canvas, matrix)
 
 # Define the grid
 grid = [[(0, 0, 0) for _ in range(PLAY_WIDTH)] for _ in range(PLAY_HEIGHT)]
@@ -58,17 +56,19 @@ player2_position = player2_start_pos
 player2_trail = [player2_start_pos]
 player2_cells_painted = 0
 
+game_area = obstacle(offset_canvas, matrix)
+maze_pattern = maze(offset_canvas, matrix)
 
 
 def main():
     running = True
     clock = pygame.time.Clock()
 
-    player1 = Player(player1_color, player1_trail_color, player1_start_pos)
-    player2 = Player(player2_color, player2_trail_color, player2_start_pos)
+    player1 = Player(player1_color, player1_trail_color, player1_start_pos, game_area, maze_pattern)
+    player2 = Player(player2_color, player2_trail_color, player2_start_pos, game_area, maze_pattern)
 
-    # Problem in selecting the level: if applied muss check Collision! but check collsion causes Problem in movement 
-    level = select_level(matrix, offset_canvas, joysticks)
+    # Problem in selecting the level: if applied muss check Collision! but check collsion can cause Problem in movement 
+    level = select_level(matrix, offset_canvas)
     if level == "hard":
         maze(offset_canvas, matrix)
     if level == "easy":
